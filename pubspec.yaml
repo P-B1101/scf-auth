@@ -1,0 +1,72 @@
+name: scf_auth
+description: A new Flutter project.
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.0.5 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  cupertino_icons: ^1.0.2
+  equatable: ^2.0.5
+  http: ^1.1.0
+  dartz: ^0.10.1
+  internet_connection_checker: ^1.0.0+1
+  flutter_bloc: ^8.1.3
+  bloc: ^8.1.2
+  bloc_concurrency: ^0.2.2
+  get_it: ^7.6.0
+  shared_preferences: ^2.2.0
+  intl: ^0.18.0
+  cached_network_image: ^3.2.3
+  flutter_svg: ^2.0.7
+  fluttertoast: ^8.2.2
+  animation_wrappers: ^3.0.0
+  injectable: ^2.1.2
+  curl_generator: ^0.0.13
+  url_strategy: ^0.2.0
+  encrypt: ^5.0.1
+  auto_route: ^7.8.0
+  shamsi_date: ^1.0.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+  build_runner: ^2.4.6
+  injectable_generator: ^2.1.6
+  auto_route_generator:
+
+
+flutter:
+  generate: true
+  uses-material-design: true
+
+  assets:
+    - assets/images/png/
+    - assets/images/svg/
+
+  fonts:
+    - family: Yekan
+      fonts:
+        - asset: assets/fonts/iy_black.ttf
+          weight: 800
+        - asset: assets/fonts/iy_bold.ttf
+          weight: 700
+        - asset: assets/fonts/iy_medium.ttf
+          weight: 600
+        - asset: assets/fonts/iy_regular.ttf
+          weight: 500
+        - asset: assets/fonts/iy_thin.ttf
+          weight: 400
+        - asset: assets/fonts/iy_light.ttf
+          weight: 300
+    - family: Knewave
+      fonts:
+        - asset: assets/fonts/Knewave-Regular.ttf
+          weight: 400
