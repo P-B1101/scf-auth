@@ -124,133 +124,135 @@ class MInputWidget extends StatelessWidget {
                         final mFocusedBorderColor = state.isEmpty
                             ? MColors.inputBorderFocusedColorOf(context)
                             : MColors.primaryColor;
-                        return SizedBox(
-                          height: height,
-                          child: TextField(
-                            maxLines: isMultiLine ? null : 1,
-                            expands: isMultiLine,
-                            autofillHints: autofillHints,
-                            obscureText: isPassword,
-                            enabled: enabled,
-                            readOnly: !isEnable || isReadOnly,
-                            controller: controller,
-                            textAlignVertical: isMultiLine
-                                ? TextAlignVertical.top
-                                : TextAlignVertical.center,
-                            cursorColor:
-                                Theme.of(context).textTheme.bodyLarge?.color,
-                            keyboardType: isMultiLine
-                                ? TextInputType.multiline
-                                : keyboardType,
-                            focusNode: focusNode,
-                            textInputAction: action,
-                            inputFormatters: inputFormatters,
-                            maxLength: maxLength,
-                            textAlign: textAlign,
-                            onSubmitted: (value) {
-                              if (nextFocusNode != null) {
-                                nextFocusNode?.requestFocus();
-                              }
-                              onSubmit?.call(value);
-                            },
-                            style: TextStyle(
-                              fontFamily: isUsernameOrPassword || isPassword
-                                  ? null
-                                  : Fonts.yekan,
-                              color: textColor ??
-                                  MColors.inputTextColorOf(context),
-                              fontSize: 14,
+                        final textField = TextField(
+                          maxLines: isMultiLine ? null : 1,
+                          autofillHints: autofillHints,
+                          obscureText: isPassword,
+                          enabled: enabled,
+                          readOnly: !isEnable || isReadOnly,
+                          controller: controller,
+                          textAlignVertical: isMultiLine
+                              ? TextAlignVertical.top
+                              : TextAlignVertical.center,
+                          cursorColor:
+                              Theme.of(context).textTheme.bodyLarge?.color,
+                          keyboardType: isMultiLine
+                              ? TextInputType.multiline
+                              : keyboardType,
+                          focusNode: focusNode,
+                          textInputAction:
+                              isMultiLine ? TextInputAction.newline : action,
+                          inputFormatters: inputFormatters,
+                          maxLength: maxLength,
+                          textAlign: textAlign,
+                          onSubmitted: (value) {
+                            if (nextFocusNode != null) {
+                              nextFocusNode?.requestFocus();
+                            }
+                            onSubmit?.call(value);
+                          },
+                          style: TextStyle(
+                            fontFamily: isUsernameOrPassword || isPassword
+                                ? null
+                                : Fonts.yekan,
+                            color:
+                                textColor ?? MColors.inputTextColorOf(context),
+                            fontSize: 14,
+                            fontWeight: Fonts.regular400,
+                          ),
+                          onChanged: (value) {
+                            context.read<_Cubit>().onTextChange(value);
+                            onTextChange?.call(value);
+                            if (maxLength != null &&
+                                value.length >= maxLength! &&
+                                closeKeyboardOnFinish) {
+                              focusNode.unfocus();
+                            }
+                          },
+                          buildCounter: (
+                            context, {
+                            required currentLength,
+                            required isFocused,
+                            maxLength,
+                          }) =>
+                              null,
+                          cursorOpacityAnimates: true,
+                          textDirection: isUsernameOrPassword || isPassword
+                              ? TextDirection.ltr
+                              : TextDirection.rtl,
+                          decoration: InputDecoration(
+                            errorText: null,
+                            isDense: true,
+                            errorMaxLines: 1,
+                            alignLabelWithHint: true,
+                            hintStyle: TextStyle(
+                              fontFamily: Fonts.yekan,
+                              fontSize: 12,
                               fontWeight: Fonts.regular400,
+                              color: hintColor ??
+                                  MColors.inputHintTextColorOf(context),
                             ),
-                            onChanged: (value) {
-                              context.read<_Cubit>().onTextChange(value);
-                              onTextChange?.call(value);
-                              if (maxLength != null &&
-                                  value.length >= maxLength! &&
-                                  closeKeyboardOnFinish) {
-                                focusNode.unfocus();
-                              }
-                            },
-                            buildCounter: (
-                              context, {
-                              required currentLength,
-                              required isFocused,
-                              maxLength,
-                            }) =>
-                                null,
-                            cursorOpacityAnimates: true,
-                            textDirection: isUsernameOrPassword || isPassword
-                                ? TextDirection.ltr
-                                : TextDirection.rtl,
-                            decoration: InputDecoration(
-                              errorText: null,
-                              isDense: true,
-                              errorMaxLines: 1,
-                              alignLabelWithHint: true,
-                              hintStyle: TextStyle(
-                                fontFamily: Fonts.yekan,
-                                fontSize: 12,
-                                fontWeight: Fonts.regular400,
-                                color: hintColor ??
-                                    MColors.inputHintTextColorOf(context),
-                              ),
-                              labelStyle: TextStyle(
-                                fontFamily: Fonts.yekan,
-                                fontSize: 12,
-                                fontWeight: Fonts.regular400,
-                                color: hintColor ??
-                                    MColors.inputHintTextColorOf(context),
-                              ),
-                              hintMaxLines: 1,
-                              labelText: useHint ? null : hint.toPersianNumber,
-                              hintText: useHint ? hint.toPersianNumber : null,
-                              filled: true,
-                              fillColor: inputColor ??
-                                  MColors.inputFillColorOf(context)
-                                      .withOpacity(.3),
-                              contentPadding: contentPadding ??
-                                  EdgeInsetsDirectional.only(
-                                    top: 20,
-                                    bottom: 20,
-                                    start: prefixWidget != null ? 48 : 10,
-                                    end: suffixWidget != null ? 48 : 10,
-                                  ),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                borderSide: BorderSide(
-                                  color: _hasError
-                                      ? MColors.redColor
-                                      : borderColor ?? mBorderColor,
-                                  width: borderWidth,
+                            labelStyle: TextStyle(
+                              fontFamily: Fonts.yekan,
+                              fontSize: 12,
+                              fontWeight: Fonts.regular400,
+                              color: hintColor ??
+                                  MColors.inputHintTextColorOf(context),
+                            ),
+                            hintMaxLines: 1,
+                            labelText: useHint ? null : hint.toPersianNumber,
+                            hintText: useHint ? hint.toPersianNumber : null,
+                            filled: true,
+                            fillColor: inputColor ??
+                                MColors.inputFillColorOf(context)
+                                    .withOpacity(.3),
+                            contentPadding: contentPadding ??
+                                EdgeInsetsDirectional.only(
+                                  top: 20,
+                                  bottom: 20,
+                                  start: prefixWidget != null ? 48 : 10,
+                                  end: suffixWidget != null ? 48 : 10,
                                 ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide: BorderSide(
+                                color: _hasError
+                                    ? MColors.redColor
+                                    : borderColor ?? mBorderColor,
+                                width: borderWidth,
                               ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                borderSide: BorderSide(
-                                  color: _hasError
-                                      ? MColors.redColor
-                                      : borderColor ?? mBorderColor,
-                                  width: borderWidth,
-                                ),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide: BorderSide(
+                                color: _hasError
+                                    ? MColors.redColor
+                                    : borderColor ?? mBorderColor,
+                                width: borderWidth,
                               ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                borderSide: BorderSide(
-                                  color: _hasError
-                                      ? MColors.redColor
-                                      : borderColor ?? mFocusedBorderColor,
-                                  width: borderWidth,
-                                ),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide: BorderSide(
+                                color: _hasError
+                                    ? MColors.redColor
+                                    : borderColor ?? mFocusedBorderColor,
+                                width: borderWidth,
                               ),
-                              errorBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                borderSide: BorderSide(
-                                  color: borderColor ?? MColors.errorColor,
-                                  width: borderWidth,
-                                ),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide: BorderSide(
+                                color: borderColor ?? MColors.errorColor,
+                                width: borderWidth,
                               ),
                             ),
                           ),
+                        );
+                        if (height == null) return textField;
+                        return ConstrainedBox(
+                          constraints: BoxConstraints(maxHeight: height!),
+                          child: textField,
                         );
                       },
                     ),

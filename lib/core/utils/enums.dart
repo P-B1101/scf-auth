@@ -37,3 +37,8 @@ enum ButtonType {
   text,
   textAndIcon,
 }
+
+enum Position {
+  ceo, //  CEO
+  member, //  MEMBER
+}

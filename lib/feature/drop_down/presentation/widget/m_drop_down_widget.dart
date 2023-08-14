@@ -19,7 +19,7 @@ class MDropDownWidget<T> extends StatelessWidget {
   final EnableBuilder<T>? enableBuilder;
   final Function(T item) onItemSelected;
   final String hint;
-  final String label;
+  final String? label;
   final String? error;
   final bool isLoading;
   final Function()? onDeleteFieldClick;
@@ -28,8 +28,8 @@ class MDropDownWidget<T> extends StatelessWidget {
     required this.items,
     required this.titleBuilder,
     required this.hint,
-    required this.label,
     required this.onItemSelected,
+    this.label,
     this.error,
     this.selectedItem,
     this.isLoading = false,
@@ -69,7 +69,7 @@ class _MDropDwonWidget<T> extends StatefulWidget {
   final T? selectedItem;
   final TitleBuilder<T> titleBuilder;
   final String hint;
-  final String label;
+  final String? label;
   final String? error;
   final bool isLoading;
   final Function(T item) onItemSelected;
@@ -136,11 +136,12 @@ class __MDropDwonWidgetState<T> extends State<_MDropDwonWidget<T>> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          InputLabelWidget(
-            widget.label,
-            hasError: _hasError,
-          ),
-          const SizedBox(height: 18),
+          if (widget.label != null)
+            InputLabelWidget(
+              widget.label!,
+              hasError: _hasError,
+            ),
+          if (widget.label != null) const SizedBox(height: 18),
           MouseRegion(
             cursor: SystemMouseCursors.click,
             child: GestureDetector(

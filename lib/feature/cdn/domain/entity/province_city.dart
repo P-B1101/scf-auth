@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
 
 class ProvinceCity extends Equatable {
-  final String id;
-  final String title;
+  final String? id;
+  final String? title;
   final List<ProvinceCity> cities;
 
   const ProvinceCity({

@@ -7,8 +7,8 @@ class RegistrationControllerState extends Equatable {
   final String economicId;
   final KeyValue? activityType;
   final List<KeyValue?> activityArea;
-  final NameNationalCode ceoInfo;
-  final List<NameNationalCode> boardMemberInfo;
+  final Director ceoInfo;
+  final List<Director> boardMemberInfo;
   final UploadFileResult? statute;
   final UploadFileResult? newspaper;
   final UploadFileResult? balanceSheet;
@@ -22,7 +22,7 @@ class RegistrationControllerState extends Equatable {
   final String website;
   final ProvinceCity? province;
   final ProvinceCity? city;
-  final List<String> address;
+  final List<AddressInfo> address;
   final bool showError;
 
   const RegistrationControllerState({
@@ -85,8 +85,8 @@ class RegistrationControllerState extends Equatable {
     KeyValue? activityType,
     bool? showError,
     List<KeyValue?>? activityArea,
-    List<NameNationalCode>? boardMemberInfo,
-    NameNationalCode? ceoInfo,
+    List<Director>? boardMemberInfo,
+    Director? ceoInfo,
     UploadFileResult? statute,
     UploadFileResult? newspaper,
     UploadFileResult? balanceSheet,
@@ -99,7 +99,7 @@ class RegistrationControllerState extends Equatable {
     String? email,
     String? website,
     ProvinceCity? province,
-    List<String>? address,
+    List<AddressInfo>? address,
   }) =>
       RegistrationControllerState(
         step: step ?? this.step,
@@ -287,7 +287,7 @@ class RegistrationControllerState extends Equatable {
 
   bool get invalidCompanyTitle => companyTitle.isEmpty;
 
-  bool get invalidEconomicId => economicId.isEmpty;
+  bool get invalidEconomicId => economicId.isEmpty || getEconomicId == null;
 
   bool get invalidActivityType => activityType == null;
 
@@ -360,7 +360,7 @@ class RegistrationControllerState extends Equatable {
 
   bool get invalidCity => city == null;
 
-  bool get invalidAddress => address.any((element) => element.isEmpty);
+  bool get invalidAddress => address.any((element) => !element.isValidAddress);
 
   bool get canAddAddress => address.length < 5;
 
@@ -373,4 +373,6 @@ class RegistrationControllerState extends Equatable {
       .where((element) => element != null)
       .map((e) => e!)
       .toList();
+
+  int? get getEconomicId => int.tryParse(economicId);
 }

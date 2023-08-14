@@ -3,13 +3,15 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
+import 'package:scf_auth/feature/cdn/domain/entity/province_city.dart';
 import 'package:scf_auth/feature/cdn/domain/entity/upload_file_result.dart';
+import 'package:scf_auth/feature/registration/domain/entity/address_info.dart';
 import 'package:scf_auth/feature/registration/domain/entity/suggested_company.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 
 import '../../feature/cdn/domain/entity/key_value.dart';
 import '../../feature/language/manager/localizatios.dart';
-import '../../feature/registration/domain/entity/name_national_code.dart';
+import '../../feature/registration/domain/entity/director.dart';
 import 'enums.dart';
 import 'ui_utils.dart';
 
@@ -76,6 +78,16 @@ extension IntExt on int {
 }
 
 extension StringExt on String {
+  Position? get toPosition {
+    switch (this) {
+      case 'CEO':
+        return Position.ceo;
+      case 'MEMBER':
+        return Position.member;
+    }
+    return null;
+  }
+
   bool get isValidWebsite {
     final regex = RegExp(
         r'^((https?|ftp|smtp):\/\/)?(www.)?[a-z0-9]+\.[a-z]+(\/[a-zA-Z0-9#]+\/?)*$');
@@ -284,15 +296,15 @@ extension ListExt<T> on List<T> {
   }
 }
 
-extension NameNationalCodeListExt on List<NameNationalCode> {
-  List<NameNationalCode> updateNameAt(int index, String name) {
+extension NameNationalCodeListExt on List<Director> {
+  List<Director> updateNameAt(int index, String name) {
     return [
       for (int i = 0; i < length; i++)
         index == i ? this[i].copyWith(name: name) : this[i]
     ];
   }
 
-  List<NameNationalCode> updateNationalCodeAt(int index, String nationalCode) {
+  List<Director> updateNationalCodeAt(int index, String nationalCode) {
     return [
       for (int i = 0; i < length; i++)
         index == i ? this[i].copyWith(nationalCode: nationalCode) : this[i]
@@ -328,4 +340,39 @@ extension SuggestedCompanyListExt on List<SuggestedCompany> {
               ? this[i].updateFinancialInteraction(financialInteraction)
               : this[i]
       ];
+}
+
+extension AddressInfoListExt on List<AddressInfo> {
+  List<AddressInfo> updateAddressAddressAt(int index, String address) => [
+        for (int i = 0; i < length; i++)
+          index == i ? this[i].copyWith(address: address) : this[i]
+      ];
+
+  List<AddressInfo> updateAddressProvinceAt(int index, ProvinceCity province) =>
+      [
+        for (int i = 0; i < length; i++)
+          index == i ? this[i].copyWith(province: province) : this[i]
+      ];
+
+  List<AddressInfo> updateAddressCityAt(int index, [ProvinceCity? city]) => [
+        for (int i = 0; i < length; i++)
+          index == i ? this[i].updateCity(city) : this[i]
+      ];
+
+  List<AddressInfo> updateAddressLatLntAt(
+    int index,
+    double? lat,
+    double? lng,
+  ) =>
+      [
+        for (int i = 0; i < length; i++)
+          index == i ? this[i].updateLatLng(lat, lng) : this[i]
+      ];
+}
+
+extension PositionExt on Position {
+  String get toValue => switch (this) {
+        Position.member => 'MEMBER',
+        Position.ceo => 'CEO',
+      };
 }

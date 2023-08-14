@@ -171,7 +171,7 @@ class _SuggestedBranchWidgetState extends State<SuggestedBranchWidget> {
           ceoInfo: state.ceoInfo,
           city: state.city!,
           companyTitle: state.companyTitle,
-          economicId: state.economicId,
+          economicId: state.getEconomicId!,
           email: state.email,
           mobileNumber: state.mobileNumber,
           newspaper: state.newspaper!,

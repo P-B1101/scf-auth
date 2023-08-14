@@ -10,4 +10,14 @@ class KeyValueModel extends KeyValue {
         id: json['id'],
         title: json['title'],
       );
+
+  factory KeyValueModel.fromEntity(KeyValue entity) => KeyValueModel(
+        id: entity.id,
+        title: entity.title,
+      );
+
+  Map<String, dynamic> get toJson => {
+        'id': id,
+        'title': title,
+      };
 }

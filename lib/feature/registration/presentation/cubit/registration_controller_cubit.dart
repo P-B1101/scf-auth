@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
+import 'package:scf_auth/feature/registration/domain/entity/address_info.dart';
 
 import '../../../../core/utils/enums.dart';
 import '../../../../core/utils/extensions.dart';
@@ -8,7 +9,7 @@ import '../../../cdn/domain/entity/branch_info.dart';
 import '../../../cdn/domain/entity/key_value.dart';
 import '../../../cdn/domain/entity/province_city.dart';
 import '../../../cdn/domain/entity/upload_file_result.dart';
-import '../../domain/entity/name_national_code.dart';
+import '../../domain/entity/director.dart';
 import '../../domain/entity/suggested_company.dart';
 
 part 'registration_controller_state.dart';
@@ -23,8 +24,8 @@ class RegistrationControllerCubit extends Cubit<RegistrationControllerState> {
           companyTitle: '',
           economicId: '',
           showError: false,
-          boardMemberInfo: [NameNationalCode.init()],
-          ceoInfo: NameNationalCode.init(),
+          boardMemberInfo: [Director.boardMember()],
+          ceoInfo: Director.ceo(),
           balanceSheet: null,
           newspaper: null,
           otherDocuments: const [null],
@@ -32,7 +33,7 @@ class RegistrationControllerCubit extends Cubit<RegistrationControllerState> {
           statute: null,
           suggestedComapnies: [SuggestedCompany.init()],
           selectedBranch: null,
-          address: const [''],
+          address: [AddressInfo.init()],
           city: null,
           email: '',
           mobileNumber: '',
@@ -156,7 +157,7 @@ class RegistrationControllerCubit extends Cubit<RegistrationControllerState> {
   }
 
   void addBoardMemberInfo() {
-    final newItems = [...state.boardMemberInfo, NameNationalCode.init()];
+    final newItems = [...state.boardMemberInfo, Director.boardMember()];
     emit(state.copyWith(boardMemberInfo: newItems));
   }
 
@@ -252,7 +253,7 @@ class RegistrationControllerCubit extends Cubit<RegistrationControllerState> {
       emit(state.copyWith(selectedBranch: selectedBranch));
 
   void addAddress() {
-    final newItems = [...state.address, ''];
+    final newItems = [...state.address, AddressInfo.init()];
     emit(state.copyWith(address: newItems));
   }
 
@@ -275,8 +276,26 @@ class RegistrationControllerCubit extends Cubit<RegistrationControllerState> {
 
   void updateCity(ProvinceCity? city) => emit(state.updateCity(city));
 
-  void updateAddressAt(int index, String address) {
-    final newItems = state.address.updateItemAt(index, address);
+  void updateAddressAddressAt(int index, String address) {
+    final newItems = state.address.updateAddressAddressAt(index, address);
+    emit(state.copyWith(address: newItems));
+  }
+
+  void updateAddressProvinceAt(int index, ProvinceCity province) {
+    final isSameProvince = state.address[index].province == province;
+    List<AddressInfo> newItems =
+        state.address.updateAddressProvinceAt(index, province);
+    if (!isSameProvince) newItems = newItems.updateAddressCityAt(index);
+    emit(state.copyWith(address: newItems));
+  }
+
+  void updateAddressCityAt(int index, ProvinceCity city) {
+    final newItems = state.address.updateAddressCityAt(index, city);
+    emit(state.copyWith(address: newItems));
+  }
+
+  void updateAddressLatLngAt(int index, double? lat, double? lng) {
+    final newItems = state.address.updateAddressLatLntAt(index, lat, lng);
     emit(state.copyWith(address: newItems));
   }
 

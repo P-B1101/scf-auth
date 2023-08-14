@@ -4,7 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:scf_auth/core/utils/assets.dart';
 
 class CloseButtonWidget extends StatelessWidget {
-  const CloseButtonWidget({super.key});
+  final Color? color;
+  const CloseButtonWidget({
+    super.key,
+    this.color,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -19,9 +23,9 @@ class CloseButtonWidget extends StatelessWidget {
           child: Center(
             child: Transform.rotate(
               angle: .25 * pi,
-              child: const Icon(
+              child: Icon(
                 Fonts.plus,
-                color: MColors.featureBoxColor,
+                color: color ?? MColors.featureBoxColor,
                 size: 12,
               ),
             ),

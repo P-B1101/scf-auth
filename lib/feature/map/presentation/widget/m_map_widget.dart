@@ -8,10 +8,14 @@ import '../../../../core/utils/ui_utils.dart';
 class MMapWidget extends StatefulWidget {
   final double? lat;
   final double? lng;
+  final Function(double lat, double lng)? onLocationSelected;
+  final bool updateCamera;
   const MMapWidget({
     super.key,
     required this.lat,
     required this.lng,
+    this.onLocationSelected,
+    this.updateCamera = true,
   });
 
   @override
@@ -22,9 +26,21 @@ class _MMapWidgetState extends State<MMapWidget> {
   final _controller = MapController();
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      final latlng = _hasLatLng
+          ? LatLng(widget.lat!, widget.lng!)
+          : const LatLng(35.778227, 51.418700);
+      _controller.move(latlng, 17);
+    });
+  }
+
+  @override
   void didUpdateWidget(covariant MMapWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.lat != widget.lat || oldWidget.lng != widget.lng) {
+    if ((oldWidget.lat != widget.lat || oldWidget.lng != widget.lng) &&
+        widget.updateCamera) {
       final latlng = _hasLatLng
           ? LatLng(widget.lat!, widget.lng!)
           : const LatLng(35.778227, 51.418700);
@@ -45,11 +61,15 @@ class _MMapWidgetState extends State<MMapWidget> {
         child: FlutterMap(
           mapController: _controller,
           options: MapOptions(
-            interactiveFlags: InteractiveFlag.none,
+            interactiveFlags: widget.onLocationSelected != null
+                ? InteractiveFlag.all
+                : InteractiveFlag.none,
             minZoom: 10,
             maxZoom: 17,
             center: latlng,
             zoom: 17,
+            onTap: (tapPosition, point) => widget.onLocationSelected
+                ?.call(point.latitude, point.longitude),
           ),
           children: [
             TileLayer(

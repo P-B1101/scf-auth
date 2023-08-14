@@ -71,16 +71,19 @@ class CDNDataSourceImpl implements CDNDataSource {
     await Future.delayed(const Duration(milliseconds: 2000));
     return const [
       BranchInfo(
+        id: '1',
         title: 'ناهید غربی',
         lat: 35.778227,
         lng: 51.418700,
       ),
       BranchInfo(
+        id: '2',
         title: 'صبا',
         lat: 35.771445,
         lng: 51.421553,
       ),
       BranchInfo(
+        id: '3',
         title: 'بخارست',
         lat: 35.730896,
         lng: 51.417418,

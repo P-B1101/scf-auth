@@ -9,11 +9,11 @@ sealed class SignUpEvent extends Equatable {
 
 final class SubmitSignUpEvent extends SignUpEvent {
   final String companyTitle;
-  final String economicId;
+  final int economicId;
   final KeyValue activityType;
   final List<KeyValue> activityArea;
-  final NameNationalCode ceoInfo;
-  final List<NameNationalCode> boardMemberInfo;
+  final Director ceoInfo;
+  final List<Director> boardMemberInfo;
   final UploadFileResult statute;
   final UploadFileResult newspaper;
   final UploadFileResult balanceSheet;
@@ -27,7 +27,7 @@ final class SubmitSignUpEvent extends SignUpEvent {
   final String website;
   final ProvinceCity province;
   final ProvinceCity city;
-  final List<String> address;
+  final List<AddressInfo> address;
 
 
   const SubmitSignUpEvent({

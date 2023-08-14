@@ -16,6 +16,7 @@ class Fonts {
   static const upload = IconData(0xe904, fontFamily: icomoon);
   static const thinTick = IconData(0xe905, fontFamily: icomoon);
   static const tick = IconData(0xe906, fontFamily: icomoon);
+  static const location = IconData(0xe907, fontFamily: icomoon);
 }
 
 class MColors {

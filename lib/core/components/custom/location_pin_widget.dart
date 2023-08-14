@@ -12,7 +12,7 @@ class LocationPinWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Transform.translate(
-      offset: const Offset(0, -6),
+      offset: Offset(0, -_width * .75),
       child: SizedBox(
         width: _width,
         height: size,
