@@ -1,9 +1,30 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:scf_auth/core/utils/extensions.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../utils/assets.dart';
+import '../../utils/extensions.dart';
 import '../../utils/ui_utils.dart';
+
+class _Cubit extends Cubit<_State> {
+  _Cubit() : super(const _State(text: ''));
+
+  void onTextChange(String text) => emit(_State(text: text));
+}
+
+class _State extends Equatable {
+  final String text;
+
+  const _State({
+    required this.text,
+  });
+
+  @override
+  List<Object?> get props => [text];
+
+  bool get isEmpty => text.isEmpty;
+}
 
 class MInputWidget extends StatelessWidget {
   final TextEditingController controller;
@@ -33,6 +54,10 @@ class MInputWidget extends StatelessWidget {
   final bool isPassword;
   final bool isEnable;
   final Iterable<String>? autofillHints;
+  final bool isReadOnly;
+  final double? height;
+  final bool isMultiLine;
+
   const MInputWidget({
     super.key,
     required this.controller,
@@ -56,12 +81,15 @@ class MInputWidget extends StatelessWidget {
     this.enabled = true,
     this.borderWidth = 1,
     this.textAlign = TextAlign.start,
-    this.useHint = false,
+    this.useHint = true,
     this.error,
     this.closeKeyboardOnFinish = true,
     this.isUsernameOrPassword = false,
     this.isPassword = false,
     this.isEnable = true,
+    this.isReadOnly = false,
+    this.height,
+    this.isMultiLine = false,
   });
 
   @override
@@ -69,157 +97,204 @@ class MInputWidget extends StatelessWidget {
     final defaultAction =
         nextFocusNode == null ? TextInputAction.done : TextInputAction.next;
     final action = textInputAction ?? defaultAction;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Stack(
-          alignment: AlignmentDirectional.centerStart,
+    return BlocProvider<_Cubit>(
+      create: (context) => _Cubit(),
+      child: Builder(
+        builder: (context) => Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
-            AnimatedOpacity(
-              duration: UiUtils.duration,
-              curve: UiUtils.curve,
-              opacity: isEnable ? 1 : .5,
-              child: AbsorbPointer(
-                absorbing: !isEnable,
-                child: TextField(
-                  autofillHints: autofillHints,
-                  obscureText: isPassword,
-                  enabled: enabled,
-                  readOnly: !isEnable,
-                  controller: controller,
-                  cursorColor: Theme.of(context).textTheme.bodyLarge?.color,
-                  keyboardType: keyboardType,
-                  focusNode: focusNode,
-                  textInputAction: action,
-                  inputFormatters: inputFormatters,
-                  maxLength: maxLength,
-                  textAlign: textAlign,
-                  textAlignVertical: TextAlignVertical.center,
-                  onSubmitted: (value) {
-                    if (nextFocusNode != null) nextFocusNode?.requestFocus();
-                    onSubmit?.call(value);
-                  },
-                  style: TextStyle(
-                    fontFamily:
-                        isUsernameOrPassword || isPassword ? null : Fonts.yekan,
-                    color: textColor ?? MColors.inputTextColorOf(context),
-                    fontSize: 14,
-                    fontWeight: Fonts.medium500,
-                  ),
-                  onChanged: (value) {
-                    onTextChange?.call(value);
-                    if (maxLength != null &&
-                        value.length >= maxLength! &&
-                        closeKeyboardOnFinish) {
-                      focusNode.unfocus();
-                    }
-                  },
-                  buildCounter: (
-                    context, {
-                    required currentLength,
-                    required isFocused,
-                    maxLength,
-                  }) =>
-                      null,
-                  cursorOpacityAnimates: true,
-                  textDirection: isUsernameOrPassword || isPassword
-                      ? TextDirection.ltr
-                      : TextDirection.rtl,
-                  decoration: InputDecoration(
-                    errorText: null,
-                    isDense: true,
-                    errorMaxLines: 1,
-                    alignLabelWithHint: true,
-                    hintStyle: TextStyle(
-                      fontFamily: Fonts.yekan,
-                      fontSize: 12,
-                      fontWeight: Fonts.medium500,
-                      color: hintColor ?? MColors.inputHintTextColorOf(context),
-                    ),
-                    labelStyle: TextStyle(
-                      fontFamily: Fonts.yekan,
-                      fontSize: 12,
-                      fontWeight: Fonts.medium500,
-                      color: hintColor ?? MColors.inputHintTextColorOf(context),
-                    ),
-                    hintMaxLines: 1,
-                    labelText: useHint ? null : hint.toPersianNumber,
-                    hintText: useHint ? hint.toPersianNumber : null,
-                    filled: true,
-                    fillColor: inputColor ??
-                        MColors.inputFillColorOf(context).withOpacity(.3),
-                    contentPadding: contentPadding ??
-                        EdgeInsets.symmetric(
-                          vertical: 18,
-                          horizontal:
-                              prefixWidget != null || suffixWidget != null
-                                  ? 58
-                                  : 16,
-                        ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(16),
-                      borderSide: BorderSide(
-                        color: borderColor ??
-                            MColors.inputBorderColorOf(context).withOpacity(.3),
-                        width: borderWidth,
-                      ),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(16),
-                      borderSide: BorderSide(
-                        color: borderColor ??
-                            MColors.inputBorderColorOf(context).withOpacity(.3),
-                        width: borderWidth,
-                      ),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(16),
-                      borderSide: BorderSide(
-                        color: borderColor ?? MColors.primaryColor,
-                        width: borderWidth,
-                      ),
+            Stack(
+              alignment: AlignmentDirectional.centerStart,
+              children: [
+                AnimatedOpacity(
+                  duration: UiUtils.duration,
+                  curve: UiUtils.curve,
+                  opacity: isEnable ? 1 : .5,
+                  child: AbsorbPointer(
+                    absorbing: !isEnable || isReadOnly,
+                    child: BlocBuilder<_Cubit, _State>(
+                      buildWhen: (previous, current) =>
+                          previous.isEmpty != current.isEmpty,
+                      builder: (context, state) {
+                        final mBorderColor = state.isEmpty
+                            ? MColors.inputBorderColorOf(context)
+                            : MColors.primaryColor;
+
+                        final mFocusedBorderColor = state.isEmpty
+                            ? MColors.inputBorderFocusedColorOf(context)
+                            : MColors.primaryColor;
+                        return SizedBox(
+                          height: height,
+                          child: TextField(
+                            maxLines: isMultiLine ? null : 1,
+                            expands: isMultiLine,
+                            autofillHints: autofillHints,
+                            obscureText: isPassword,
+                            enabled: enabled,
+                            readOnly: !isEnable || isReadOnly,
+                            controller: controller,
+                            textAlignVertical: isMultiLine
+                                ? TextAlignVertical.top
+                                : TextAlignVertical.center,
+                            cursorColor:
+                                Theme.of(context).textTheme.bodyLarge?.color,
+                            keyboardType: isMultiLine
+                                ? TextInputType.multiline
+                                : keyboardType,
+                            focusNode: focusNode,
+                            textInputAction: action,
+                            inputFormatters: inputFormatters,
+                            maxLength: maxLength,
+                            textAlign: textAlign,
+                            onSubmitted: (value) {
+                              if (nextFocusNode != null) {
+                                nextFocusNode?.requestFocus();
+                              }
+                              onSubmit?.call(value);
+                            },
+                            style: TextStyle(
+                              fontFamily: isUsernameOrPassword || isPassword
+                                  ? null
+                                  : Fonts.yekan,
+                              color: textColor ??
+                                  MColors.inputTextColorOf(context),
+                              fontSize: 14,
+                              fontWeight: Fonts.regular400,
+                            ),
+                            onChanged: (value) {
+                              context.read<_Cubit>().onTextChange(value);
+                              onTextChange?.call(value);
+                              if (maxLength != null &&
+                                  value.length >= maxLength! &&
+                                  closeKeyboardOnFinish) {
+                                focusNode.unfocus();
+                              }
+                            },
+                            buildCounter: (
+                              context, {
+                              required currentLength,
+                              required isFocused,
+                              maxLength,
+                            }) =>
+                                null,
+                            cursorOpacityAnimates: true,
+                            textDirection: isUsernameOrPassword || isPassword
+                                ? TextDirection.ltr
+                                : TextDirection.rtl,
+                            decoration: InputDecoration(
+                              errorText: null,
+                              isDense: true,
+                              errorMaxLines: 1,
+                              alignLabelWithHint: true,
+                              hintStyle: TextStyle(
+                                fontFamily: Fonts.yekan,
+                                fontSize: 12,
+                                fontWeight: Fonts.regular400,
+                                color: hintColor ??
+                                    MColors.inputHintTextColorOf(context),
+                              ),
+                              labelStyle: TextStyle(
+                                fontFamily: Fonts.yekan,
+                                fontSize: 12,
+                                fontWeight: Fonts.regular400,
+                                color: hintColor ??
+                                    MColors.inputHintTextColorOf(context),
+                              ),
+                              hintMaxLines: 1,
+                              labelText: useHint ? null : hint.toPersianNumber,
+                              hintText: useHint ? hint.toPersianNumber : null,
+                              filled: true,
+                              fillColor: inputColor ??
+                                  MColors.inputFillColorOf(context)
+                                      .withOpacity(.3),
+                              contentPadding: contentPadding ??
+                                  EdgeInsetsDirectional.only(
+                                    top: 20,
+                                    bottom: 20,
+                                    start: prefixWidget != null ? 48 : 10,
+                                    end: suffixWidget != null ? 48 : 10,
+                                  ),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: BorderSide(
+                                  color: _hasError
+                                      ? MColors.redColor
+                                      : borderColor ?? mBorderColor,
+                                  width: borderWidth,
+                                ),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: BorderSide(
+                                  color: _hasError
+                                      ? MColors.redColor
+                                      : borderColor ?? mBorderColor,
+                                  width: borderWidth,
+                                ),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: BorderSide(
+                                  color: _hasError
+                                      ? MColors.redColor
+                                      : borderColor ?? mFocusedBorderColor,
+                                  width: borderWidth,
+                                ),
+                              ),
+                              errorBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: BorderSide(
+                                  color: borderColor ?? MColors.errorColor,
+                                  width: borderWidth,
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
                     ),
                   ),
                 ),
-              ),
+                if (prefixWidget != null)
+                  Align(
+                    alignment: AlignmentDirectional.centerStart,
+                    child: prefixWidget,
+                  ),
+                if (suffixWidget != null)
+                  Align(
+                    alignment: AlignmentDirectional.centerEnd,
+                    child: suffixWidget,
+                  ),
+              ],
             ),
-            if (prefixWidget != null)
-              Align(
-                alignment: AlignmentDirectional.centerStart,
-                child: prefixWidget,
-              ),
-            if (suffixWidget != null)
-              Align(
-                alignment: AlignmentDirectional.centerEnd,
-                child: suffixWidget,
-              ),
+            AnimatedCrossFade(
+              duration: UiUtils.duration,
+              sizeCurve: Curves.ease,
+              firstCurve: Curves.ease,
+              secondCurve: Curves.ease,
+              crossFadeState: _hasError
+                  ? CrossFadeState.showFirst
+                  : CrossFadeState.showSecond,
+              firstChild: _errorWidget,
+              secondChild: const SizedBox(width: double.infinity),
+            ),
           ],
         ),
-        AnimatedCrossFade(
-          duration: UiUtils.duration,
-          sizeCurve: Curves.ease,
-          firstCurve: Curves.ease,
-          secondCurve: Curves.ease,
-          crossFadeState:
-              _hasError ? CrossFadeState.showFirst : CrossFadeState.showSecond,
-          firstChild: _errorWidget,
-          secondChild: const SizedBox(width: double.infinity),
-        ),
-      ],
+      ),
     );
   }
 
   Widget get _errorWidget => Builder(
         builder: (context) => Container(
           width: double.infinity,
-          margin: const EdgeInsets.only(left: 8, right: 8, top: 6),
+          margin: const EdgeInsets.only(top: 4),
           child: Text(
             error?.toPersianNumber ?? '',
             style: const TextStyle(
-              fontWeight: Fonts.medium500,
+              fontWeight: Fonts.regular400,
               fontSize: 12,
-              color: MColors.redColor,
+              color: MColors.errorColor,
             ),
           ),
         ),

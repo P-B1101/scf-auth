@@ -22,3 +22,25 @@ class MultiDeviceException extends Equatable implements Exception {
   @override
   List<Object?> get props => [];
 }
+
+class FileSizeException extends Equatable implements Exception {
+  final int size;
+  const FileSizeException(this.size);
+
+  @override
+  List<Object?> get props => [size];
+}
+
+class FileExtensionException extends Equatable implements Exception {
+  final String extensions;
+  const FileExtensionException(this.extensions);
+
+  @override
+  List<Object?> get props => [extensions];
+}
+
+class CancelSelectFileException extends Equatable implements Exception {
+  const CancelSelectFileException();
+  @override
+  List<Object?> get props => [];
+}

@@ -1,3 +1,4 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
@@ -36,4 +37,10 @@ abstract class RegisterSharedPref {
 abstract class RegisterFToast {
   @lazySingleton
   FToast get tosat => FToast();
+}
+
+@module
+abstract class RegisterFilePicker {
+  @lazySingleton
+  FilePicker get tosat => FilePicker.platform;
 }

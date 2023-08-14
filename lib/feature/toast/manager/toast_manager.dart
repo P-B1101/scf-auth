@@ -63,12 +63,11 @@ class ToastManagerImpl implements ToastManager {
     fToast.showToast(
       child: child,
       gravity: gravity ?? ToastGravity.BOTTOM,
-      positionedToastBuilder: (context, child) => Positioned(
-        bottom: 56,
-        left: 24,
-        right: 24,
+      positionedToastBuilder: (context, child) => PositionedDirectional(
+        bottom: 0,
+        start: 0,
         child: FadedSlideAnimation(
-          beginOffset: const Offset(0, -.3),
+          beginOffset: const Offset(0, .5),
           endOffset: const Offset(0, 0),
           fadeCurve: Curves.decelerate,
           slideCurve: Curves.decelerate,
@@ -77,7 +76,7 @@ class ToastManagerImpl implements ToastManager {
           child: child,
         ),
       ),
-      toastDuration: const Duration(seconds: 5),
+      toastDuration: const Duration(seconds: 10),
     );
   }
 

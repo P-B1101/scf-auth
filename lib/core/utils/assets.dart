@@ -9,25 +9,11 @@ class Fonts {
   static const medium500 = FontWeight.w500;
   static const regular400 = FontWeight.w400;
 
-  static const arrowRight = IconData(0xe900, fontFamily: icomoon);
-  static const dashboard = IconData(0xe901, fontFamily: icomoon);
-  static const arrowBottom = IconData(0xe902, fontFamily: icomoon);
-  static const arrowLeft = IconData(0xe903, fontFamily: icomoon);
-  static const close = IconData(0xe904, fontFamily: icomoon);
-  static const merchant = IconData(0xe905, fontFamily: icomoon);
-  static const moneySend = IconData(0xe906, fontFamily: icomoon);
-  static const plus = IconData(0xe907, fontFamily: icomoon);
-  static const scanner = IconData(0xe908, fontFamily: icomoon);
-  static const transactions = IconData(0xe909, fontFamily: icomoon);
-  static const transfer = IconData(0xe90a, fontFamily: icomoon);
-  static const wallet = IconData(0xe90b, fontFamily: icomoon);
-  static const wallet2 = IconData(0xe90c, fontFamily: icomoon);
-  static const search = IconData(0xe90d, fontFamily: icomoon);
-  static const gift = IconData(0xe90e, fontFamily: icomoon);
-  static const charge = IconData(0xe90f, fontFamily: icomoon);
-  static const customerClub = IconData(0xe910, fontFamily: icomoon);
-  static const giftBold = IconData(0xe911, fontFamily: icomoon);
-  static const internet = IconData(0xe912, fontFamily: icomoon);
+  static const profile = IconData(0xe900, fontFamily: icomoon);
+  static const arrowDown = IconData(0xe901, fontFamily: icomoon);
+  static const plus = IconData(0xe902, fontFamily: icomoon);
+  static const trash = IconData(0xe903, fontFamily: icomoon);
+  static const upload = IconData(0xe904, fontFamily: icomoon);
 }
 
 class MColors {
@@ -46,13 +32,15 @@ class MColors {
   static const disableButtonTextColor = Color(0XFFB2D7D6);
   static const failurePaymentColor = Color(0xFFFF3535);
   static const successPaymentColor = Color(0xFF009456);
+  static const errorColor = Color(0xFFD40000);
+  static const toastErrorColor = Color(0xFFD92020);
 
   /// Light
   static const primaryLightColor = Color(0xFFE0FFF8);
   static const primaryWhiteColor = Color(0xFFEAF2F2);
   static const primaryWhiteColor2 = Color(0xFFD3D9DB);
   static const primaryWhiteColor3 = Color(0xFFFCFCFC);
-  static const primaryTextColor = Color(0xFF1E1E20);
+  static const primaryTextColor = Color(0xFF434343);
   static const walkThroughTitleColor = Color(0xFF030319);
   static const walkThroughDescriptionColor = Color(0xFF48484A);
   static const bottomNavigationDividerColor = Color(0xFFEAEBED);
@@ -66,7 +54,8 @@ class MColors {
   static const transactionTitleColor = Color(0xFF2C2C2C);
   static const inputTextColor = Color(0xFF2C2C2C);
   static const inputHintTextColor = Color(0xFFACACB0);
-  static const inputBorderColor = Color(0XFF000000);
+  static const inputBorderFocusedColor = Color(0XFF434343);
+  static const inputBorderColor = Color(0xFF959595);
   static const inputFillColor = Color(0XFFFFFFFF);
   static const titleColor = Color(0xFF2C2C2C);
   static const bottomSheetColor = Color(0XFFEAF2F2);
@@ -96,7 +85,8 @@ class MColors {
   static const walletFeatureTextDarkColor = Color(0xFFFFFFFF);
   static const inputTextDarkColor = Color(0xFFFFFFFF);
   static const inputHintTextDarkColor = Color(0xFFE3E3E3);
-  static const inputBorderDarkColor = Color(0XFFFFFFFF);
+  static const inputBorderFocusedDarkColor = Color(0XFFFFFFFF);
+  static const inputBorderDarkColor = Color(0xFF959595);
   static const inputFillDarkColor = Color(0xFF315453);
   static const titleDarkColor = Color(0xFFFCFCFC);
   static const bottomSheetDarkColor = Color(0XFF3D3D3D);
@@ -159,8 +149,6 @@ class MColors {
         return MColors.primaryWhiteColor2;
     }
   }
-
-
 
   static Color primaryBlackOrWhiteColor3Of(BuildContext context) {
     switch (Theme.of(context).brightness) {
@@ -339,6 +327,15 @@ class MColors {
         return MColors.inputHintTextDarkColor;
       case Brightness.light:
         return MColors.inputHintTextColor;
+    }
+  }
+
+  static Color inputBorderFocusedColorOf(BuildContext context) {
+    switch (Theme.of(context).brightness) {
+      case Brightness.dark:
+        return MColors.inputBorderFocusedDarkColor;
+      case Brightness.light:
+        return MColors.inputBorderFocusedColor;
     }
   }
 

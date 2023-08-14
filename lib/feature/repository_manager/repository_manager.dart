@@ -56,6 +56,12 @@ class RepositoryHelperImpl implements RepositoryHelper {
       return Left(AuthenticationFailure());
     } on MultiDeviceException {
       return Left(MultiDeviceFailure());
+    } on CancelSelectFileException {
+      return Left(CancelSelectFileFailure());
+    } on FileSizeException catch (error) {
+      return Left(FileSizeFailure(error.size));
+    } on FileExtensionException catch (error) {
+      return Left(FileExtensionFailure(error.extensions));
     } on SocketException catch (error) {
       log(error.toString());
       return const Left(ServerFailure());
