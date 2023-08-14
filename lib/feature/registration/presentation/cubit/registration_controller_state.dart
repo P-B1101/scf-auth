@@ -1,5 +1,6 @@
 part of 'registration_controller_cubit.dart';
 
+// TODO: handle wrong economic id for first tab and suggested company tab.
 class RegistrationControllerState extends Equatable {
   final RegistrationSteps step;
   final RegistrationSteps? errorStep;
