@@ -11,6 +11,7 @@ import '../../../../drop_down/presentation/widget/m_drop_down_widget.dart';
 import '../../../../language/manager/localizatios.dart';
 import '../../../../map/presentation/widget/m_map_widget.dart';
 import '../../../../router/app_router.gr.dart';
+import '../../bloc/sign_up_bloc.dart';
 import '../../cubit/registration_controller_cubit.dart';
 
 @RoutePage()
@@ -132,11 +133,14 @@ class _SuggestedBranchWidgetState extends State<SuggestedBranchWidget> {
   Widget get _nextButtonWidget =>
       BlocBuilder<RegistrationControllerCubit, RegistrationControllerState>(
         buildWhen: (previous, current) => previous.isEnable != current.isEnable,
-        builder: (context, state) => MButtonWidget(
-          onClick: _onSuggestedBranchSubmitClick,
-          title: Strings.of(context).submit_info,
-          width: UiUtils.maxInputSize,
-          isEnable: state.isEnable,
+        builder: (context, state) => BlocBuilder<SignUpBloc, SignUpState>(
+          builder: (context, sState) => MButtonWidget(
+            onClick: _onSuggestedBranchSubmitClick,
+            title: Strings.of(context).submit_info,
+            width: UiUtils.maxInputSize,
+            isEnable: state.isEnable,
+            isLoading: sState is SignUpLoadingState,
+          ),
         ),
       );
 
@@ -158,6 +162,27 @@ class _SuggestedBranchWidgetState extends State<SuggestedBranchWidget> {
   void _onSuggestedBranchSubmitClick() {
     final state = context.read<RegistrationControllerCubit>().onNextClick();
     if (state == null) return;
-    // TODO: submit info.
+    context.read<SignUpBloc>().add(SubmitSignUpEvent(
+          activityArea: state.getActivityArea,
+          activityType: state.activityType!,
+          address: state.address,
+          balanceSheet: state.balanceSheet!,
+          boardMemberInfo: state.boardMemberInfo,
+          ceoInfo: state.ceoInfo,
+          city: state.city!,
+          companyTitle: state.companyTitle,
+          economicId: state.economicId,
+          email: state.email,
+          mobileNumber: state.mobileNumber,
+          newspaper: state.newspaper!,
+          otherDocuments: state.getOtherDocuments,
+          phoneNumber: state.phoneNumber,
+          profitAndLossStatement: state.profitAndLossStatement!,
+          province: state.province!,
+          selectedBranch: state.selectedBranch!,
+          statute: state.statute!,
+          suggestedComapnies: state.suggestedComapnies,
+          website: state.website,
+        ));
   }
 }

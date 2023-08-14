@@ -122,5 +122,9 @@
     "invalid_mobile_error": "شماره موبایل وارد شده اشتباه است",
     "wrong_email_error": "آدرس ایمیل وارد شده اشتباه می باشد",
     "wrong_website_error": "آدرس وبسایت وارد شده اشتباه می باشد",
-    "suggested_branch_title": "لطفا شعبه ی پیشنهادی و محدوده ی شعبه را مشخص کنید"
+    "suggested_branch_title": "لطفا شعبه ی پیشنهادی و محدوده ی شعبه را مشخص کنید",
+    "success_dialog_first_title": "اطلاعات شما با موفقیت ثبت شد",
+    "success_dialog_second_title": "در انتظار بررسی اطلاعات توسط بانک",
+    "success_dialog_third_title": "در صورت تایید لینک افتتاح حساب سپرده حقوقی برای بنگاه مورد نظر ارسال میشود",
+    "tracking_id_place_holder": "کد پیگیری: $0"
 }

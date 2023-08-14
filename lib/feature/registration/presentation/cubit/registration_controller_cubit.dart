@@ -39,6 +39,7 @@ class RegistrationControllerCubit extends Cubit<RegistrationControllerState> {
           phoneNumber: '',
           province: null,
           website: '',
+          errorStep: null,
         ));
 
   void onPageClick(RegistrationSteps step) => emit(state.copyWith(step: step));
@@ -51,7 +52,25 @@ class RegistrationControllerCubit extends Cubit<RegistrationControllerState> {
 
   RegistrationControllerState? onNextClick() {
     if (!state.isEnable) {
-      emit(state.copyWith(showError: true));
+      switch (state.step) {
+        case RegistrationSteps.companyIntroduction:
+        case RegistrationSteps.managementIntroduction:
+        case RegistrationSteps.documentsUpload:
+        case RegistrationSteps.suggestedCompany:
+        case RegistrationSteps.contactInfo:
+          emit(state.copyWith(showError: true));
+          break;
+        case RegistrationSteps.suggestedBranch:
+          final step = state.getInvalidStep;
+          emit(state.copyWith(showError: true).updateErrorStep(step));
+          // Improve this later
+          if (step != null) {
+            Future.delayed(const Duration(seconds: 3)).then((value) {
+              emit(state.updateErrorStep(null));
+            });
+          }
+          break;
+      }
       return null;
     }
     final RegistrationControllerState newState;

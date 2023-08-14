@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scf_auth/feature/cdn/presentation/bloc/branch_info_bloc.dart';
 import 'package:scf_auth/feature/cdn/presentation/bloc/province_city_bloc.dart';
+import 'package:scf_auth/feature/dialog/manager/dialog_manager.dart';
+import 'package:scf_auth/feature/registration/presentation/bloc/sign_up_bloc.dart';
 import 'package:scf_auth/feature/toast/manager/toast_manager.dart';
 
 import '../../../../core/utils/enums.dart';
@@ -39,6 +41,9 @@ class RegistrationPage extends StatelessWidget {
         ),
         BlocProvider<ProvinceCityBloc>(
           create: (context) => getIt<ProvinceCityBloc>(),
+        ),
+        BlocProvider<SignUpBloc>(
+          create: (context) => getIt<SignUpBloc>(),
         ),
       ],
       child: const _RegistrationPage(),
@@ -77,6 +82,9 @@ class __RegistrationPageState extends State<_RegistrationPage> {
         ),
         BlocListener<ProvinceCityBloc, ProvinceCityState>(
           listener: (context, state) => _handleProvinceCityState(state),
+        ),
+        BlocListener<SignUpBloc, SignUpState>(
+          listener: (context, state) => _handleSignUpState(state),
         ),
       ],
       child: AutoTabsRouter(
@@ -176,6 +184,20 @@ class __RegistrationPageState extends State<_RegistrationPage> {
     if (state is ProvinceCityFailureState) {
       getIt<ToastManager>()
           .showFailureToast(context: context, message: state.message);
+    }
+  }
+
+  void _handleSignUpState(SignUpState state) async {
+    if (state is SignUpFailureState) {
+      getIt<ToastManager>()
+          .showFailureToast(context: context, message: state.message);
+    } else if (state is SignUpSuccessState) {
+      await DialogManager.instance.showSuccessSubmitDialog(
+        context: context,
+        trackingId: state.response.trackingId,
+      );
+      if (!mounted) return;
+      context.replaceRoute(const LandingRoute());
     }
   }
 }

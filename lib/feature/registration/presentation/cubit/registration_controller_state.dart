@@ -2,6 +2,7 @@ part of 'registration_controller_cubit.dart';
 
 class RegistrationControllerState extends Equatable {
   final RegistrationSteps step;
+  final RegistrationSteps? errorStep;
   final String companyTitle;
   final String economicId;
   final KeyValue? activityType;
@@ -47,6 +48,7 @@ class RegistrationControllerState extends Equatable {
     required this.phoneNumber,
     required this.province,
     required this.website,
+    required this.errorStep,
   });
 
   @override
@@ -73,6 +75,7 @@ class RegistrationControllerState extends Equatable {
         phoneNumber,
         province,
         website,
+        errorStep,
       ];
 
   RegistrationControllerState copyWith({
@@ -100,6 +103,7 @@ class RegistrationControllerState extends Equatable {
   }) =>
       RegistrationControllerState(
         step: step ?? this.step,
+        errorStep: errorStep,
         activityType: activityType ?? this.activityType,
         companyTitle: companyTitle ?? this.companyTitle,
         economicId: economicId ?? this.economicId,
@@ -127,6 +131,34 @@ class RegistrationControllerState extends Equatable {
   RegistrationControllerState updateCity(ProvinceCity? city) =>
       RegistrationControllerState(
         step: step,
+        errorStep: errorStep,
+        activityType: activityType,
+        activityArea: activityArea,
+        companyTitle: companyTitle,
+        economicId: economicId,
+        showError: showError,
+        boardMemberInfo: boardMemberInfo,
+        ceoInfo: ceoInfo,
+        balanceSheet: balanceSheet,
+        newspaper: newspaper,
+        otherDocuments: otherDocuments,
+        profitAndLossStatement: profitAndLossStatement,
+        statute: statute,
+        suggestedComapnies: suggestedComapnies,
+        selectedBranch: selectedBranch,
+        address: address,
+        city: city,
+        email: email,
+        mobileNumber: mobileNumber,
+        phoneNumber: phoneNumber,
+        province: province,
+        website: website,
+      );
+
+  RegistrationControllerState updateErrorStep(RegistrationSteps? errorStep) =>
+      RegistrationControllerState(
+        step: step,
+        errorStep: errorStep,
         activityType: activityType,
         activityArea: activityArea,
         companyTitle: companyTitle,
@@ -164,6 +196,39 @@ class RegistrationControllerState extends Equatable {
         return _isContactInfoValid;
       case RegistrationSteps.suggestedBranch:
         return _isSuggestedBranchValid;
+    }
+  }
+
+  RegistrationSteps? get getInvalidStep {
+    switch (step) {
+      case RegistrationSteps.companyIntroduction:
+        return RegistrationSteps.companyIntroduction;
+      case RegistrationSteps.managementIntroduction:
+        return RegistrationSteps.managementIntroduction;
+      case RegistrationSteps.documentsUpload:
+        return RegistrationSteps.documentsUpload;
+      case RegistrationSteps.suggestedCompany:
+        return RegistrationSteps.suggestedCompany;
+      case RegistrationSteps.contactInfo:
+        return RegistrationSteps.contactInfo;
+      case RegistrationSteps.suggestedBranch:
+        if (invalidSelectedBranch) return null;
+        if (!_isCompanyIntroductionValid) {
+          return RegistrationSteps.companyIntroduction;
+        }
+        if (!_isManagementIntroductionValid) {
+          return RegistrationSteps.managementIntroduction;
+        }
+        if (!_isDocumentsUploadValid) {
+          return RegistrationSteps.documentsUpload;
+        }
+        if (!_isSuggestedCompaniesValid) {
+          return RegistrationSteps.suggestedCompany;
+        }
+        if (!_isContactInfoValid) {
+          return RegistrationSteps.contactInfo;
+        }
+        return RegistrationSteps.suggestedBranch;
     }
   }
 
@@ -212,6 +277,11 @@ class RegistrationControllerState extends Equatable {
 
   bool get _isSuggestedBranchValid {
     if (invalidSelectedBranch) return false;
+    if (!_isCompanyIntroductionValid) return false;
+    if (!_isManagementIntroductionValid) return false;
+    if (!_isDocumentsUploadValid) return false;
+    if (!_isSuggestedCompaniesValid) return false;
+    if (!_isContactInfoValid) return false;
     return true;
   }
 
@@ -295,4 +365,12 @@ class RegistrationControllerState extends Equatable {
   bool get canAddAddress => address.length < 5;
 
   bool get invalidSelectedBranch => selectedBranch == null;
+
+  List<KeyValue> get getActivityArea =>
+      activityArea.where((element) => element != null).map((e) => e!).toList();
+
+  List<UploadFileResult> get getOtherDocuments => otherDocuments
+      .where((element) => element != null)
+      .map((e) => e!)
+      .toList();
 }

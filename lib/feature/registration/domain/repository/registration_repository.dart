@@ -1,8 +1,12 @@
 import 'package:dartz/dartz.dart';
-import 'package:scf_auth/feature/cdn/domain/entity/key_value.dart';
-import 'package:scf_auth/core/error/failures.dart';
+
+import '../../../../core/error/failures.dart';
+import '../entity/sign_up_request_body.dart';
+import '../entity/sign_up_response.dart';
 
 abstract class RegistrationRepository {
-  Future<Either<Failure, List<KeyValue>>> getActivityAreaItems();
+  Future<Either<Failure, SignUpResponse>> signUp(SignUpRequestBody body);
+
+  
 
 }

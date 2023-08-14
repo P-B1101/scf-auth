@@ -18,50 +18,60 @@ import 'package:scf_auth/core/network/network_info.dart' as _i8;
 import 'package:scf_auth/feature/api/manager/api_caller.dart' as _i3;
 import 'package:scf_auth/feature/api/manager/my_client.dart' as _i7;
 import 'package:scf_auth/feature/cdn/data/data_source/cdn_data_source.dart'
-    as _i14;
-import 'package:scf_auth/feature/cdn/data/repository/cdn_repository_impl.dart'
-    as _i23;
-import 'package:scf_auth/feature/cdn/domain/repository/cdn_repository.dart'
-    as _i22;
-import 'package:scf_auth/feature/cdn/domain/use_case/get_branch_list.dart'
-    as _i24;
-import 'package:scf_auth/feature/cdn/domain/use_case/get_key_value_item.dart'
-    as _i25;
-import 'package:scf_auth/feature/cdn/domain/use_case/get_list_of_provinces.dart'
-    as _i26;
-import 'package:scf_auth/feature/cdn/domain/use_case/select_and_upload_file.dart'
-    as _i28;
-import 'package:scf_auth/feature/cdn/presentation/bloc/branch_info_bloc.dart'
-    as _i30;
-import 'package:scf_auth/feature/cdn/presentation/bloc/key_value_item_bloc.dart'
-    as _i29;
-import 'package:scf_auth/feature/cdn/presentation/bloc/province_city_bloc.dart'
-    as _i27;
-import 'package:scf_auth/feature/cdn/presentation/bloc/select_and_upload_bloc.dart'
-    as _i31;
-import 'package:scf_auth/feature/database/data/data_source/database_data_source.dart'
     as _i15;
-import 'package:scf_auth/feature/database/data/repository/database_repository_impl.dart'
-    as _i17;
-import 'package:scf_auth/feature/database/domain/repository/database_repository.dart'
+import 'package:scf_auth/feature/cdn/data/repository/cdn_repository_impl.dart'
+    as _i24;
+import 'package:scf_auth/feature/cdn/domain/repository/cdn_repository.dart'
+    as _i23;
+import 'package:scf_auth/feature/cdn/domain/use_case/get_branch_list.dart'
+    as _i25;
+import 'package:scf_auth/feature/cdn/domain/use_case/get_key_value_item.dart'
+    as _i26;
+import 'package:scf_auth/feature/cdn/domain/use_case/get_list_of_provinces.dart'
+    as _i27;
+import 'package:scf_auth/feature/cdn/domain/use_case/select_and_upload_file.dart'
+    as _i31;
+import 'package:scf_auth/feature/cdn/presentation/bloc/branch_info_bloc.dart'
+    as _i35;
+import 'package:scf_auth/feature/cdn/presentation/bloc/key_value_item_bloc.dart'
+    as _i34;
+import 'package:scf_auth/feature/cdn/presentation/bloc/province_city_bloc.dart'
+    as _i28;
+import 'package:scf_auth/feature/cdn/presentation/bloc/select_and_upload_bloc.dart'
+    as _i36;
+import 'package:scf_auth/feature/database/data/data_source/database_data_source.dart'
     as _i16;
-import 'package:scf_auth/feature/file_manageer/data/data_source/file_manager_data_source.dart'
+import 'package:scf_auth/feature/database/data/repository/database_repository_impl.dart'
     as _i18;
+import 'package:scf_auth/feature/database/domain/repository/database_repository.dart'
+    as _i17;
+import 'package:scf_auth/feature/file_manageer/data/data_source/file_manager_data_source.dart'
+    as _i19;
+import 'package:scf_auth/feature/registration/data/data_source/registration_data_source.dart'
+    as _i11;
+import 'package:scf_auth/feature/registration/data/repository/registration_repository_impl.dart'
+    as _i30;
+import 'package:scf_auth/feature/registration/domain/repository/registration_repository.dart'
+    as _i29;
+import 'package:scf_auth/feature/registration/domain/use_case/sign_up.dart'
+    as _i32;
+import 'package:scf_auth/feature/registration/presentation/bloc/sign_up_bloc.dart'
+    as _i33;
 import 'package:scf_auth/feature/registration/presentation/cubit/registration_controller_cubit.dart'
     as _i10;
 import 'package:scf_auth/feature/repository_manager/repository_manager.dart'
-    as _i21;
+    as _i22;
 import 'package:scf_auth/feature/security/manager/security_manager.dart'
-    as _i11;
-import 'package:scf_auth/feature/toast/manager/toast_manager.dart' as _i13;
+    as _i12;
+import 'package:scf_auth/feature/toast/manager/toast_manager.dart' as _i14;
 import 'package:scf_auth/feature/token/ata/data_source/refresh_token_data_source.dart'
     as _i9;
 import 'package:scf_auth/feature/token/ata/repository/token_repository_impl.dart'
-    as _i20;
+    as _i21;
 import 'package:scf_auth/feature/token/domain/repository/token_repository.dart'
-    as _i19;
-import 'package:scf_auth/injectable_container.dart' as _i32;
-import 'package:shared_preferences/shared_preferences.dart' as _i12;
+    as _i20;
+import 'package:scf_auth/injectable_container.dart' as _i37;
+import 'package:shared_preferences/shared_preferences.dart' as _i13;
 
 extension GetItInjectableX on _i1.GetIt {
   // initializes the registration of main-scope dependencies inside of GetIt
@@ -91,67 +101,80 @@ extension GetItInjectableX on _i1.GetIt {
             ));
     gh.factory<_i10.RegistrationControllerCubit>(
         () => _i10.RegistrationControllerCubit());
-    gh.lazySingleton<_i11.SecurityManager>(() => _i11.SecurityManagerImpl());
-    await gh.lazySingletonAsync<_i12.SharedPreferences>(
+    gh.lazySingleton<_i11.RegistrationDataSource>(
+        () => _i11.RegistrationDataSourceImpl(
+              apiCaller: gh<_i3.ApiCaller>(),
+              client: gh<_i7.MyClient>(),
+            ));
+    gh.lazySingleton<_i12.SecurityManager>(() => _i12.SecurityManagerImpl());
+    await gh.lazySingletonAsync<_i13.SharedPreferences>(
       () => registerSharedPref.prefs,
       preResolve: true,
     );
-    gh.lazySingleton<_i13.ToastManager>(
-        () => _i13.ToastManagerImpl(fToast: gh<_i5.FToast>()));
-    gh.lazySingleton<_i14.CDNDataSource>(() => _i14.CDNDataSourceImpl(
+    gh.lazySingleton<_i14.ToastManager>(
+        () => _i14.ToastManagerImpl(fToast: gh<_i5.FToast>()));
+    gh.lazySingleton<_i15.CDNDataSource>(() => _i15.CDNDataSourceImpl(
           apiCaller: gh<_i3.ApiCaller>(),
           client: gh<_i7.MyClient>(),
         ));
-    gh.lazySingleton<_i15.DataBaseDataSource>(() => _i15.DatabaseDataSourceImpl(
-        sharedPreferences: gh<_i12.SharedPreferences>()));
-    gh.lazySingleton<_i16.DatabaseRepository>(() => _i17.DatabaseRepositoryImpl(
-          dataSource: gh<_i15.DataBaseDataSource>(),
-          securityManager: gh<_i11.SecurityManager>(),
+    gh.lazySingleton<_i16.DataBaseDataSource>(() => _i16.DatabaseDataSourceImpl(
+        sharedPreferences: gh<_i13.SharedPreferences>()));
+    gh.lazySingleton<_i17.DatabaseRepository>(() => _i18.DatabaseRepositoryImpl(
+          dataSource: gh<_i16.DataBaseDataSource>(),
+          securityManager: gh<_i12.SecurityManager>(),
         ));
-    gh.lazySingleton<_i18.FileManagerDataSource>(
-        () => _i18.FileManagerDataSourceImpl(filePicker: gh<_i6.FilePicker>()));
-    gh.lazySingleton<_i19.TokenRepository>(() => _i20.TokenRepositoryImpl(
+    gh.lazySingleton<_i19.FileManagerDataSource>(
+        () => _i19.FileManagerDataSourceImpl(filePicker: gh<_i6.FilePicker>()));
+    gh.lazySingleton<_i20.TokenRepository>(() => _i21.TokenRepositoryImpl(
           dataSource: gh<_i9.RefreshTokenDataSource>(),
-          database: gh<_i15.DataBaseDataSource>(),
-          securityManager: gh<_i11.SecurityManager>(),
+          database: gh<_i16.DataBaseDataSource>(),
+          securityManager: gh<_i12.SecurityManager>(),
         ));
-    gh.lazySingleton<_i21.RepositoryHelper>(() => _i21.RepositoryHelperImpl(
+    gh.lazySingleton<_i22.RepositoryHelper>(() => _i22.RepositoryHelperImpl(
           networkInfo: gh<_i8.NetworkInfo>(),
-          tokenRepository: gh<_i19.TokenRepository>(),
-          databaseDataSource: gh<_i15.DataBaseDataSource>(),
-          securityManager: gh<_i11.SecurityManager>(),
+          tokenRepository: gh<_i20.TokenRepository>(),
+          databaseDataSource: gh<_i16.DataBaseDataSource>(),
+          securityManager: gh<_i12.SecurityManager>(),
         ));
-    gh.lazySingleton<_i22.CDNRepository>(() => _i23.CDNRepositoryImpl(
-          dataSource: gh<_i14.CDNDataSource>(),
-          repositoryHelper: gh<_i21.RepositoryHelper>(),
-          fileManagerDataSource: gh<_i18.FileManagerDataSource>(),
+    gh.lazySingleton<_i23.CDNRepository>(() => _i24.CDNRepositoryImpl(
+          dataSource: gh<_i15.CDNDataSource>(),
+          repositoryHelper: gh<_i22.RepositoryHelper>(),
+          fileManagerDataSource: gh<_i19.FileManagerDataSource>(),
         ));
-    gh.lazySingleton<_i24.GetBranchList>(
-        () => _i24.GetBranchList(repository: gh<_i22.CDNRepository>()));
-    gh.lazySingleton<_i25.GetKeyValueItem>(
-        () => _i25.GetKeyValueItem(repository: gh<_i22.CDNRepository>()));
-    gh.lazySingleton<_i26.GetListOfProvinces>(
-        () => _i26.GetListOfProvinces(repository: gh<_i22.CDNRepository>()));
-    gh.factory<_i27.ProvinceCityBloc>(
-        () => _i27.ProvinceCityBloc(gh<_i26.GetListOfProvinces>()));
-    gh.lazySingleton<_i28.SelectAndUploadFile>(
-        () => _i28.SelectAndUploadFile(repository: gh<_i22.CDNRepository>()));
-    gh.factory<_i29.ActivityAreaBloc>(
-        () => _i29.ActivityAreaBloc(gh<_i25.GetKeyValueItem>()));
-    gh.factory<_i29.ActivityTypeBloc>(
-        () => _i29.ActivityTypeBloc(gh<_i25.GetKeyValueItem>()));
-    gh.factory<_i30.BranchInfoBloc>(
-        () => _i30.BranchInfoBloc(gh<_i24.GetBranchList>()));
-    gh.factory<_i31.SelectAndUploadBloc>(
-        () => _i31.SelectAndUploadBloc(gh<_i28.SelectAndUploadFile>()));
+    gh.lazySingleton<_i25.GetBranchList>(
+        () => _i25.GetBranchList(repository: gh<_i23.CDNRepository>()));
+    gh.lazySingleton<_i26.GetKeyValueItem>(
+        () => _i26.GetKeyValueItem(repository: gh<_i23.CDNRepository>()));
+    gh.lazySingleton<_i27.GetListOfProvinces>(
+        () => _i27.GetListOfProvinces(repository: gh<_i23.CDNRepository>()));
+    gh.factory<_i28.ProvinceCityBloc>(
+        () => _i28.ProvinceCityBloc(gh<_i27.GetListOfProvinces>()));
+    gh.lazySingleton<_i29.RegistrationRepository>(
+        () => _i30.RegistrationRepositoryImpl(
+              dataSource: gh<_i11.RegistrationDataSource>(),
+              repositoryHelper: gh<_i22.RepositoryHelper>(),
+            ));
+    gh.lazySingleton<_i31.SelectAndUploadFile>(
+        () => _i31.SelectAndUploadFile(repository: gh<_i23.CDNRepository>()));
+    gh.lazySingleton<_i32.SignUp>(
+        () => _i32.SignUp(repository: gh<_i29.RegistrationRepository>()));
+    gh.factory<_i33.SignUpBloc>(() => _i33.SignUpBloc(gh<_i32.SignUp>()));
+    gh.factory<_i34.ActivityAreaBloc>(
+        () => _i34.ActivityAreaBloc(gh<_i26.GetKeyValueItem>()));
+    gh.factory<_i34.ActivityTypeBloc>(
+        () => _i34.ActivityTypeBloc(gh<_i26.GetKeyValueItem>()));
+    gh.factory<_i35.BranchInfoBloc>(
+        () => _i35.BranchInfoBloc(gh<_i25.GetBranchList>()));
+    gh.factory<_i36.SelectAndUploadBloc>(
+        () => _i36.SelectAndUploadBloc(gh<_i31.SelectAndUploadFile>()));
     return this;
   }
 }
 
-class _$RegisterHttpClient extends _i32.RegisterHttpClient {}
+class _$RegisterHttpClient extends _i37.RegisterHttpClient {}
 
-class _$RegisterSharedPref extends _i32.RegisterSharedPref {}
+class _$RegisterSharedPref extends _i37.RegisterSharedPref {}
 
-class _$RegisterFToast extends _i32.RegisterFToast {}
+class _$RegisterFToast extends _i37.RegisterFToast {}
 
-class _$RegisterFilePicker extends _i32.RegisterFilePicker {}
+class _$RegisterFilePicker extends _i37.RegisterFilePicker {}

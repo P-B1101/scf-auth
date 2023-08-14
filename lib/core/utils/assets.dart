@@ -14,6 +14,8 @@ class Fonts {
   static const plus = IconData(0xe902, fontFamily: icomoon);
   static const trash = IconData(0xe903, fontFamily: icomoon);
   static const upload = IconData(0xe904, fontFamily: icomoon);
+  static const thinTick = IconData(0xe905, fontFamily: icomoon);
+  static const tick = IconData(0xe906, fontFamily: icomoon);
 }
 
 class MColors {
@@ -29,11 +31,15 @@ class MColors {
   static const redColor = Color(0xFFFF3535);
   static const greenColor = Color(0xFF0AD059);
   static const successColor = Color(0xFF179b4c);
+  static const successGreenColor = Color(0xFF00A858);
   static const disableButtonTextColor = Color(0XFFB2D7D6);
   static const failurePaymentColor = Color(0xFFFF3535);
   static const successPaymentColor = Color(0xFF009456);
   static const errorColor = Color(0xFFD40000);
   static const toastErrorColor = Color(0xFFD92020);
+  static const dialogStartColor = Color(0XFF012423);
+  static const dialogCenterColor = Color(0XFF557776);
+  static const dialogEndColor = Color(0XFF12413F);
 
   /// Light
   static const primaryLightColor = Color(0xFFE0FFF8);

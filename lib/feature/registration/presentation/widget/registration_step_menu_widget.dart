@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:scf_auth/core/components/animated/warning_widget.dart';
 
 import '../../../../core/utils/assets.dart';
 import '../../../../core/utils/enums.dart';
@@ -24,12 +25,15 @@ class RegistrationStepMenuWidget extends StatelessWidget {
       alignment: AlignmentDirectional.centerStart,
       child:
           BlocBuilder<RegistrationControllerCubit, RegistrationControllerState>(
-        buildWhen: (previous, current) => previous.step != current.step,
+        buildWhen: (previous, current) =>
+            (previous.step != current.step) ||
+            (previous.errorStep != current.errorStep),
         builder: (context, state) => ListView.separated(
           physics: const NeverScrollableScrollPhysics(),
           scrollDirection: Axis.horizontal,
           padding: const EdgeInsets.symmetric(horizontal: 20),
           itemBuilder: (context, index) => _ItemWidget(
+            isWarned: items[index] == state.errorStep,
             item: items[index],
             onStepClick: onStepClick,
             isSelected: items[index] == state.step,
@@ -54,12 +58,14 @@ class RegistrationStepMenuWidget extends StatelessWidget {
 class _ItemWidget extends StatelessWidget {
   final RegistrationSteps item;
   final bool isSelected;
+  final bool isWarned;
   final Function(RegistrationSteps) onStepClick;
   const _ItemWidget({
     Key? key,
     required this.item,
     required this.onStepClick,
     required this.isSelected,
+    required this.isWarned,
   }) : super(key: key);
 
   @override
@@ -72,24 +78,35 @@ class _ItemWidget extends StatelessWidget {
           child: GestureDetector(
             behavior: HitTestBehavior.opaque,
             onTap: () => onStepClick(item),
-            child: AnimatedDefaultTextStyle(
-              duration: UiUtils.duration,
-              curve: UiUtils.curve,
-              style: TextStyle(
-                fontFamily: Fonts.yekan,
-                fontSize: 18,
-                fontWeight: Fonts.regular400,
-                color: isSelected
-                    ? MColors.primaryColor
-                    : MColors.featureBoxColorOf(context),
-              ),
-              child: Text(
-                item.toStringValue(context),
-              ),
-            ),
+            child: isWarned
+                ? WarningWidget(
+                    startColor: MColors.errorColor,
+                    endColor: MColors.featureBoxColorOf(context),
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: Fonts.regular400,
+                    ),
+                    child: _text,
+                  )
+                : AnimatedDefaultTextStyle(
+                    duration: UiUtils.duration,
+                    curve: UiUtils.curve,
+                    style: TextStyle(
+                      fontFamily: Fonts.yekan,
+                      fontSize: 18,
+                      fontWeight: Fonts.regular400,
+                      color: isSelected
+                          ? MColors.primaryColor
+                          : MColors.featureBoxColorOf(context),
+                    ),
+                    child: _text,
+                  ),
           ),
         ),
       ),
     );
   }
+
+  Widget get _text =>
+      Builder(builder: (context) => Text(item.toStringValue(context)));
 }
