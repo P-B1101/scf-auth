@@ -50,6 +50,6 @@ class __LandingPageState extends State<_LandingPage> {
   }
 
   void _onTrackingClick() {
-    // TODO: implement _onEditRegistrationClick
+    // TODO: implement _onTrackingClick
   }
 }
