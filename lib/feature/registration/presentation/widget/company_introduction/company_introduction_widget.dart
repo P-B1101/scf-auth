@@ -61,13 +61,16 @@ class _CompanyIntroductionWidgetState extends State<CompanyIntroductionWidget> {
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         const SizedBox(height: 56),
                         _titleWidget,
                         const SizedBox(height: 64),
                         _inputListWidget,
-                        _addActivityAreaButtonWidget,
+                        Align(
+                          alignment: AlignmentDirectional.centerStart,
+                          child: _addActivityAreaButtonWidget,
+                        ),
                       ],
                     ),
                   ),

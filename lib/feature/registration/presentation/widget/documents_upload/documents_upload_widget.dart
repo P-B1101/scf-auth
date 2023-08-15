@@ -44,7 +44,7 @@ class _DocumentsUploadWidgetState extends State<DocumentsUploadWidget> {
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         const SizedBox(height: 56),
                         _titleWidget,
@@ -56,7 +56,10 @@ class _DocumentsUploadWidgetState extends State<DocumentsUploadWidget> {
                         _otherDocumentTitle,
                         const SizedBox(height: 22),
                         _otherDocumentsList,
-                        _addActivityAreaButtonWidget,
+                        Align(
+                          alignment: AlignmentDirectional.centerStart,
+                          child: _addActivityAreaButtonWidget,
+                        ),
                       ],
                     ),
                   ),

@@ -24,7 +24,10 @@ class BaseDialogWidget extends StatelessWidget {
           child: GestureDetector(
             behavior: HitTestBehavior.opaque,
             onTap: () {},
-            child: child,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: child,
+            ),
           ),
         ),
       ),

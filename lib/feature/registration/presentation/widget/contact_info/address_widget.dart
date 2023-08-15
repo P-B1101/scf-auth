@@ -76,11 +76,12 @@ class _AddressWidgetState extends State<AddressWidget> {
   Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         const SizedBox(height: 40),
         Wrap(
           spacing: 86,
+          runSpacing: 40,
           children: [
             _provinceWidget,
             _cityWidget,
@@ -88,9 +89,12 @@ class _AddressWidgetState extends State<AddressWidget> {
         ),
         if (widget.hasLabel) const SizedBox(height: 40),
         if (widget.hasLabel)
-          InputLabelWidget(
-            Strings.of(context).address_label,
-            hasError: _hasError,
+          Align(
+            alignment: AlignmentDirectional.centerStart,
+            child: InputLabelWidget(
+              Strings.of(context).address_label,
+              hasError: _hasError,
+            ),
           ),
         const SizedBox(height: 18),
         MInputWidget(
@@ -102,26 +106,6 @@ class _AddressWidgetState extends State<AddressWidget> {
           autofillHints: const [AutofillHints.fullStreetAddress],
           isMultiLine: true,
           height: 90,
-          suffixWidget: _hasDelete
-              ? Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12),
-                  child: SizedBox(
-                    width: 32,
-                    height: 32,
-                    child: InkWell(
-                      onTap: _onDeleteClick,
-                      customBorder: const CircleBorder(),
-                      child: const Center(
-                        child: Icon(
-                          Fonts.trash,
-                          size: 20,
-                          color: MColors.primaryColor,
-                        ),
-                      ),
-                    ),
-                  ),
-                )
-              : null,
         ),
         const SizedBox(height: 10),
         _actionRowWidget,
@@ -167,14 +151,18 @@ class _AddressWidgetState extends State<AddressWidget> {
       );
 
   Widget get _actionRowWidget => Builder(
-        builder: (context) => Row(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            _addOrEditLatLng,
-            if (_hasLatLng) _deleteLatLng,
-            _hasDelete ? _deleteAddress : const SizedBox(width: 100),
-          ],
+        builder: (context) => SizedBox(
+          width: double.infinity,
+          child: Wrap(
+            alignment: WrapAlignment.spaceBetween,
+            runSpacing: 18,
+            children: [
+              _addOrEditLatLng,
+              if (_hasLatLng) _deleteLatLng,
+              _hasDelete ? _deleteAddress : const SizedBox(width: 100),
+              if (!_hasLatLng && _hasDelete) const SizedBox(width: 100),
+            ],
+          ),
         ),
       );
 

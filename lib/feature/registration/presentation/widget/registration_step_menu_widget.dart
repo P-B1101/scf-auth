@@ -29,7 +29,7 @@ class RegistrationStepMenuWidget extends StatelessWidget {
             (previous.step != current.step) ||
             (previous.errorStep != current.errorStep),
         builder: (context, state) => ListView.separated(
-          physics: const NeverScrollableScrollPhysics(),
+          // physics: const NeverScrollableScrollPhysics(),
           scrollDirection: Axis.horizontal,
           padding: const EdgeInsets.symmetric(horizontal: 20),
           itemBuilder: (context, index) => _ItemWidget(
