@@ -131,8 +131,12 @@ class _SuggestedCompanyWidgetState extends State<SuggestedCompanyWidget> {
                         !items[index].invalidEconomicId) {
                       return null;
                     }
+                    if (items[index].economicId.isEmpty) {
+                      return Strings.of(context)
+                          .empty_suggested_company_economic_id_error;
+                    }
                     return Strings.of(context)
-                        .empty_suggested_company_economic_id_error;
+                        .wrong_suggested_company_economic_id_error;
                   }(),
                 ),
               ),

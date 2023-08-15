@@ -25,8 +25,10 @@ class SuggestedCompany extends Equatable {
       );
 
   bool get invalidName => name.isEmpty;
-  bool get invalidEconomicId => economicId.isEmpty;
+  bool get invalidEconomicId => economicId.isEmpty || getEconomicId == null;
   bool get invalidFinancialIteraction => financialInteraction == null;
+
+  int? get getEconomicId => int.tryParse(economicId);
 
   SuggestedCompany copyWith({
     String? name,

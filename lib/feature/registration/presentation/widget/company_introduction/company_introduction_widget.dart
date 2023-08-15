@@ -111,8 +111,8 @@ class _CompanyIntroductionWidgetState extends State<CompanyIntroductionWidget> {
   Widget get _companyTitleInput =>
       BlocBuilder<RegistrationControllerCubit, RegistrationControllerState>(
         buildWhen: (previous, current) =>
-            (previous.invalidCompanyTitle && previous.showError) !=
-            (current.invalidCompanyTitle && current.showError),
+            (previous.invalidCompanyTitle != current.invalidCompanyTitle) ||
+            (previous.showError != current.showError),
         builder: (context, state) => ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: UiUtils.maxInputSize),
           child: Column(
@@ -148,8 +148,8 @@ class _CompanyIntroductionWidgetState extends State<CompanyIntroductionWidget> {
   Widget get _economicIdInput =>
       BlocBuilder<RegistrationControllerCubit, RegistrationControllerState>(
         buildWhen: (previous, current) =>
-            (previous.invalidEconomicId && previous.showError) !=
-            (current.invalidEconomicId && current.showError),
+            (previous.showError != current.showError) ||
+            (previous.economicId != current.economicId),
         builder: (context, state) => ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: UiUtils.maxInputSize),
           child: Column(
@@ -172,7 +172,10 @@ class _CompanyIntroductionWidgetState extends State<CompanyIntroductionWidget> {
                   if (!state.showError || !state.invalidEconomicId) {
                     return null;
                   }
-                  return Strings.of(context).empty_economic_id_error;
+                  if (state.economicId.isEmpty) {
+                    return Strings.of(context).empty_economic_id_error;
+                  }
+                  return Strings.of(context).wrong_economic_id_error;
                 }(),
               ),
             ],
