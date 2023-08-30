@@ -20,7 +20,7 @@ class SuccessToastWidget extends StatelessWidget {
         style: const TextStyle(
           fontSize: 16,
           fontWeight: Fonts.medium500,
-          color: MColors.featureBoxColor,
+          color: MColors.whiteColor,
         ),
       ),
     );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:scf_auth/feature/map/domain/entity/selected_location.dart';
+import 'package:scf_auth/feature/registration/presentation/widget/registration_otp_dialog_widget.dart';
 
 import '../../map/presentation/widget/select_location_dialog_widget.dart';
 import '../../registration/presentation/widget/success_submit_dialog_widget.dart';
@@ -13,6 +14,7 @@ class DialogManager {
 
   static bool _showSuccessSubmitDialog = false;
   static bool _showSelectLocationDialog = false;
+  static bool _showRegistrationDialog = false;
 
   Future<void> showSuccessSubmitDialog({
     required BuildContext context,
@@ -50,5 +52,21 @@ class DialogManager {
     );
     _showSelectLocationDialog = false;
     return result;
+  }
+
+  Future<String> showRegistrationDialog(BuildContext context) async {
+    if (_showRegistrationDialog) return '';
+    _showRegistrationDialog = true;
+    final result = await showDialog<String>(
+      context: context,
+      builder: (context) => const Dialog(
+        insetPadding: EdgeInsets.zero,
+        backgroundColor: Colors.transparent,
+        child: RegistrationOTPDialogWidget(),
+      ),
+      barrierColor: Colors.transparent,
+    );
+    _showRegistrationDialog = false;
+    return result ?? '';
   }
 }

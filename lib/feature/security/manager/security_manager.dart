@@ -25,4 +25,4 @@ class SecurityManagerImpl implements SecurityManager {
   }
 }
 
-const _key = '6cOrLyZkKF2gRPXWVGmcjKCeeIFWwOF3';
+const _key = 'CVUD4Y00k4ZUgzf4OeO0Zju13tRgmbJs';

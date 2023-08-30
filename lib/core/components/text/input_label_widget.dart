@@ -6,10 +6,12 @@ import '../../utils/ui_utils.dart';
 class InputLabelWidget extends StatelessWidget {
   final String label;
   final bool hasError;
+  final Color? color;
   const InputLabelWidget(
     this.label, {
     super.key,
     this.hasError = false,
+    this.color,
   });
 
   @override
@@ -19,7 +21,9 @@ class InputLabelWidget extends StatelessWidget {
       curve: UiUtils.curve,
       style: TextStyle(
         fontFamily: Fonts.yekan,
-        color: hasError ? MColors.errorColor : MColors.textColorOf(context),
+        color: hasError
+            ? MColors.errorColor
+            : (color ?? MColors.textColorOf(context)),
       ),
       child: Text(
         label,

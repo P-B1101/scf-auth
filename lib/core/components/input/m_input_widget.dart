@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -57,6 +59,7 @@ class MInputWidget extends StatelessWidget {
   final bool isReadOnly;
   final double? height;
   final bool isMultiLine;
+  final Color? cursorColor;
 
   const MInputWidget({
     super.key,
@@ -90,6 +93,7 @@ class MInputWidget extends StatelessWidget {
     this.isReadOnly = false,
     this.height,
     this.isMultiLine = false,
+    this.cursorColor,
   });
 
   @override
@@ -134,7 +138,7 @@ class MInputWidget extends StatelessWidget {
                           textAlignVertical: isMultiLine
                               ? TextAlignVertical.top
                               : TextAlignVertical.center,
-                          cursorColor:
+                          cursorColor: cursorColor ??
                               Theme.of(context).textTheme.bodyLarge?.color,
                           keyboardType: isMultiLine
                               ? TextInputType.multiline
@@ -202,10 +206,10 @@ class MInputWidget extends StatelessWidget {
                             hintMaxLines: 1,
                             labelText: useHint ? null : hint.toPersianNumber,
                             hintText: useHint ? hint.toPersianNumber : null,
-                            filled: true,
-                            fillColor: inputColor ??
-                                MColors.inputFillColorOf(context)
-                                    .withOpacity(.3),
+                            // filled: true,
+                            // fillColor: inputColor ??
+                            //     MColors.inputFillColorOf(context)
+                            //         .withOpacity(.3),
                             contentPadding: contentPadding ??
                                 EdgeInsetsDirectional.only(
                                   top: 20,
@@ -303,4 +307,86 @@ class MInputWidget extends StatelessWidget {
       );
 
   bool get _hasError => error != null && error!.isNotEmpty;
+}
+
+
+
+class MNumberFormatter extends TextInputFormatter {
+  static final RegExp _digitOnlyRegex = RegExp(r'\d+');
+  static final FilteringTextInputFormatter _digitOnlyFormatter =
+      FilteringTextInputFormatter.allow(_digitOnlyRegex);
+
+  MNumberFormatter();
+
+  TextEditingValue? _lastNewValue;
+
+  @override
+  TextEditingValue formatEditUpdate(
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
+    oldValue = oldValue.copyWith(text: oldValue.text.toEnglishNumber);
+    newValue = newValue.copyWith(text: newValue.text.toEnglishNumber);
+
+    /// nothing changes, nothing to do
+    if (newValue.text == _lastNewValue?.text) {
+      return newValue.copyWith(text: newValue.text.toPersianNumber);
+    }
+    _lastNewValue = newValue;
+
+    /// remove all invalid characters
+    newValue = _formatValue(oldValue, newValue);
+
+    /// current selection
+    int selectionIndex = newValue.selection.end;
+
+    /// format original string, this step would add some separator
+    /// characters to original string
+    final newText = _formatPattern(newValue.text);
+
+    /// count number of inserted character in new string
+    int insertCount = 0;
+
+    /// count number of original input character in new string
+    int inputCount = 0;
+    for (int i = 0; i < newText.length && inputCount < selectionIndex; i++) {
+      final character = newText[i];
+      if (_isUserInput(character)) {
+        inputCount++;
+      } else {
+        insertCount++;
+      }
+    }
+
+    /// adjust selection according to number of inserted characters staying before
+    /// selection
+    selectionIndex += insertCount;
+    selectionIndex = min(selectionIndex, newText.length);
+
+    /// if selection is right after an inserted character, it should be moved
+    /// backward, this adjustment prevents an issue that user cannot delete
+    /// characters when cursor stands right after inserted characters
+    if (selectionIndex - 1 >= 0 &&
+        selectionIndex - 1 < newText.length &&
+        !_isUserInput(newText[selectionIndex - 1])) {
+      selectionIndex--;
+    }
+
+    return newValue.copyWith(
+      text: newText.toPersianNumber,
+      selection: TextSelection.collapsed(offset: selectionIndex),
+      composing: TextRange.empty,
+    );
+  }
+
+  String _formatPattern(String digits) => digits;
+
+  TextEditingValue _formatValue(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    return _digitOnlyFormatter.formatEditUpdate(oldValue, newValue);
+  }
+
+  bool _isUserInput(String s) {
+    return _digitOnlyRegex.firstMatch(s) != null;
+  }
 }

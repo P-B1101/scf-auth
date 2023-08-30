@@ -1,5 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:scf_auth/core/utils/extensions.dart';
+import 'package:scf_auth/feature/dialog/manager/dialog_manager.dart';
 
 import '../../../router/app_router.gr.dart';
 import '../widget/landing_toolbar_widget.dart';
@@ -45,8 +47,12 @@ class __LandingPageState extends State<_LandingPage> {
     // TODO: implement _onEditRegistrationClick
   }
 
-  void _onRequestRegistrationClick() {
-    context.pushRoute(const RegistrationRoute());
+  void _onRequestRegistrationClick() async {
+    final phoneNumber =
+        await DialogManager.instance.showRegistrationDialog(context);
+    if (!mounted) return;
+    if (!phoneNumber.isValidMobileNumber) return;
+    context.pushRoute(RegistrationRoute(phoneNumber: phoneNumber));
   }
 
   void _onTrackingClick() {

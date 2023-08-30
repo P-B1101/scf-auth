@@ -17,7 +17,6 @@ final class SignUpSuccessState extends SignUpState {
 
   @override
   List<Object?> get props => [response];
-
 }
 
 final class SignUpFailureState extends SignUpState {
@@ -27,3 +26,5 @@ final class SignUpFailureState extends SignUpState {
   @override
   List<Object?> get props => [message];
 }
+
+final class SignUpUnAuthorizeFailureState extends SignUpState {}

@@ -25,7 +25,7 @@ class CloseButtonWidget extends StatelessWidget {
               angle: .25 * pi,
               child: Icon(
                 Fonts.plus,
-                color: color ?? MColors.featureBoxColor,
+                color: color ?? MColors.whiteColor,
                 size: 12,
               ),
             ),

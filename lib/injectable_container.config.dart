@@ -32,13 +32,13 @@ import 'package:scf_auth/feature/cdn/domain/use_case/get_list_of_provinces.dart'
 import 'package:scf_auth/feature/cdn/domain/use_case/select_and_upload_file.dart'
     as _i31;
 import 'package:scf_auth/feature/cdn/presentation/bloc/branch_info_bloc.dart'
-    as _i35;
+    as _i37;
 import 'package:scf_auth/feature/cdn/presentation/bloc/key_value_item_bloc.dart'
-    as _i34;
+    as _i36;
 import 'package:scf_auth/feature/cdn/presentation/bloc/province_city_bloc.dart'
     as _i28;
 import 'package:scf_auth/feature/cdn/presentation/bloc/select_and_upload_bloc.dart'
-    as _i36;
+    as _i39;
 import 'package:scf_auth/feature/database/data/data_source/database_data_source.dart'
     as _i16;
 import 'package:scf_auth/feature/database/data/repository/database_repository_impl.dart'
@@ -48,17 +48,23 @@ import 'package:scf_auth/feature/database/domain/repository/database_repository.
 import 'package:scf_auth/feature/file_manageer/data/data_source/file_manager_data_source.dart'
     as _i19;
 import 'package:scf_auth/feature/registration/data/data_source/registration_data_source.dart'
-    as _i11;
+    as _i10;
 import 'package:scf_auth/feature/registration/data/repository/registration_repository_impl.dart'
     as _i30;
 import 'package:scf_auth/feature/registration/domain/repository/registration_repository.dart'
     as _i29;
-import 'package:scf_auth/feature/registration/domain/use_case/sign_up.dart'
+import 'package:scf_auth/feature/registration/domain/use_case/send_otp.dart'
     as _i32;
-import 'package:scf_auth/feature/registration/presentation/bloc/sign_up_bloc.dart'
+import 'package:scf_auth/feature/registration/domain/use_case/sign_up.dart'
     as _i33;
-import 'package:scf_auth/feature/registration/presentation/cubit/registration_controller_cubit.dart'
-    as _i10;
+import 'package:scf_auth/feature/registration/domain/use_case/validate_otp.dart'
+    as _i35;
+import 'package:scf_auth/feature/registration/presentation/bloc/otp_bloc.dart'
+    as _i38;
+import 'package:scf_auth/feature/registration/presentation/bloc/sign_up_bloc.dart'
+    as _i34;
+import 'package:scf_auth/feature/registration/presentation/cubit/registration_dialog_controller_cubit.dart'
+    as _i11;
 import 'package:scf_auth/feature/repository_manager/repository_manager.dart'
     as _i22;
 import 'package:scf_auth/feature/security/manager/security_manager.dart'
@@ -70,7 +76,7 @@ import 'package:scf_auth/feature/token/ata/repository/token_repository_impl.dart
     as _i21;
 import 'package:scf_auth/feature/token/domain/repository/token_repository.dart'
     as _i20;
-import 'package:scf_auth/injectable_container.dart' as _i37;
+import 'package:scf_auth/injectable_container.dart' as _i40;
 import 'package:shared_preferences/shared_preferences.dart' as _i13;
 
 extension GetItInjectableX on _i1.GetIt {
@@ -99,13 +105,13 @@ extension GetItInjectableX on _i1.GetIt {
               client: gh<_i7.MyClient>(),
               apiCaller: gh<_i3.ApiCaller>(),
             ));
-    gh.factory<_i10.RegistrationControllerCubit>(
-        () => _i10.RegistrationControllerCubit());
-    gh.lazySingleton<_i11.RegistrationDataSource>(
-        () => _i11.RegistrationDataSourceImpl(
+    gh.lazySingleton<_i10.RegistrationDataSource>(
+        () => _i10.RegistrationDataSourceImpl(
               apiCaller: gh<_i3.ApiCaller>(),
               client: gh<_i7.MyClient>(),
             ));
+    gh.factory<_i11.RegistrationDialogControllerCubit>(
+        () => _i11.RegistrationDialogControllerCubit());
     gh.lazySingleton<_i12.SecurityManager>(() => _i12.SecurityManagerImpl());
     await gh.lazySingletonAsync<_i13.SharedPreferences>(
       () => registerSharedPref.prefs,
@@ -151,30 +157,40 @@ extension GetItInjectableX on _i1.GetIt {
         () => _i28.ProvinceCityBloc(gh<_i27.GetListOfProvinces>()));
     gh.lazySingleton<_i29.RegistrationRepository>(
         () => _i30.RegistrationRepositoryImpl(
-              dataSource: gh<_i11.RegistrationDataSource>(),
+              dataSource: gh<_i10.RegistrationDataSource>(),
               repositoryHelper: gh<_i22.RepositoryHelper>(),
+              database: gh<_i16.DataBaseDataSource>(),
+              securityManager: gh<_i12.SecurityManager>(),
             ));
     gh.lazySingleton<_i31.SelectAndUploadFile>(
         () => _i31.SelectAndUploadFile(repository: gh<_i23.CDNRepository>()));
-    gh.lazySingleton<_i32.SignUp>(
-        () => _i32.SignUp(repository: gh<_i29.RegistrationRepository>()));
-    gh.factory<_i33.SignUpBloc>(() => _i33.SignUpBloc(gh<_i32.SignUp>()));
-    gh.factory<_i34.ActivityAreaBloc>(
-        () => _i34.ActivityAreaBloc(gh<_i26.GetKeyValueItem>()));
-    gh.factory<_i34.ActivityTypeBloc>(
-        () => _i34.ActivityTypeBloc(gh<_i26.GetKeyValueItem>()));
-    gh.factory<_i35.BranchInfoBloc>(
-        () => _i35.BranchInfoBloc(gh<_i25.GetBranchList>()));
-    gh.factory<_i36.SelectAndUploadBloc>(
-        () => _i36.SelectAndUploadBloc(gh<_i31.SelectAndUploadFile>()));
+    gh.lazySingleton<_i32.SendOtp>(
+        () => _i32.SendOtp(repository: gh<_i29.RegistrationRepository>()));
+    gh.lazySingleton<_i33.SignUp>(
+        () => _i33.SignUp(repository: gh<_i29.RegistrationRepository>()));
+    gh.factory<_i34.SignUpBloc>(() => _i34.SignUpBloc(gh<_i33.SignUp>()));
+    gh.lazySingleton<_i35.ValidateOtp>(
+        () => _i35.ValidateOtp(repository: gh<_i29.RegistrationRepository>()));
+    gh.factory<_i36.ActivityAreaBloc>(
+        () => _i36.ActivityAreaBloc(gh<_i26.GetKeyValueItem>()));
+    gh.factory<_i36.ActivityTypeBloc>(
+        () => _i36.ActivityTypeBloc(gh<_i26.GetKeyValueItem>()));
+    gh.factory<_i37.BranchInfoBloc>(
+        () => _i37.BranchInfoBloc(gh<_i25.GetBranchList>()));
+    gh.factory<_i38.OtpBloc>(() => _i38.OtpBloc(
+          gh<_i32.SendOtp>(),
+          gh<_i35.ValidateOtp>(),
+        ));
+    gh.factory<_i39.SelectAndUploadBloc>(
+        () => _i39.SelectAndUploadBloc(gh<_i31.SelectAndUploadFile>()));
     return this;
   }
 }
 
-class _$RegisterHttpClient extends _i37.RegisterHttpClient {}
+class _$RegisterHttpClient extends _i40.RegisterHttpClient {}
 
-class _$RegisterSharedPref extends _i37.RegisterSharedPref {}
+class _$RegisterSharedPref extends _i40.RegisterSharedPref {}
 
-class _$RegisterFToast extends _i37.RegisterFToast {}
+class _$RegisterFToast extends _i40.RegisterFToast {}
 
-class _$RegisterFilePicker extends _i37.RegisterFilePicker {}
+class _$RegisterFilePicker extends _i40.RegisterFilePicker {}

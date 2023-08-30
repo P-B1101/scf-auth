@@ -12,8 +12,9 @@ class AppRouter extends $AppRouter {
           path: '/',
           page: LandingRoute.page,
         ),
+        RedirectRoute(path: '/${RegistrationPage.path}', redirectTo: '/'),
         AutoRoute(
-          path: '/${RegistrationPage.path}',
+          path: '/${RegistrationPage.path}/:phoneNumber',
           page: RegistrationRoute.page,
           children: [
             RedirectRoute(path: '', redirectTo: 'company-introduction'),

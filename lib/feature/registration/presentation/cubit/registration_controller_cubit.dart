@@ -1,7 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:injectable/injectable.dart';
-import 'package:scf_auth/feature/registration/domain/entity/address_info.dart';
 
 import '../../../../core/utils/enums.dart';
 import '../../../../core/utils/extensions.dart';
@@ -9,14 +7,14 @@ import '../../../cdn/domain/entity/branch_info.dart';
 import '../../../cdn/domain/entity/key_value.dart';
 import '../../../cdn/domain/entity/province_city.dart';
 import '../../../cdn/domain/entity/upload_file_result.dart';
+import '../../domain/entity/address_info.dart';
 import '../../domain/entity/director.dart';
 import '../../domain/entity/suggested_company.dart';
 
 part 'registration_controller_state.dart';
 
-@injectable
 class RegistrationControllerCubit extends Cubit<RegistrationControllerState> {
-  RegistrationControllerCubit()
+  RegistrationControllerCubit(String? phoneNumber)
       : super(RegistrationControllerState(
           step: RegistrationSteps.companyIntroduction,
           activityType: null,
@@ -36,7 +34,7 @@ class RegistrationControllerCubit extends Cubit<RegistrationControllerState> {
           address: [AddressInfo.init()],
           city: null,
           email: '',
-          mobileNumber: '',
+          mobileNumber: phoneNumber ?? '',
           phoneNumber: '',
           province: null,
           website: '',

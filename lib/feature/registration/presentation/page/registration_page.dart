@@ -1,17 +1,17 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:scf_auth/feature/cdn/presentation/bloc/branch_info_bloc.dart';
-import 'package:scf_auth/feature/cdn/presentation/bloc/province_city_bloc.dart';
-import 'package:scf_auth/feature/dialog/manager/dialog_manager.dart';
-import 'package:scf_auth/feature/registration/presentation/bloc/sign_up_bloc.dart';
-import 'package:scf_auth/feature/toast/manager/toast_manager.dart';
 
 import '../../../../core/utils/enums.dart';
 import '../../../../core/utils/extensions.dart';
 import '../../../../injectable_container.dart';
+import '../../../cdn/presentation/bloc/branch_info_bloc.dart';
 import '../../../cdn/presentation/bloc/key_value_item_bloc.dart';
+import '../../../cdn/presentation/bloc/province_city_bloc.dart';
+import '../../../dialog/manager/dialog_manager.dart';
 import '../../../router/app_router.gr.dart';
+import '../../../toast/manager/toast_manager.dart';
+import '../bloc/sign_up_bloc.dart';
 import '../cubit/registration_controller_cubit.dart';
 import '../widget/registration_step_menu_widget.dart';
 import '../widget/registration_toolbar_widget.dart';
@@ -19,8 +19,10 @@ import '../widget/registration_toolbar_widget.dart';
 @RoutePage()
 class RegistrationPage extends StatelessWidget {
   static const path = 'registration';
+  final String? phoneNumber;
   const RegistrationPage({
     super.key,
+    @PathParam() this.phoneNumber,
   });
 
   @override
@@ -28,7 +30,7 @@ class RegistrationPage extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<RegistrationControllerCubit>(
-          create: (context) => getIt<RegistrationControllerCubit>(),
+          create: (context) => RegistrationControllerCubit(phoneNumber),
         ),
         BlocProvider<ActivityAreaBloc>(
           create: (context) => getIt<ActivityAreaBloc>(),
@@ -46,14 +48,16 @@ class RegistrationPage extends StatelessWidget {
           create: (context) => getIt<SignUpBloc>(),
         ),
       ],
-      child: const _RegistrationPage(),
+      child: _RegistrationPage(phoneNumber: phoneNumber),
     );
   }
 }
 
 class _RegistrationPage extends StatefulWidget {
+  final String? phoneNumber;
   const _RegistrationPage({
     Key? key,
+    required this.phoneNumber,
   }) : super(key: key);
 
   @override
@@ -69,6 +73,7 @@ class __RegistrationPageState extends State<_RegistrationPage> {
 
   @override
   Widget build(BuildContext context) {
+    if (invalidPhoneNumber) return const SizedBox();
     return MultiBlocListener(
       listeners: [
         BlocListener<BranchInfoBloc, BranchInfoState>(
@@ -147,7 +152,12 @@ class __RegistrationPageState extends State<_RegistrationPage> {
     context.read<RegistrationControllerCubit>().onPageClick(step);
   }
 
-  void _handleInitialState() {
+  void _handleInitialState() async {
+    if (invalidPhoneNumber) {
+      context.replaceRoute(const LandingRoute());
+      return;
+    }
+    if (!mounted) return;
     _handleInitialTab();
     context.read<ActivityAreaBloc>().add(const GetKeyValueItemEvent(
           requestType: CDNRequestType.scfRegistrationActivityArea,
@@ -199,5 +209,11 @@ class __RegistrationPageState extends State<_RegistrationPage> {
       if (!mounted) return;
       context.replaceRoute(const LandingRoute());
     }
+  }
+
+  bool get invalidPhoneNumber {
+    if (widget.phoneNumber == null) return true;
+    if (!widget.phoneNumber!.isValidMobileNumber) return true;
+    return false;
   }
 }

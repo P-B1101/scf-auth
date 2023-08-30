@@ -10,6 +10,13 @@ abstract class RegistrationDataSource {
   /// Call a [POST] request to the http://.... endpoint.
   ///
   Future<SignUpResponse> signUp(SignUpRequestBodyModel body);
+
+  Future<String> sendOtp(String phoneNumber);
+
+  Future<String> validateOtp({
+    required String otpToken,
+    required String code,
+  });
 }
 
 @LazySingleton(as: RegistrationDataSource)
@@ -25,5 +32,20 @@ class RegistrationDataSourceImpl implements RegistrationDataSource {
   Future<SignUpResponse> signUp(SignUpRequestBodyModel body) async {
     await Future.delayed(const Duration(milliseconds: 1500));
     return const SignUpResponse(trackingId: '1758735693');
+  }
+
+  @override
+  Future<String> sendOtp(String phoneNumber) async {
+    await Future.delayed(const Duration(milliseconds: 1500));
+    return 'otpToken-${DateTime.now().millisecondsSinceEpoch}';
+  }
+
+  @override
+  Future<String> validateOtp({
+    required String otpToken,
+    required String code,
+  }) async {
+    await Future.delayed(const Duration(milliseconds: 2000));
+    return 'token-${DateTime.now().millisecondsSinceEpoch}';
   }
 }

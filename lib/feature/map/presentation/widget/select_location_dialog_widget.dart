@@ -66,7 +66,7 @@ class _SelectLocationDialogWidget extends StatelessWidget {
         width: UiUtils.maxWidth * .75,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
-          color: MColors.featureBoxColor,
+          color: MColors.whiteColor,
         ),
         child: _body,
       ),

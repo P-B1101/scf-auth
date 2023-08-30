@@ -63,13 +63,9 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
 }
 
 extension FailureToState on Failure {
-  SignUpState get toState {
-    switch (runtimeType) {
-      case ServerFailure:
-        return SignUpFailureState(
-          (this as ServerFailure).message,
-        );
-    }
-    return const SignUpFailureState();
-  }
+  SignUpState get toState => switch (this) {
+        ServerFailure(message: String? message) => SignUpFailureState(message),
+        AuthenticationFailure() => SignUpUnAuthorizeFailureState(),
+        _ => const SignUpFailureState(),
+      };
 }

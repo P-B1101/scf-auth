@@ -53,7 +53,7 @@ class MColors {
   static const bottomNavigationDividerColor = Color(0xFFEAEBED);
   static const walletColorStart = Color(0xFFF09266);
   static const walletColorEnd = Color(0xFFF4783E);
-  static const featureBoxColor = Color(0xFFFFFFFF);
+  static const whiteColor = Color(0xFFFFFFFF);
   static const featureBoxTextColor = Color(0XFF1E1E20);
   static const walletBottomSheetColor = Color(0xFFF9F9F9);
   static const walletFeatureBoxColor = Color(0xFFDEDFE1);
@@ -270,7 +270,7 @@ class MColors {
       case Brightness.dark:
         return MColors.featureBoxDarkColor;
       case Brightness.light:
-        return MColors.featureBoxColor;
+        return MColors.whiteColor;
     }
   }
 

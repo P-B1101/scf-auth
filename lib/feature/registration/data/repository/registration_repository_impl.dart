@@ -1,5 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
+import 'package:scf_auth/feature/database/data/data_source/database_data_source.dart';
+import 'package:scf_auth/feature/security/manager/security_manager.dart';
 
 import '../../../../core/error/failures.dart';
 import '../../../repository_manager/repository_manager.dart';
@@ -13,10 +15,14 @@ import '../model/sign_up_request_body_model.dart';
 class RegistrationRepositoryImpl implements RegistrationRepository {
   final RegistrationDataSource dataSource;
   final RepositoryHelper repositoryHelper;
+  final DataBaseDataSource database;
+  final SecurityManager securityManager;
 
   const RegistrationRepositoryImpl({
     required this.dataSource,
     required this.repositoryHelper,
+    required this.database,
+    required this.securityManager,
   });
 
   @override
@@ -24,4 +30,19 @@ class RegistrationRepositoryImpl implements RegistrationRepository {
       repositoryHelper.tryToLoad(
         () => dataSource.signUp(SignUpRequestBodyModel.fromEntity(body)),
       );
+
+  @override
+  Future<Either<Failure, String>> sendOtp(String phoneNumber) =>
+      repositoryHelper.tryToLoad(() => dataSource.sendOtp(phoneNumber));
+
+  @override
+  Future<Either<Failure, void>> validateOtp({
+    required String code,
+    required String otpToken,
+  }) =>
+      repositoryHelper.tryToLoad(() async {
+        final result =
+            await dataSource.validateOtp(otpToken: otpToken, code: code);
+        await database.saveAuth(securityManager.encode(result));
+      });
 }

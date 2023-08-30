@@ -66,7 +66,7 @@ class LocationPinWidget extends StatelessWidget {
                   height: 18,
                   fit: BoxFit.contain,
                   colorFilter: const ColorFilter.mode(
-                    MColors.featureBoxColor,
+                    MColors.whiteColor,
                     BlendMode.srcIn,
                   ),
                 ),

@@ -9,6 +9,7 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i9;
+import 'package:flutter/material.dart' as _i10;
 import 'package:scf_auth/feature/landing/presentation/page/landing_page.dart'
     as _i4;
 import 'package:scf_auth/feature/registration/presentation/page/registration_page.dart'
@@ -62,9 +63,16 @@ abstract class $AppRouter extends _i9.RootStackRouter {
       );
     },
     RegistrationRoute.name: (routeData) {
+      final pathParams = routeData.inheritedPathParams;
+      final args = routeData.argsAs<RegistrationRouteArgs>(
+          orElse: () => RegistrationRouteArgs(
+              phoneNumber: pathParams.optString('phoneNumber')));
       return _i9.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i6.RegistrationPage(),
+        child: _i6.RegistrationPage(
+          key: args.key,
+          phoneNumber: args.phoneNumber,
+        ),
       );
     },
     SuggestedBranchRoute.name: (routeData) {
@@ -154,16 +162,41 @@ class ManagementIntroductionRoute extends _i9.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i6.RegistrationPage]
-class RegistrationRoute extends _i9.PageRouteInfo<void> {
-  const RegistrationRoute({List<_i9.PageRouteInfo>? children})
-      : super(
+class RegistrationRoute extends _i9.PageRouteInfo<RegistrationRouteArgs> {
+  RegistrationRoute({
+    _i10.Key? key,
+    String? phoneNumber,
+    List<_i9.PageRouteInfo>? children,
+  }) : super(
           RegistrationRoute.name,
+          args: RegistrationRouteArgs(
+            key: key,
+            phoneNumber: phoneNumber,
+          ),
+          rawPathParams: {'phoneNumber': phoneNumber},
           initialChildren: children,
         );
 
   static const String name = 'RegistrationRoute';
 
-  static const _i9.PageInfo<void> page = _i9.PageInfo<void>(name);
+  static const _i9.PageInfo<RegistrationRouteArgs> page =
+      _i9.PageInfo<RegistrationRouteArgs>(name);
+}
+
+class RegistrationRouteArgs {
+  const RegistrationRouteArgs({
+    this.key,
+    this.phoneNumber,
+  });
+
+  final _i10.Key? key;
+
+  final String? phoneNumber;
+
+  @override
+  String toString() {
+    return 'RegistrationRouteArgs{key: $key, phoneNumber: $phoneNumber}';
+  }
 }
 
 /// generated route for

@@ -42,3 +42,8 @@ enum Position {
   ceo, //  CEO
   member, //  MEMBER
 }
+
+enum OTPStep {
+  phoneNumber,
+  otp,
+}

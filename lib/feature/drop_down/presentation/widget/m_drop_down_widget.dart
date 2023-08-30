@@ -317,7 +317,7 @@ OverlayEntry _createSubjectOverlay<T>({
                       maxHeight: UiUtils.dropDownMaxHeight,
                     ),
                     decoration: BoxDecoration(
-                      color: MColors.featureBoxColor,
+                      color: MColors.whiteColor,
                       borderRadius: BorderRadius.circular(8),
                       border: Border.all(
                         color: MColors.primaryColor,

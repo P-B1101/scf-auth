@@ -81,7 +81,7 @@ class SuccessSubmitDialogWidget extends StatelessWidget {
           child: const Icon(
             Fonts.tick,
             size: 30,
-            color: MColors.featureBoxColor,
+            color: MColors.whiteColor,
           ),
         ),
       );
@@ -105,7 +105,7 @@ class SuccessSubmitDialogWidget extends StatelessWidget {
           style: const TextStyle(
             fontSize: 24,
             fontWeight: Fonts.bold700,
-            color: MColors.featureBoxColor,
+            color: MColors.whiteColor,
           ),
         ),
       );
@@ -117,7 +117,7 @@ class SuccessSubmitDialogWidget extends StatelessWidget {
           style: const TextStyle(
             fontSize: 24,
             fontWeight: Fonts.regular400,
-            color: MColors.featureBoxColor,
+            color: MColors.whiteColor,
             height: 2.5,
           ),
         ),
@@ -132,7 +132,7 @@ class SuccessSubmitDialogWidget extends StatelessWidget {
           style: const TextStyle(
             fontSize: 22,
             fontWeight: Fonts.medium500,
-            color: MColors.featureBoxColor,
+            color: MColors.whiteColor,
           ),
         ),
       );

@@ -78,6 +78,7 @@ extension IntExt on int {
 }
 
 extension StringExt on String {
+  bool get isValidOtp => length == 6;
   Position? get toPosition {
     switch (this) {
       case 'CEO':
