@@ -7,13 +7,18 @@ import '../../../../../core/utils/assets.dart';
 import '../../../../../core/utils/extensions.dart';
 import '../../../../../core/utils/ui_utils.dart';
 import '../../../../language/manager/localizatios.dart';
-import '../../../../router/app_router.gr.dart';
 import '../../cubit/registration_controller_cubit.dart';
+import '../company_introduction/company_introduction_widget.dart';
+import '../documents_upload/documents_upload_widget.dart';
 import 'name_national_code_field.dart';
 
 @RoutePage()
 class ManagementIntroductionWidget extends StatefulWidget {
-  const ManagementIntroductionWidget({super.key});
+  static const path = 'management-introduction';
+  const ManagementIntroductionWidget({
+    super.key,
+    @PathParam.inherit() String? phoneNumber,
+  });
 
   @override
   State<ManagementIntroductionWidget> createState() =>
@@ -280,7 +285,7 @@ class _ManagementIntroductionWidgetState
     final state = context.read<RegistrationControllerCubit>().onBackClick();
     if (state == null) return;
     AutoTabsRouter.of(context).setActiveIndex(state.step.index);
-    context.replaceRoute(const CompanyIntroductionRoute());
+    context.navigateNamedTo(CompanyIntroductionWidget.path);
   }
 
   void _onAddMoreBoardMemberClick() {
@@ -291,6 +296,6 @@ class _ManagementIntroductionWidgetState
     final state = context.read<RegistrationControllerCubit>().onNextClick();
     if (state == null) return;
     AutoTabsRouter.of(context).setActiveIndex(state.step.index);
-    context.replaceRoute(const DocumentsUploadRoute());
+    context.navigateNamedTo(DocumentsUploadWidget.path);
   }
 }

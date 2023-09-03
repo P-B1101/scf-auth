@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:scf_auth/feature/file_manageer/presentation/widget/select_and_upload_with_title_widget.dart';
 
 import '../../../../../core/components/button/m_button.dart';
 import '../../../../../core/utils/assets.dart';
@@ -9,15 +8,19 @@ import '../../../../../core/utils/extensions.dart';
 import '../../../../../core/utils/ui_utils.dart';
 import '../../../../../injectable_container.dart';
 import '../../../../file_manageer/presentation/widget/select_and_upload_widget.dart';
+import '../../../../file_manageer/presentation/widget/select_and_upload_with_title_widget.dart';
 import '../../../../language/manager/localizatios.dart';
-import '../../../../router/app_router.gr.dart';
 import '../../../../toast/manager/toast_manager.dart';
 import '../../cubit/registration_controller_cubit.dart';
+import '../management_introduction/management_introduction_widget.dart';
+import '../suggested_company/suggested_company_widget.dart';
 
 @RoutePage()
 class DocumentsUploadWidget extends StatefulWidget {
+  static const path = 'documents-upload';
   const DocumentsUploadWidget({
     super.key,
+    @PathParam.inherit() String? phoneNumber,
   });
 
   @override
@@ -414,7 +417,7 @@ class _DocumentsUploadWidgetState extends State<DocumentsUploadWidget> {
     final state = context.read<RegistrationControllerCubit>().onBackClick();
     if (state == null) return;
     AutoTabsRouter.of(context).setActiveIndex(state.step.index);
-    context.replaceRoute(const ManagementIntroductionRoute());
+    context.navigateNamedTo(ManagementIntroductionWidget.path);
   }
 
   void _onAddMoreOtherDocumentsClick() {
@@ -425,6 +428,6 @@ class _DocumentsUploadWidgetState extends State<DocumentsUploadWidget> {
     final state = context.read<RegistrationControllerCubit>().onNextClick();
     if (state == null) return;
     AutoTabsRouter.of(context).setActiveIndex(state.step.index);
-    context.replaceRoute(const SuggestedCompanyRoute());
+    context.navigateNamedTo(SuggestedCompanyWidget.path);
   }
 }

@@ -10,13 +10,17 @@ import '../../../../cdn/presentation/bloc/branch_info_bloc.dart';
 import '../../../../drop_down/presentation/widget/m_drop_down_widget.dart';
 import '../../../../language/manager/localizatios.dart';
 import '../../../../map/presentation/widget/m_map_widget.dart';
-import '../../../../router/app_router.gr.dart';
 import '../../bloc/sign_up_bloc.dart';
 import '../../cubit/registration_controller_cubit.dart';
+import '../contact_info/contact_info_widget.dart';
 
 @RoutePage()
 class SuggestedBranchWidget extends StatefulWidget {
-  const SuggestedBranchWidget({super.key});
+  static const path = 'suggested-branch';
+  const SuggestedBranchWidget({
+    super.key,
+    @PathParam.inherit() String? phoneNumber,
+  });
 
   @override
   State<SuggestedBranchWidget> createState() => _SuggestedBranchWidgetState();
@@ -156,7 +160,7 @@ class _SuggestedBranchWidgetState extends State<SuggestedBranchWidget> {
     final state = context.read<RegistrationControllerCubit>().onBackClick();
     if (state == null) return;
     AutoTabsRouter.of(context).setActiveIndex(state.step.index);
-    context.replaceRoute(const ContactInfoRoute());
+    context.navigateNamedTo(ContactInfoWidget.path);
   }
 
   void _onSuggestedBranchSubmitClick() {

@@ -1,6 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:scf_auth/feature/registration/presentation/widget/company_introduction/company_introduction_widget.dart';
+import 'package:scf_auth/feature/registration/presentation/widget/contact_info/contact_info_widget.dart';
+import 'package:scf_auth/feature/registration/presentation/widget/documents_upload/documents_upload_widget.dart';
+import 'package:scf_auth/feature/registration/presentation/widget/management_introduction/management_introduction_widget.dart';
+import 'package:scf_auth/feature/registration/presentation/widget/suggested_branch/suggested_branch_widget.dart';
+import 'package:scf_auth/feature/registration/presentation/widget/suggested_company/suggested_company_widget.dart';
 
 import '../../../../core/utils/enums.dart';
 import '../../../../core/utils/extensions.dart';
@@ -93,7 +99,7 @@ class __RegistrationPageState extends State<_RegistrationPage> {
         ),
       ],
       child: AutoTabsRouter(
-        routes: const [
+        routes: [
           CompanyIntroductionRoute(),
           ManagementIntroductionRoute(),
           DocumentsUploadRoute(),
@@ -127,28 +133,30 @@ class __RegistrationPageState extends State<_RegistrationPage> {
   }
 
   void _onStepClick(RegistrationSteps step, [bool updateUrl = true]) {
-    final PageRouteInfo route;
+    final String route;
     switch (step) {
       case RegistrationSteps.companyIntroduction:
-        route = const CompanyIntroductionRoute();
+        route = CompanyIntroductionWidget.path;
         break;
       case RegistrationSteps.managementIntroduction:
-        route = const ManagementIntroductionRoute();
+        route = ManagementIntroductionWidget.path;
         break;
       case RegistrationSteps.documentsUpload:
-        route = const DocumentsUploadRoute();
+        route = DocumentsUploadWidget.path;
         break;
       case RegistrationSteps.suggestedCompany:
-        route = const SuggestedCompanyRoute();
+        route = SuggestedCompanyWidget.path;
         break;
       case RegistrationSteps.contactInfo:
-        route = const ContactInfoRoute();
+        route = ContactInfoWidget.path;
         break;
       case RegistrationSteps.suggestedBranch:
-        route = const SuggestedBranchRoute();
+        route = SuggestedBranchWidget.path;
         break;
     }
-    if (updateUrl) context.replaceRoute(route);
+    if (updateUrl) {
+      context.router.navigateNamed(route);
+    }
     context.read<RegistrationControllerCubit>().onPageClick(step);
   }
 

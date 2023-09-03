@@ -33,21 +33,39 @@ abstract class $AppRouter extends _i9.RootStackRouter {
   @override
   final Map<String, _i9.PageFactory> pagesMap = {
     CompanyIntroductionRoute.name: (routeData) {
+      final pathParams = routeData.inheritedPathParams;
+      final args = routeData.argsAs<CompanyIntroductionRouteArgs>(
+          orElse: () => CompanyIntroductionRouteArgs());
       return _i9.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i1.CompanyIntroductionWidget(),
+        child: _i1.CompanyIntroductionWidget(
+          key: args.key,
+          phoneNumber: pathParams.optString('phoneNumber'),
+        ),
       );
     },
     ContactInfoRoute.name: (routeData) {
+      final pathParams = routeData.inheritedPathParams;
+      final args = routeData.argsAs<ContactInfoRouteArgs>(
+          orElse: () => ContactInfoRouteArgs());
       return _i9.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i2.ContactInfoWidget(),
+        child: _i2.ContactInfoWidget(
+          key: args.key,
+          phoneNumber: pathParams.optString('phoneNumber'),
+        ),
       );
     },
     DocumentsUploadRoute.name: (routeData) {
+      final pathParams = routeData.inheritedPathParams;
+      final args = routeData.argsAs<DocumentsUploadRouteArgs>(
+          orElse: () => DocumentsUploadRouteArgs());
       return _i9.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i3.DocumentsUploadWidget(),
+        child: _i3.DocumentsUploadWidget(
+          key: args.key,
+          phoneNumber: pathParams.optString('phoneNumber'),
+        ),
       );
     },
     LandingRoute.name: (routeData) {
@@ -57,9 +75,15 @@ abstract class $AppRouter extends _i9.RootStackRouter {
       );
     },
     ManagementIntroductionRoute.name: (routeData) {
+      final pathParams = routeData.inheritedPathParams;
+      final args = routeData.argsAs<ManagementIntroductionRouteArgs>(
+          orElse: () => ManagementIntroductionRouteArgs());
       return _i9.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i5.ManagementIntroductionWidget(),
+        child: _i5.ManagementIntroductionWidget(
+          key: args.key,
+          phoneNumber: pathParams.optString('phoneNumber'),
+        ),
       );
     },
     RegistrationRoute.name: (routeData) {
@@ -76,15 +100,27 @@ abstract class $AppRouter extends _i9.RootStackRouter {
       );
     },
     SuggestedBranchRoute.name: (routeData) {
+      final pathParams = routeData.inheritedPathParams;
+      final args = routeData.argsAs<SuggestedBranchRouteArgs>(
+          orElse: () => SuggestedBranchRouteArgs());
       return _i9.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i7.SuggestedBranchWidget(),
+        child: _i7.SuggestedBranchWidget(
+          key: args.key,
+          phoneNumber: pathParams.optString('phoneNumber'),
+        ),
       );
     },
     SuggestedCompanyRoute.name: (routeData) {
+      final pathParams = routeData.inheritedPathParams;
+      final args = routeData.argsAs<SuggestedCompanyRouteArgs>(
+          orElse: () => SuggestedCompanyRouteArgs());
       return _i9.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i8.SuggestedCompanyWidget(),
+        child: _i8.SuggestedCompanyWidget(
+          key: args.key,
+          phoneNumber: pathParams.optString('phoneNumber'),
+        ),
       );
     },
   };
@@ -92,44 +128,90 @@ abstract class $AppRouter extends _i9.RootStackRouter {
 
 /// generated route for
 /// [_i1.CompanyIntroductionWidget]
-class CompanyIntroductionRoute extends _i9.PageRouteInfo<void> {
-  const CompanyIntroductionRoute({List<_i9.PageRouteInfo>? children})
-      : super(
+class CompanyIntroductionRoute
+    extends _i9.PageRouteInfo<CompanyIntroductionRouteArgs> {
+  CompanyIntroductionRoute({
+    _i10.Key? key,
+    List<_i9.PageRouteInfo>? children,
+  }) : super(
           CompanyIntroductionRoute.name,
+          args: CompanyIntroductionRouteArgs(key: key),
           initialChildren: children,
         );
 
   static const String name = 'CompanyIntroductionRoute';
 
-  static const _i9.PageInfo<void> page = _i9.PageInfo<void>(name);
+  static const _i9.PageInfo<CompanyIntroductionRouteArgs> page =
+      _i9.PageInfo<CompanyIntroductionRouteArgs>(name);
+}
+
+class CompanyIntroductionRouteArgs {
+  const CompanyIntroductionRouteArgs({this.key});
+
+  final _i10.Key? key;
+
+  @override
+  String toString() {
+    return 'CompanyIntroductionRouteArgs{key: $key}';
+  }
 }
 
 /// generated route for
 /// [_i2.ContactInfoWidget]
-class ContactInfoRoute extends _i9.PageRouteInfo<void> {
-  const ContactInfoRoute({List<_i9.PageRouteInfo>? children})
-      : super(
+class ContactInfoRoute extends _i9.PageRouteInfo<ContactInfoRouteArgs> {
+  ContactInfoRoute({
+    _i10.Key? key,
+    List<_i9.PageRouteInfo>? children,
+  }) : super(
           ContactInfoRoute.name,
+          args: ContactInfoRouteArgs(key: key),
           initialChildren: children,
         );
 
   static const String name = 'ContactInfoRoute';
 
-  static const _i9.PageInfo<void> page = _i9.PageInfo<void>(name);
+  static const _i9.PageInfo<ContactInfoRouteArgs> page =
+      _i9.PageInfo<ContactInfoRouteArgs>(name);
+}
+
+class ContactInfoRouteArgs {
+  const ContactInfoRouteArgs({this.key});
+
+  final _i10.Key? key;
+
+  @override
+  String toString() {
+    return 'ContactInfoRouteArgs{key: $key}';
+  }
 }
 
 /// generated route for
 /// [_i3.DocumentsUploadWidget]
-class DocumentsUploadRoute extends _i9.PageRouteInfo<void> {
-  const DocumentsUploadRoute({List<_i9.PageRouteInfo>? children})
-      : super(
+class DocumentsUploadRoute extends _i9.PageRouteInfo<DocumentsUploadRouteArgs> {
+  DocumentsUploadRoute({
+    _i10.Key? key,
+    List<_i9.PageRouteInfo>? children,
+  }) : super(
           DocumentsUploadRoute.name,
+          args: DocumentsUploadRouteArgs(key: key),
           initialChildren: children,
         );
 
   static const String name = 'DocumentsUploadRoute';
 
-  static const _i9.PageInfo<void> page = _i9.PageInfo<void>(name);
+  static const _i9.PageInfo<DocumentsUploadRouteArgs> page =
+      _i9.PageInfo<DocumentsUploadRouteArgs>(name);
+}
+
+class DocumentsUploadRouteArgs {
+  const DocumentsUploadRouteArgs({this.key});
+
+  final _i10.Key? key;
+
+  @override
+  String toString() {
+    return 'DocumentsUploadRouteArgs{key: $key}';
+  }
 }
 
 /// generated route for
@@ -148,16 +230,32 @@ class LandingRoute extends _i9.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i5.ManagementIntroductionWidget]
-class ManagementIntroductionRoute extends _i9.PageRouteInfo<void> {
-  const ManagementIntroductionRoute({List<_i9.PageRouteInfo>? children})
-      : super(
+class ManagementIntroductionRoute
+    extends _i9.PageRouteInfo<ManagementIntroductionRouteArgs> {
+  ManagementIntroductionRoute({
+    _i10.Key? key,
+    List<_i9.PageRouteInfo>? children,
+  }) : super(
           ManagementIntroductionRoute.name,
+          args: ManagementIntroductionRouteArgs(key: key),
           initialChildren: children,
         );
 
   static const String name = 'ManagementIntroductionRoute';
 
-  static const _i9.PageInfo<void> page = _i9.PageInfo<void>(name);
+  static const _i9.PageInfo<ManagementIntroductionRouteArgs> page =
+      _i9.PageInfo<ManagementIntroductionRouteArgs>(name);
+}
+
+class ManagementIntroductionRouteArgs {
+  const ManagementIntroductionRouteArgs({this.key});
+
+  final _i10.Key? key;
+
+  @override
+  String toString() {
+    return 'ManagementIntroductionRouteArgs{key: $key}';
+  }
 }
 
 /// generated route for
@@ -201,28 +299,59 @@ class RegistrationRouteArgs {
 
 /// generated route for
 /// [_i7.SuggestedBranchWidget]
-class SuggestedBranchRoute extends _i9.PageRouteInfo<void> {
-  const SuggestedBranchRoute({List<_i9.PageRouteInfo>? children})
-      : super(
+class SuggestedBranchRoute extends _i9.PageRouteInfo<SuggestedBranchRouteArgs> {
+  SuggestedBranchRoute({
+    _i10.Key? key,
+    List<_i9.PageRouteInfo>? children,
+  }) : super(
           SuggestedBranchRoute.name,
+          args: SuggestedBranchRouteArgs(key: key),
           initialChildren: children,
         );
 
   static const String name = 'SuggestedBranchRoute';
 
-  static const _i9.PageInfo<void> page = _i9.PageInfo<void>(name);
+  static const _i9.PageInfo<SuggestedBranchRouteArgs> page =
+      _i9.PageInfo<SuggestedBranchRouteArgs>(name);
+}
+
+class SuggestedBranchRouteArgs {
+  const SuggestedBranchRouteArgs({this.key});
+
+  final _i10.Key? key;
+
+  @override
+  String toString() {
+    return 'SuggestedBranchRouteArgs{key: $key}';
+  }
 }
 
 /// generated route for
 /// [_i8.SuggestedCompanyWidget]
-class SuggestedCompanyRoute extends _i9.PageRouteInfo<void> {
-  const SuggestedCompanyRoute({List<_i9.PageRouteInfo>? children})
-      : super(
+class SuggestedCompanyRoute
+    extends _i9.PageRouteInfo<SuggestedCompanyRouteArgs> {
+  SuggestedCompanyRoute({
+    _i10.Key? key,
+    List<_i9.PageRouteInfo>? children,
+  }) : super(
           SuggestedCompanyRoute.name,
+          args: SuggestedCompanyRouteArgs(key: key),
           initialChildren: children,
         );
 
   static const String name = 'SuggestedCompanyRoute';
 
-  static const _i9.PageInfo<void> page = _i9.PageInfo<void>(name);
+  static const _i9.PageInfo<SuggestedCompanyRouteArgs> page =
+      _i9.PageInfo<SuggestedCompanyRouteArgs>(name);
+}
+
+class SuggestedCompanyRouteArgs {
+  const SuggestedCompanyRouteArgs({this.key});
+
+  final _i10.Key? key;
+
+  @override
+  String toString() {
+    return 'SuggestedCompanyRouteArgs{key: $key}';
+  }
 }

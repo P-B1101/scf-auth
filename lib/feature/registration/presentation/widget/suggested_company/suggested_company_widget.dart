@@ -6,13 +6,18 @@ import '../../../../../core/components/button/m_button.dart';
 import '../../../../../core/utils/assets.dart';
 import '../../../../../core/utils/ui_utils.dart';
 import '../../../../language/manager/localizatios.dart';
-import '../../../../router/app_router.gr.dart';
 import '../../cubit/registration_controller_cubit.dart';
+import '../contact_info/contact_info_widget.dart';
+import '../documents_upload/documents_upload_widget.dart';
 import 'suggested_company_info_widget.dart';
 
 @RoutePage()
 class SuggestedCompanyWidget extends StatefulWidget {
-  const SuggestedCompanyWidget({super.key});
+  static const path = 'suggested-company';
+  const SuggestedCompanyWidget({
+    super.key,
+    @PathParam.inherit() String? phoneNumber,
+  });
 
   @override
   State<SuggestedCompanyWidget> createState() => _SuggestedCompanyWidgetState();
@@ -243,7 +248,7 @@ class _SuggestedCompanyWidgetState extends State<SuggestedCompanyWidget> {
     final state = context.read<RegistrationControllerCubit>().onBackClick();
     if (state == null) return;
     AutoTabsRouter.of(context).setActiveIndex(state.step.index);
-    context.replaceRoute(const DocumentsUploadRoute());
+    context.navigateNamedTo(DocumentsUploadWidget.path);
   }
 
   void _onAddMoreSuggestedCompanyClick() {
@@ -254,6 +259,6 @@ class _SuggestedCompanyWidgetState extends State<SuggestedCompanyWidget> {
     final state = context.read<RegistrationControllerCubit>().onNextClick();
     if (state == null) return;
     AutoTabsRouter.of(context).setActiveIndex(state.step.index);
-    context.replaceRoute(const ContactInfoRoute());
+    context.navigateNamedTo(ContactInfoWidget.path);
   }
 }

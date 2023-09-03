@@ -1,7 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import '../registration/presentation/widget/company_introduction/company_introduction_widget.dart';
+import '../registration/presentation/widget/contact_info/contact_info_widget.dart';
+import '../registration/presentation/widget/documents_upload/documents_upload_widget.dart';
+import '../registration/presentation/widget/management_introduction/management_introduction_widget.dart';
+import '../registration/presentation/widget/suggested_company/suggested_company_widget.dart';
 
 import '../registration/presentation/page/registration_page.dart';
+import '../registration/presentation/widget/suggested_branch/suggested_branch_widget.dart';
 import 'app_router.gr.dart';
 
 @AutoRouterConfig(replaceInRouteName: 'Page|Screen|Widget,Route')
@@ -17,29 +23,29 @@ class AppRouter extends $AppRouter {
           path: '/${RegistrationPage.path}/:phoneNumber',
           page: RegistrationRoute.page,
           children: [
-            RedirectRoute(path: '', redirectTo: 'company-introduction'),
+            RedirectRoute(path: '', redirectTo: CompanyIntroductionWidget.path),
             AutoRoute(
-              path: 'company-introduction',
+              path: CompanyIntroductionWidget.path,
               page: CompanyIntroductionRoute.page,
             ),
             AutoRoute(
-              path: 'management-introduction',
+              path: ManagementIntroductionWidget.path,
               page: ManagementIntroductionRoute.page,
             ),
             AutoRoute(
-              path: 'documents-upload',
+              path: DocumentsUploadWidget.path,
               page: DocumentsUploadRoute.page,
             ),
             AutoRoute(
-              path: 'suggested-company',
+              path: SuggestedCompanyWidget.path,
               page: SuggestedCompanyRoute.page,
             ),
             AutoRoute(
-              path: 'contact-info',
+              path: ContactInfoWidget.path,
               page: ContactInfoRoute.page,
             ),
             AutoRoute(
-              path: 'suggested-branch',
+              path: SuggestedBranchWidget.path,
               page: SuggestedBranchRoute.page,
             ),
           ],

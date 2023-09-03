@@ -1,22 +1,25 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:scf_auth/core/utils/extensions.dart';
 
 import '../../../../../core/components/button/m_button.dart';
 import '../../../../../core/components/input/m_input_widget.dart';
 import '../../../../../core/components/text/input_label_widget.dart';
 import '../../../../../core/utils/assets.dart';
+import '../../../../../core/utils/extensions.dart';
 import '../../../../../core/utils/ui_utils.dart';
 import '../../../../language/manager/localizatios.dart';
-import '../../../../router/app_router.gr.dart';
 import '../../cubit/registration_controller_cubit.dart';
+import '../suggested_branch/suggested_branch_widget.dart';
+import '../suggested_company/suggested_company_widget.dart';
 import 'address_widget.dart';
 
 @RoutePage()
 class ContactInfoWidget extends StatefulWidget {
+  static const path = 'contact-info';
   const ContactInfoWidget({
     super.key,
+    @PathParam.inherit() String? phoneNumber,
   });
 
   @override
@@ -165,6 +168,7 @@ class _ContactInfoWidgetState extends State<ContactInfoWidget> {
                 focusNode: _mobileNode,
                 nextFocusNode: _phoneNode,
                 keyboardType: TextInputType.phone,
+                isReadOnly: true,
                 autofillHints: const [AutofillHints.telephoneNumber],
                 hint: Strings.of(context).mobile_hint,
                 onTextChange:
@@ -482,7 +486,7 @@ class _ContactInfoWidgetState extends State<ContactInfoWidget> {
     final state = context.read<RegistrationControllerCubit>().onBackClick();
     if (state == null) return;
     AutoTabsRouter.of(context).setActiveIndex(state.step.index);
-    context.replaceRoute(const SuggestedCompanyRoute());
+    context.navigateNamedTo(SuggestedCompanyWidget.path);
   }
 
   void _onAddMoreAdressClick() {
@@ -493,6 +497,6 @@ class _ContactInfoWidgetState extends State<ContactInfoWidget> {
     final state = context.read<RegistrationControllerCubit>().onNextClick();
     if (state == null) return;
     AutoTabsRouter.of(context).setActiveIndex(state.step.index);
-    context.replaceRoute(const SuggestedBranchRoute());
+    context.navigateNamedTo(SuggestedBranchWidget.path);
   }
 }

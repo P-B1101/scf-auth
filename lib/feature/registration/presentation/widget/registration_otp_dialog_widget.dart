@@ -17,6 +17,8 @@ import '../../../dialog/presentation/base_dialog_widget.dart';
 import '../../../toast/manager/toast_manager.dart';
 import '../cubit/registration_dialog_controller_cubit.dart';
 
+// TODO: add timer
+
 class RegistrationOTPDialogWidget extends StatelessWidget {
   const RegistrationOTPDialogWidget({
     super.key,
@@ -55,6 +57,12 @@ class __RegistrationOTPDialogWidgetState
   final _otpController = TextEditingController();
   final _phoneNode = FocusNode();
   final _otpNode = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+    _phoneNode.requestFocus();
+  }
 
   @override
   void dispose() {
@@ -434,6 +442,7 @@ class __RegistrationOTPDialogWidgetState
       context
           .read<RegistrationDialogControllerCubit>()
           .updateOTPToken(state.otpToken);
+      _otpNode.requestFocus();
     } else if (state is ValidateOtpSuccessState) {
       Navigator.of(context).pop(_phoneNumberController.text);
     }

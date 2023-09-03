@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:scf_auth/feature/registration/presentation/widget/management_introduction/management_introduction_widget.dart';
 
 import '../../../../../core/components/button/m_button.dart';
 import '../../../../../core/components/input/m_input_widget.dart';
@@ -17,8 +18,10 @@ import '../../cubit/registration_controller_cubit.dart';
 
 @RoutePage()
 class CompanyIntroductionWidget extends StatefulWidget {
+  static const path = 'company-introduction';
   const CompanyIntroductionWidget({
     super.key,
+    @PathParam.inherit() String? phoneNumber,
   });
 
   @override
@@ -370,6 +373,6 @@ class _CompanyIntroductionWidgetState extends State<CompanyIntroductionWidget> {
     final state = context.read<RegistrationControllerCubit>().onNextClick();
     if (state == null) return;
     AutoTabsRouter.of(context).setActiveIndex(state.step.index);
-    context.replaceRoute(const ManagementIntroductionRoute());
+    context.navigateNamedTo(ManagementIntroductionWidget.path);
   }
 }

@@ -3,15 +3,21 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
-import 'package:scf_auth/feature/cdn/domain/entity/province_city.dart';
-import 'package:scf_auth/feature/cdn/domain/entity/upload_file_result.dart';
-import 'package:scf_auth/feature/registration/domain/entity/address_info.dart';
-import 'package:scf_auth/feature/registration/domain/entity/suggested_company.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 
 import '../../feature/cdn/domain/entity/key_value.dart';
+import '../../feature/cdn/domain/entity/province_city.dart';
+import '../../feature/cdn/domain/entity/upload_file_result.dart';
 import '../../feature/language/manager/localizatios.dart';
+import '../../feature/registration/domain/entity/address_info.dart';
 import '../../feature/registration/domain/entity/director.dart';
+import '../../feature/registration/domain/entity/suggested_company.dart';
+import '../../feature/registration/presentation/widget/company_introduction/company_introduction_widget.dart';
+import '../../feature/registration/presentation/widget/contact_info/contact_info_widget.dart';
+import '../../feature/registration/presentation/widget/documents_upload/documents_upload_widget.dart';
+import '../../feature/registration/presentation/widget/management_introduction/management_introduction_widget.dart';
+import '../../feature/registration/presentation/widget/suggested_branch/suggested_branch_widget.dart';
+import '../../feature/registration/presentation/widget/suggested_company/suggested_company_widget.dart';
 import 'enums.dart';
 import 'ui_utils.dart';
 
@@ -130,17 +136,17 @@ extension StringExt on String {
 
   RegistrationSteps? get pathToRegistrationStep {
     switch (this) {
-      case 'company-introduction':
+      case CompanyIntroductionWidget.path:
         return RegistrationSteps.companyIntroduction;
-      case 'management-introduction':
+      case ManagementIntroductionWidget.path:
         return RegistrationSteps.managementIntroduction;
-      case 'documents-upload':
+      case DocumentsUploadWidget.path:
         return RegistrationSteps.documentsUpload;
-      case 'suggested-company':
+      case SuggestedCompanyWidget.path:
         return RegistrationSteps.suggestedCompany;
-      case 'contact-info':
+      case ContactInfoWidget.path:
         return RegistrationSteps.contactInfo;
-      case 'suggested-branch':
+      case SuggestedBranchWidget.path:
         return RegistrationSteps.suggestedBranch;
     }
     return null;
