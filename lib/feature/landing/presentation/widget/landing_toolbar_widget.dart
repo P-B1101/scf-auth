@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:scf_auth/core/components/custom/custom_scroll_view.dart';
 import 'package:scf_auth/core/utils/ui_utils.dart';
 
 import '../../../../core/utils/assets.dart';
@@ -19,19 +20,25 @@ class LandingToolbarWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 88,
-      width: double.infinity,
+      // width: double.infinity,
       color: MColors.primaryColor,
       alignment: Alignment.center,
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: UiUtils.maxWidth),
-        child: Row(
-          children: [
-            _logoWidget,
-            const Expanded(child: SizedBox()),
-            _trackingButtonWidget,
-            _editRegistrationButtonWidget,
-            _requestRegistrationButtonWidget,
-          ],
+      child: ScrollConfiguration(
+        behavior: const CustomScrollBehavior(),
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: UiUtils.maxWidth),
+            child: Row(
+              children: [
+                _logoWidget,
+                const Expanded(child: SizedBox()),
+                _trackingButtonWidget,
+                // _editRegistrationButtonWidget,
+                _requestRegistrationButtonWidget,
+              ],
+            ),
+          ),
         ),
       ),
     );
@@ -70,30 +77,30 @@ class LandingToolbarWidget extends StatelessWidget {
         ),
       );
 
-  Widget get _editRegistrationButtonWidget => Builder(
-        builder: (context) => Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12),
-          child: Material(
-            color: Colors.transparent,
-            child: InkWell(
-              borderRadius: BorderRadius.circular(8),
-              onTap: onEditRegistrationClick,
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-                child: Text(
-                  Strings.of(context).edit_registration_label,
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: Fonts.regular400,
-                    color: MColors.featureBoxColorOf(context),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-      );
+  // Widget get _editRegistrationButtonWidget => Builder(
+  //       builder: (context) => Padding(
+  //         padding: const EdgeInsets.symmetric(horizontal: 12),
+  //         child: Material(
+  //           color: Colors.transparent,
+  //           child: InkWell(
+  //             borderRadius: BorderRadius.circular(8),
+  //             onTap: onEditRegistrationClick,
+  //             child: Padding(
+  //               padding:
+  //                   const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+  //               child: Text(
+  //                 Strings.of(context).edit_registration_label,
+  //                 style: TextStyle(
+  //                   fontSize: 18,
+  //                   fontWeight: Fonts.regular400,
+  //                   color: MColors.featureBoxColorOf(context),
+  //                 ),
+  //               ),
+  //             ),
+  //           ),
+  //         ),
+  //       ),
+  //     );
 
   Widget get _requestRegistrationButtonWidget => Builder(
         builder: (context) => Container(
