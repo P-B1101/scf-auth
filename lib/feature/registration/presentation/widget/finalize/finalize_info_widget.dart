@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:scf_auth/feature/registration/presentation/widget/finalize/company_introduction_widget.dart';
 
 import '../../../../../core/utils/assets.dart';
 import '../../../../language/manager/localizatios.dart';
@@ -40,6 +41,9 @@ class __BodyWidgetState extends State<_BodyWidget> {
             children: [
               const SizedBox(height: 48),
               _title,
+              const SizedBox(height: 67),
+              CompanyIntroductionWidget(onCompanyIntroEditClick: _onCompanyIntroEditClick)
+              // FilesWidget(onEditClick: _onEditClick)
             ],
           ),
         ),
@@ -76,4 +80,8 @@ class __BodyWidgetState extends State<_BodyWidget> {
           ),
         ),
       );
+
+  void _onCompanyIntroEditClick() {
+    //Todo: Complete it later
+  }
 }

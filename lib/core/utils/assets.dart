@@ -41,6 +41,7 @@ class MColors {
   static const dialogStartColor = Color(0XFF012423);
   static const dialogCenterColor = Color(0XFF557776);
   static const dialogEndColor = Color(0XFF12413F);
+  static const editTitleColor = Color(0xFFABD2D0);
 
   /// Light
   static const primaryLightColor = Color(0xFFE0FFF8);
