@@ -19,6 +19,7 @@ import '../../../router/app_router.gr.dart';
 import '../../../toast/manager/toast_manager.dart';
 import '../bloc/sign_up_bloc.dart';
 import '../cubit/registration_controller_cubit.dart';
+import '../widget/finalize/finalize_info_widget.dart';
 import '../widget/registration_step_menu_widget.dart';
 import '../widget/registration_toolbar_widget.dart';
 
@@ -106,6 +107,7 @@ class __RegistrationPageState extends State<_RegistrationPage> {
           SuggestedCompanyRoute(),
           ContactInfoRoute(),
           SuggestedBranchRoute(),
+          FinalizeInfoRoute(),
         ],
         transitionBuilder: (context, child, animation) => FadeTransition(
           opacity: animation,
@@ -113,6 +115,7 @@ class __RegistrationPageState extends State<_RegistrationPage> {
         ),
         builder: (context, child) {
           final tabsRouter = AutoTabsRouter.of(context);
+          //Todo: Fixing menu bar later
           return Scaffold(
             body: Column(
               children: [
@@ -152,6 +155,9 @@ class __RegistrationPageState extends State<_RegistrationPage> {
         break;
       case RegistrationSteps.suggestedBranch:
         route = SuggestedBranchWidget.path;
+        break;
+      case RegistrationSteps.finalize:
+        route = FinalizeInfoWidget.path;
         break;
     }
     if (updateUrl) {

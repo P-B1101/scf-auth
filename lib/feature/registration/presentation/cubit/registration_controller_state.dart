@@ -20,8 +20,8 @@ class RegistrationControllerState extends Equatable {
   final String phoneNumber;
   final String email;
   final String website;
-  final ProvinceCity? province;
-  final ProvinceCity? city;
+  // final ProvinceCity? province;
+  // final ProvinceCity? city;
   final List<AddressInfo> address;
   final bool showError;
 
@@ -42,11 +42,11 @@ class RegistrationControllerState extends Equatable {
     required this.suggestedComapnies,
     required this.selectedBranch,
     required this.address,
-    required this.city,
+    // required this.city,
     required this.email,
     required this.mobileNumber,
     required this.phoneNumber,
-    required this.province,
+    // required this.province,
     required this.website,
     required this.errorStep,
   });
@@ -69,11 +69,11 @@ class RegistrationControllerState extends Equatable {
         suggestedComapnies,
         selectedBranch,
         address,
-        city,
+        // city,
         email,
         mobileNumber,
         phoneNumber,
-        province,
+        // province,
         website,
         errorStep,
       ];
@@ -98,7 +98,7 @@ class RegistrationControllerState extends Equatable {
     String? phoneNumber,
     String? email,
     String? website,
-    ProvinceCity? province,
+    // ProvinceCity? province,
     List<AddressInfo>? address,
   }) =>
       RegistrationControllerState(
@@ -123,37 +123,37 @@ class RegistrationControllerState extends Equatable {
         email: email ?? this.email,
         mobileNumber: mobileNumber ?? this.mobileNumber,
         phoneNumber: phoneNumber ?? this.phoneNumber,
-        province: province ?? this.province,
+        // province: province ?? this.province,
         website: website ?? this.website,
-        city: city,
+        // city: city,
       );
 
-  RegistrationControllerState updateCity(ProvinceCity? city) =>
-      RegistrationControllerState(
-        step: step,
-        errorStep: errorStep,
-        activityType: activityType,
-        activityArea: activityArea,
-        companyTitle: companyTitle,
-        economicId: economicId,
-        showError: showError,
-        boardMemberInfo: boardMemberInfo,
-        ceoInfo: ceoInfo,
-        balanceSheet: balanceSheet,
-        newspaper: newspaper,
-        otherDocuments: otherDocuments,
-        profitAndLossStatement: profitAndLossStatement,
-        statute: statute,
-        suggestedComapnies: suggestedComapnies,
-        selectedBranch: selectedBranch,
-        address: address,
-        city: city,
-        email: email,
-        mobileNumber: mobileNumber,
-        phoneNumber: phoneNumber,
-        province: province,
-        website: website,
-      );
+  // RegistrationControllerState updateCity(ProvinceCity? city) =>
+  //     RegistrationControllerState(
+  //       step: step,
+  //       errorStep: errorStep,
+  //       activityType: activityType,
+  //       activityArea: activityArea,
+  //       companyTitle: companyTitle,
+  //       economicId: economicId,
+  //       showError: showError,
+  //       boardMemberInfo: boardMemberInfo,
+  //       ceoInfo: ceoInfo,
+  //       balanceSheet: balanceSheet,
+  //       newspaper: newspaper,
+  //       otherDocuments: otherDocuments,
+  //       profitAndLossStatement: profitAndLossStatement,
+  //       statute: statute,
+  //       suggestedComapnies: suggestedComapnies,
+  //       selectedBranch: selectedBranch,
+  //       address: address,
+  //       city: city,
+  //       email: email,
+  //       mobileNumber: mobileNumber,
+  //       phoneNumber: phoneNumber,
+  //       province: province,
+  //       website: website,
+  //     );
 
   RegistrationControllerState updateErrorStep(RegistrationSteps? errorStep) =>
       RegistrationControllerState(
@@ -174,15 +174,16 @@ class RegistrationControllerState extends Equatable {
         suggestedComapnies: suggestedComapnies,
         selectedBranch: selectedBranch,
         address: address,
-        city: city,
+        // city: city,
         email: email,
         mobileNumber: mobileNumber,
         phoneNumber: phoneNumber,
-        province: province,
+        // province: province,
         website: website,
       );
 
   bool get isEnable {
+    return true;
     switch (step) {
       case RegistrationSteps.companyIntroduction:
         return _isCompanyIntroductionValid;
@@ -196,11 +197,15 @@ class RegistrationControllerState extends Equatable {
         return _isContactInfoValid;
       case RegistrationSteps.suggestedBranch:
         return _isSuggestedBranchValid;
+      case RegistrationSteps.finalize:
+        return true;
     }
   }
 
   RegistrationSteps? get getInvalidStep {
     switch (step) {
+      case RegistrationSteps.finalize:
+        return null;
       case RegistrationSteps.companyIntroduction:
         return RegistrationSteps.companyIntroduction;
       case RegistrationSteps.managementIntroduction:
@@ -265,12 +270,17 @@ class RegistrationControllerState extends Equatable {
   }
 
   bool get _isContactInfoValid {
+    dev.log('1');
     if (invalidMobile) return false;
+    dev.log('2');
     if (invalidPhone) return false;
+    dev.log('3');
     if (invalidEmail) return false;
+    dev.log('4');
     if (invalidWebsite) return false;
-    if (invalidProvince) return false;
-    if (invalidCity) return false;
+    dev.log('5');
+    // if (invalidProvince) return false;
+    // if (invalidCity) return false;
     if (invalidAddress) return false;
     return true;
   }
@@ -356,9 +366,9 @@ class RegistrationControllerState extends Equatable {
 
   bool get invalidWebsite => !website.isValidWebsite;
 
-  bool get invalidProvince => province == null;
+  // bool get invalidProvince => province == null;
 
-  bool get invalidCity => city == null;
+  // bool get invalidCity => city == null;
 
   bool get invalidAddress => address.any((element) => !element.isValidAddress);
 
@@ -375,4 +385,9 @@ class RegistrationControllerState extends Equatable {
       .toList();
 
   int? get getEconomicId => int.tryParse(economicId);
+
+  bool get showMenu => switch (step) {
+        RegistrationSteps.finalize => false,
+        _ => true,
+      };
 }

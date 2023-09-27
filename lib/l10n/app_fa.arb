@@ -143,5 +143,11 @@
     "resend_title": "ارسال مجدد",
     "company_mobile_label": "شماره موبایل شرکت",
     "empty_otp_error_message": "کد یک بار مصرف را وارد کنید",
-    "wrong_otp_error_message": "کد وارد شده اشتباه می باشد"
+    "wrong_otp_error_message": "کد وارد شده اشتباه می باشد",
+    "registration_steps_finalize": "بررسی نهایی",
+    "register_your_info": "ثبت اطلاعات شما",
+    "complete": "تکمیل",
+    "review_info": "شد. در این صفحه میتوانید اطلاعات را بررسی و در صورت نیاز",
+    "correction": "اصلاح",
+    "verb": "کنید."
 }

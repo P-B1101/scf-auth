@@ -17,39 +17,60 @@ class RegistrationStepMenuWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const items = RegistrationSteps.values;
-    return Container(
-      width: double.infinity,
-      height: 43,
-      color: MColors.primaryColor.withOpacity(.3),
-      alignment: AlignmentDirectional.centerStart,
-      child:
-          BlocBuilder<RegistrationControllerCubit, RegistrationControllerState>(
-        buildWhen: (previous, current) =>
-            (previous.step != current.step) ||
-            (previous.errorStep != current.errorStep),
-        builder: (context, state) => ListView.separated(
-          // physics: const NeverScrollableScrollPhysics(),
-          scrollDirection: Axis.horizontal,
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          itemBuilder: (context, index) => _ItemWidget(
-            isWarned: items[index] == state.errorStep,
-            item: items[index],
-            onStepClick: onStepClick,
-            isSelected: items[index] == state.step,
-          ),
-          separatorBuilder: (context, index) => const Center(
-            child: Text(
-              '/',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: Fonts.regular400,
-                color: MColors.primaryColor,
+    const items = [
+      RegistrationSteps.companyIntroduction,
+      RegistrationSteps.managementIntroduction,
+      RegistrationSteps.documentsUpload,
+      RegistrationSteps.suggestedCompany,
+      RegistrationSteps.contactInfo,
+      RegistrationSteps.suggestedBranch,
+    ];
+    return BlocBuilder<RegistrationControllerCubit,
+        RegistrationControllerState>(
+      buildWhen: (previous, current) => (previous.showMenu != current.showMenu),
+      builder: (context, state) => AnimatedCrossFade(
+        duration: UiUtils.duration,
+        sizeCurve: UiUtils.curve,
+        firstCurve: UiUtils.curve,
+        secondCurve: UiUtils.curve,
+        crossFadeState: state.showMenu
+            ? CrossFadeState.showFirst
+            : CrossFadeState.showSecond,
+        firstChild: Container(
+          width: double.infinity,
+          height: 43,
+          color: MColors.primaryColor.withOpacity(.3),
+          alignment: AlignmentDirectional.centerStart,
+          child: BlocBuilder<RegistrationControllerCubit,
+              RegistrationControllerState>(
+            buildWhen: (previous, current) =>
+                (previous.step != current.step) ||
+                (previous.errorStep != current.errorStep),
+            builder: (context, state) => ListView.separated(
+              // physics: const NeverScrollableScrollPhysics(),
+              scrollDirection: Axis.horizontal,
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              itemBuilder: (context, index) => _ItemWidget(
+                isWarned: items[index] == state.errorStep,
+                item: items[index],
+                onStepClick: onStepClick,
+                isSelected: items[index] == state.step,
               ),
+              separatorBuilder: (context, index) => const Center(
+                child: Text(
+                  '/',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: Fonts.regular400,
+                    color: MColors.primaryColor,
+                  ),
+                ),
+              ),
+              itemCount: items.length,
             ),
           ),
-          itemCount: items.length,
         ),
+        secondChild: const SizedBox(width: double.infinity),
       ),
     );
   }

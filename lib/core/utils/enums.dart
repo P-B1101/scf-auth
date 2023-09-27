@@ -24,6 +24,7 @@ enum RegistrationSteps {
   suggestedCompany, //  suggested-company
   contactInfo, //  contact-info
   suggestedBranch, // suggested-branch
+  finalize, // finalize-info
 }
 
 enum CDNRequestType {
