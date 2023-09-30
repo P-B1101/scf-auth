@@ -48,6 +48,10 @@ class _ReadOnlyWidgetsState extends State<ReadOnlyWidgets> {
         SizedBox(
           width: UiUtils.maxInputSize,
           child: MInputWidget(
+            //Todo: Is it okay to set content padding like this?
+            contentPadding: (widget.seeDocIcon != null)
+                ? const EdgeInsetsDirectional.only(end: 50)
+                : const EdgeInsetsDirectional.all(0),
             controller: _controller,
             focusNode: _focusNode,
             hint: widget.hintTxt,

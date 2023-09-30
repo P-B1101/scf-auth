@@ -85,9 +85,9 @@ class _SuggestedCompanyWidgetState extends State<SuggestedCompanyWidget> {
       BlocBuilder<RegistrationControllerCubit, RegistrationControllerState>(
         buildWhen: (previous, current) =>
             (previous.showError != current.showError) ||
-            (previous.suggestedComapnies != current.suggestedComapnies),
+            (previous.suggestedCompanies != current.suggestedCompanies),
         builder: (context, state) {
-          final items = state.suggestedComapnies;
+          final items = state.suggestedCompanies;
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: List.generate(

@@ -14,7 +14,7 @@ class RegistrationControllerState extends Equatable {
   final UploadFileResult? balanceSheet;
   final UploadFileResult? profitAndLossStatement;
   final List<UploadFileResult?> otherDocuments;
-  final List<SuggestedCompany> suggestedComapnies;
+  final List<SuggestedCompany> suggestedCompanies;
   final BranchInfo? selectedBranch;
   final String mobileNumber;
   final String phoneNumber;
@@ -39,7 +39,7 @@ class RegistrationControllerState extends Equatable {
     required this.otherDocuments,
     required this.profitAndLossStatement,
     required this.statute,
-    required this.suggestedComapnies,
+    required this.suggestedCompanies,
     required this.selectedBranch,
     required this.address,
     // required this.city,
@@ -66,7 +66,7 @@ class RegistrationControllerState extends Equatable {
         otherDocuments,
         profitAndLossStatement,
         statute,
-        suggestedComapnies,
+        suggestedCompanies,
         selectedBranch,
         address,
         // city,
@@ -117,7 +117,7 @@ class RegistrationControllerState extends Equatable {
         profitAndLossStatement:
             profitAndLossStatement ?? this.profitAndLossStatement,
         statute: statute ?? this.statute,
-        suggestedComapnies: suggestedComapnies ?? this.suggestedComapnies,
+        suggestedCompanies: suggestedComapnies ?? this.suggestedCompanies,
         selectedBranch: selectedBranch ?? this.selectedBranch,
         address: address ?? this.address,
         email: email ?? this.email,
@@ -171,7 +171,7 @@ class RegistrationControllerState extends Equatable {
         otherDocuments: otherDocuments,
         profitAndLossStatement: profitAndLossStatement,
         statute: statute,
-        suggestedComapnies: suggestedComapnies,
+        suggestedCompanies: suggestedCompanies,
         selectedBranch: selectedBranch,
         address: address,
         // city: city,
@@ -348,15 +348,15 @@ class RegistrationControllerState extends Equatable {
   bool get canAddOtherDocuments => otherDocuments.length < 5;
 
   bool get invalidSuggestedCompaniesName =>
-      suggestedComapnies.any((element) => element.invalidName);
+      suggestedCompanies.any((element) => element.invalidName);
 
   bool get invalidSuggestedCompaniesEconomicId =>
-      suggestedComapnies.any((element) => element.invalidEconomicId);
+      suggestedCompanies.any((element) => element.invalidEconomicId);
 
   bool get invalidSuggestedCompaniesFinancialInteraction =>
-      suggestedComapnies.any((element) => element.invalidFinancialIteraction);
+      suggestedCompanies.any((element) => element.invalidFinancialIteraction);
 
-  bool get canAddSuggestedCompanies => suggestedComapnies.length < 5;
+  bool get canAddSuggestedCompanies => suggestedCompanies.length < 5;
 
   bool get invalidMobile => !mobileNumber.isValidMobileNumber;
 

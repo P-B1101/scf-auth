@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:scf_auth/feature/registration/presentation/widget/finalize/board_members_intro_widget.dart';
 import 'package:scf_auth/feature/registration/presentation/widget/finalize/company_intro_widget.dart';
 import 'package:scf_auth/feature/registration/presentation/widget/finalize/files_widget.dart';
+import 'package:scf_auth/feature/registration/presentation/widget/finalize/suggested_comapnies_widget.dart';
 
 import '../../../../../core/utils/assets.dart';
 import '../../../../language/manager/localizatios.dart';
@@ -57,7 +58,13 @@ class __BodyWidgetState extends State<_BodyWidget> {
                     onBoardMembersIntroEditClick: _onBoardMembersIntroEditClick,
                   ),
                   const SizedBox(height: 100),
-                  FilesWidget(onFileEditClick: _onFilesEditClick),
+                  FilesWidget(
+                    onFileEditClick: _onFilesEditClick,
+                  ),
+                  const SizedBox(height: 100),
+                  SuggestedCompaniesWidget(
+                    onSuggestedCompanyEditClick: _onSuggestedCompanyEditClick,
+                  ),
                   const SizedBox(height: 100),
                 ],
               ),
@@ -105,6 +112,9 @@ class __BodyWidgetState extends State<_BodyWidget> {
     //Todo: Complete it later
   }
   void _onFilesEditClick() {
+    //Todo: Complete it later
+  }
+  void _onSuggestedCompanyEditClick() {
     //Todo: Complete it later
   }
 }

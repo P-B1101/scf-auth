@@ -83,6 +83,7 @@
     "suggested_company_title": "لطفا اطلاعات مربوط به بنگاه مورد نظر خود را وارد کنید",
     "suggested_company_name_hint": "نام بنگاه را وارد کنید",
     "suggested_company_name_label": "نام بنگاه",
+    "company_economic_id": "کد اقتصادی بنگاه",
     "suggested_company_economic_id_hint": "شناسه اقتصادی بنگاه را وارد کنید",
     "suggested_company_economic_id_label": "شناسه اقتصادی بنگاه",
     "suggested_company_financial_interaction_hint": "حدود تعامل مالی را وارد کنید",
