@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:scf_auth/feature/registration/presentation/cubit/registration_controller_cubit.dart';
 import 'package:scf_auth/feature/registration/presentation/widget/finalize/edit_title.dart';
 import 'package:scf_auth/feature/registration/presentation/widget/finalize/read_only_widgets.dart';
 
@@ -9,14 +11,9 @@ class CompanyIntroductionWidget extends StatelessWidget {
   const CompanyIntroductionWidget({
     super.key,
     required this.onCompanyIntroEditClick,
-    required this.companyTitleController,
-    required this.companyTitleNode,
   });
 
   final Function() onCompanyIntroEditClick;
-
-  final TextEditingController companyTitleController;
-  final FocusNode companyTitleNode;
 
   @override
   Widget build(BuildContext context) {
@@ -26,19 +23,47 @@ class CompanyIntroductionWidget extends StatelessWidget {
           title: Strings.of(context).company_introduction,
           onEditClick: onCompanyIntroEditClick,
         ),
+        const SizedBox(height: 68),
         SizedBox(
           width: UiUtils.maxWidth,
-          child: Wrap(
-            alignment: WrapAlignment.spaceBetween,
-            children: [
-              ReadOnlyWidgets(
-                title: Strings.of(context).company_title_label,
-                //Todo: change it
-                hintTxt: 'عنوان رسمی',
-                controller: companyTitleController,
-                focusNode: companyTitleNode,
-              ),
-            ],
+          child: BlocBuilder<RegistrationControllerCubit,
+              RegistrationControllerState>(
+            builder: (context, state) {
+              return Wrap(
+                runSpacing: 40,
+                alignment: WrapAlignment.spaceBetween,
+                children: [
+                  //عنوان رسمی بنگاه اقتصادی
+                  ReadOnlyWidgets(
+                    label: Strings.of(context).company_title_label,
+                    hintTxt: Strings.of(context).official_title,
+                    value: state.companyTitle,
+                  ),
+                  //شناسه اقتصادی
+                  ReadOnlyWidgets(
+                    label: Strings.of(context).economic_id_label,
+                    hintTxt: Strings.of(context).economic_id_label,
+                    value: state.economicId,
+                  ),
+                  //نوع فعالیت
+                  ReadOnlyWidgets(
+                    label: Strings.of(context).activity_type_label,
+                    hintTxt: Strings.of(context).activity_type_label,
+                    value: state.activityType?.title,
+                  ),
+                  //حوزه فعالیت
+                  ...state.activityArea
+                      .map(
+                        (e) => ReadOnlyWidgets(
+                          label: Strings.of(context).activity_area_label,
+                          hintTxt: Strings.of(context).activity_area_label,
+                          value: e?.title ?? '',
+                        ),
+                      )
+                      .toList()
+                ],
+              );
+            },
           ),
         ),
       ],

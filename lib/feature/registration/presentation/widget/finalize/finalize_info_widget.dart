@@ -32,11 +32,7 @@ class _BodyWidget extends StatefulWidget {
 }
 
 class __BodyWidgetState extends State<_BodyWidget> {
-  
-
   // final _
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +44,9 @@ class __BodyWidgetState extends State<_BodyWidget> {
               const SizedBox(height: 48),
               _title,
               const SizedBox(height: 67),
-              // CompanyIntroductionWidget(onCompanyIntroEditClick: _onCompanyIntroEditClick)
+              CompanyIntroductionWidget(
+                onCompanyIntroEditClick: _onCompanyIntroEditClick,
+              )
               // FilesWidget(onEditClick: _onEditClick)
             ],
           ),

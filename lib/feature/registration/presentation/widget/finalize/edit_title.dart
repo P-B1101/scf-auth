@@ -30,7 +30,13 @@ class EditTitle extends StatelessWidget {
                   fontWeight: Fonts.regular400,
                   color: MColors.primaryColor,
                 ),
-              )
+              ),
+              const Spacer(),
+              const Icon(
+                Icons.edit,
+                size: 21,
+                color: MColors.primaryColor,
+              ),
             ],
           ),
         ));

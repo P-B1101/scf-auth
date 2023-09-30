@@ -17,6 +17,7 @@
     "company_title_hint": "عنوان رسمی بنگاه اقتصادی را وارد کنید",
     "economic_id_hint": "شناسه اقتصادی را وارد کنید",
     "economic_id_label": "شناسه اقتصادی",
+    "economic_id_hint2": "957463",
     "next_step_label": "مرحله بعد",
     "back_to_main_page": "بازگشت به صفحه اول",
     "empty_company_title_error": "وارد کردن عنوان رسمی بنگاه اقتصادی اجباری است",
@@ -151,5 +152,6 @@
     "correction": "اصلاح",
     "verb": "کنید.",
     "company_introduction": "معرفی بنگاه",
-    "files": "فایل‌ها"
+    "files": "فایل‌ها",
+    "official_title": "عنوان رسمی"
 }

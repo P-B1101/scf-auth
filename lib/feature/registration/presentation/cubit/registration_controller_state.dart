@@ -184,22 +184,22 @@ class RegistrationControllerState extends Equatable {
 
   bool get isEnable {
     return true;
-    switch (step) {
-      case RegistrationSteps.companyIntroduction:
-        return _isCompanyIntroductionValid;
-      case RegistrationSteps.managementIntroduction:
-        return _isManagementIntroductionValid;
-      case RegistrationSteps.documentsUpload:
-        return _isDocumentsUploadValid;
-      case RegistrationSteps.suggestedCompany:
-        return _isSuggestedCompaniesValid;
-      case RegistrationSteps.contactInfo:
-        return _isContactInfoValid;
-      case RegistrationSteps.suggestedBranch:
-        return _isSuggestedBranchValid;
-      case RegistrationSteps.finalize:
-        return true;
-    }
+    // switch (step) {
+    //   case RegistrationSteps.companyIntroduction:
+    //     return _isCompanyIntroductionValid;
+    //   case RegistrationSteps.managementIntroduction:
+    //     return _isManagementIntroductionValid;
+    //   case RegistrationSteps.documentsUpload:
+    //     return _isDocumentsUploadValid;
+    //   case RegistrationSteps.suggestedCompany:
+    //     return _isSuggestedCompaniesValid;
+    //   case RegistrationSteps.contactInfo:
+    //     return _isContactInfoValid;
+    //   case RegistrationSteps.suggestedBranch:
+    //     return _isSuggestedBranchValid;
+    //   case RegistrationSteps.finalize:
+    //     return true;
+    // }
   }
 
   RegistrationSteps? get getInvalidStep {
