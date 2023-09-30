@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:scf_auth/feature/registration/presentation/widget/finalize/board_members_intro_widget.dart';
 import 'package:scf_auth/feature/registration/presentation/widget/finalize/company_intro_widget.dart';
+import 'package:scf_auth/feature/registration/presentation/widget/finalize/files_widget.dart';
 
 import '../../../../../core/utils/assets.dart';
 import '../../../../language/manager/localizatios.dart';
@@ -56,7 +57,8 @@ class __BodyWidgetState extends State<_BodyWidget> {
                     onBoardMembersIntroEditClick: _onBoardMembersIntroEditClick,
                   ),
                   const SizedBox(height: 100),
-                  // FilesWidget(onEditClick: _onEditClick)
+                  FilesWidget(onFileEditClick: _onFilesEditClick),
+                  const SizedBox(height: 100),
                 ],
               ),
             ),
@@ -100,6 +102,9 @@ class __BodyWidgetState extends State<_BodyWidget> {
     //Todo: Complete it later
   }
   void _onBoardMembersIntroEditClick() {
+    //Todo: Complete it later
+  }
+  void _onFilesEditClick() {
     //Todo: Complete it later
   }
 }

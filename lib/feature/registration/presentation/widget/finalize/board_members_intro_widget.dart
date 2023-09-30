@@ -31,14 +31,17 @@ class BoardMembersIntroWidget extends StatelessWidget {
             builder: (context, state) {
               return Column(
                 children: [
+                  
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
+                      //نام مدیرعامل
                       ReadOnlyWidgets(
                         label: Strings.of(context).ceo_name_label,
                         hintTxt: Strings.of(context).ceo_name_label,
                         value: state.ceoInfo.name,
                       ),
+                      //کدملی مدیرعامل
                       ReadOnlyWidgets(
                         label: Strings.of(context).ceo_national_code_label,
                         hintTxt: Strings.of(context).ceo_national_code_label,
@@ -47,25 +50,11 @@ class BoardMembersIntroWidget extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 34),
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //   children: [
-                  //     ReadOnlyWidgets(
-                  //       label: Strings.of(context).ceo_name_label,
-                  //       hintTxt: Strings.of(context).ceo_name_label,
-                  //       value: state.ceoInfo.name,
-                  //     ),
-                  //     ReadOnlyWidgets(
-                  //       label: Strings.of(context).ceo_national_code_label,
-                  //       hintTxt: Strings.of(context).ceo_national_code_label,
-                  //       value: state.ceoInfo.nationalCode,
-                  //     ),
-                  //   ],
-                  // ),
                   ...state.boardMemberInfo
                       .map((e) => Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
+                              //نام عضو هیئت میدیره
                               ReadOnlyWidgets(
                                 label:
                                     Strings.of(context).board_member_name_label,
@@ -73,6 +62,7 @@ class BoardMembersIntroWidget extends StatelessWidget {
                                     Strings.of(context).board_member_name_label,
                                 value: e.name,
                               ),
+                              //کدملی عضو هیئت مدیره
                               ReadOnlyWidgets(
                                 label: Strings.of(context)
                                     .board_member_national_code_label,

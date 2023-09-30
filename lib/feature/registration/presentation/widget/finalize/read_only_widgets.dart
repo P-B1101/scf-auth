@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:scf_auth/core/components/input/m_input_widget.dart';
 
+import '../../../../../core/utils/assets.dart';
 import '../../../../../core/utils/ui_utils.dart';
 
 class ReadOnlyWidgets extends StatefulWidget {
@@ -9,11 +10,13 @@ class ReadOnlyWidgets extends StatefulWidget {
     required this.label,
     required this.hintTxt,
     required this.value,
+    this.seeDocIcon,
   });
 
   final String? label;
   final String hintTxt;
   final String? value;
+  final IconData? seeDocIcon;
 
   @override
   State<ReadOnlyWidgets> createState() => _ReadOnlyWidgetsState();
@@ -49,6 +52,15 @@ class _ReadOnlyWidgetsState extends State<ReadOnlyWidgets> {
             focusNode: _focusNode,
             hint: widget.hintTxt,
             isReadOnly: true,
+            suffixWidget: Padding(
+              padding: const EdgeInsetsDirectional.only(end: 13),
+              //Todo: Maybe in future you will need to wrap icon with InkWell
+              child: Icon(
+                size: 22,
+                widget.seeDocIcon,
+                color: MColors.primaryColor,
+              ),
+            ),
           ),
         ),
       ],
