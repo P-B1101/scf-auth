@@ -51,6 +51,7 @@
     "board_member_name_label": "نام عضو هیئت مدیره",
     "board_member_national_code_hint": "کد ملی عضو هیئت مدیره را وارد کنید",
     "board_member_national_code_label": "کد ملی عضو هیئت مدیره",
+    "board_members_introduction": "معرفی مدیرعامل و هیات مدیره",
     "byte_label": "بایت",
     "k_byte_label": "کیلوبایت",
     "m_byte_label": "مگابایت",

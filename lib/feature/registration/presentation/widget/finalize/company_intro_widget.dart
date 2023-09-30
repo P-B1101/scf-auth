@@ -7,8 +7,8 @@ import 'package:scf_auth/feature/registration/presentation/widget/finalize/read_
 import '../../../../../core/utils/ui_utils.dart';
 import '../../../../language/manager/localizatios.dart';
 
-class CompanyIntroductionWidget extends StatelessWidget {
-  const CompanyIntroductionWidget({
+class CompanyIntroWidget extends StatelessWidget {
+  const CompanyIntroWidget({
     super.key,
     required this.onCompanyIntroEditClick,
   });

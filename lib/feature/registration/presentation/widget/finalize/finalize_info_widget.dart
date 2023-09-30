@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:scf_auth/feature/registration/presentation/widget/finalize/company_introduction_widget.dart';
+import 'package:scf_auth/feature/registration/presentation/widget/finalize/board_members_intro_widget.dart';
+import 'package:scf_auth/feature/registration/presentation/widget/finalize/company_intro_widget.dart';
 
 import '../../../../../core/utils/assets.dart';
 import '../../../../language/manager/localizatios.dart';
@@ -38,17 +39,27 @@ class __BodyWidgetState extends State<_BodyWidget> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SingleChildScrollView(
-          child: Column(
-            children: [
-              const SizedBox(height: 48),
-              _title,
-              const SizedBox(height: 67),
-              CompanyIntroductionWidget(
-                onCompanyIntroEditClick: _onCompanyIntroEditClick,
-              )
-              // FilesWidget(onEditClick: _onEditClick)
-            ],
+        Flexible(
+          child: SizedBox(
+            width: double.infinity,
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  const SizedBox(height: 48),
+                  _title,
+                  const SizedBox(height: 67),
+                  CompanyIntroWidget(
+                    onCompanyIntroEditClick: _onCompanyIntroEditClick,
+                  ),
+                  const SizedBox(height: 100),
+                  BoardMembersIntroWidget(
+                    onBoardMembersIntroEditClick: _onBoardMembersIntroEditClick,
+                  ),
+                  const SizedBox(height: 100),
+                  // FilesWidget(onEditClick: _onEditClick)
+                ],
+              ),
+            ),
           ),
         ),
         //Todo: button
@@ -86,6 +97,9 @@ class __BodyWidgetState extends State<_BodyWidget> {
       );
 
   void _onCompanyIntroEditClick() {
+    //Todo: Complete it later
+  }
+  void _onBoardMembersIntroEditClick() {
     //Todo: Complete it later
   }
 }
