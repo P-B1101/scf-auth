@@ -31,6 +31,7 @@ class SuggestedCompaniesWidget extends StatelessWidget {
               RegistrationControllerState>(
             builder: (context, state) {
               return ListView.separated(
+                //Todo: Check the functionality of these code later (DO IT FOR SURE!)
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 separatorBuilder: (context, index) => const Divider(),
@@ -46,18 +47,23 @@ class SuggestedCompaniesWidget extends StatelessWidget {
                         hintTxt:
                             Strings.of(context).suggested_company_name_label,
                         value: company.name,
+                        isLong: false,
                       ),
                       ReadOnlyWidgets(
                         label: Strings.of(context).company_economic_id,
                         hintTxt: Strings.of(context).company_economic_id,
                         value: company.economicId,
+                        isLong: false,
                       ),
                       ReadOnlyWidgets(
                         label: Strings.of(context)
                             .suggested_company_financial_interaction_label,
                         hintTxt: Strings.of(context)
                             .suggested_company_financial_interaction_label,
-                        value: company.financialInteraction.toString().toCurrency(context),
+                        value: company.financialInteraction
+                            .toString()
+                            .toCurrency(context),
+                        isLong: false,
                       ),
                     ],
                   );

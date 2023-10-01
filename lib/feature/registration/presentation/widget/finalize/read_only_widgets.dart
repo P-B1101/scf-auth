@@ -10,6 +10,7 @@ class ReadOnlyWidgets extends StatefulWidget {
     required this.label,
     required this.hintTxt,
     required this.value,
+    required this.isLong,
     this.seeDocIcon,
   });
 
@@ -17,6 +18,7 @@ class ReadOnlyWidgets extends StatefulWidget {
   final String hintTxt;
   final String? value;
   final IconData? seeDocIcon;
+  final bool isLong;
 
   @override
   State<ReadOnlyWidgets> createState() => _ReadOnlyWidgetsState();
@@ -46,12 +48,12 @@ class _ReadOnlyWidgetsState extends State<ReadOnlyWidgets> {
         Text(widget.label ?? '', style: const TextStyle()),
         const SizedBox(height: 18),
         SizedBox(
-          width: UiUtils.maxInputSize,
+          width: (widget.isLong)? double.infinity : UiUtils.maxInputSize,
           child: MInputWidget(
             //Todo: Is it okay to set content padding like this?
-            contentPadding: (widget.seeDocIcon != null)
-                ? const EdgeInsetsDirectional.only(end: 50)
-                : const EdgeInsetsDirectional.all(0),
+            // contentPadding: (widget.seeDocIcon != null)
+            //     ? const EdgeInsetsDirectional.only(end: 50)
+            //     : const EdgeInsetsDirectional.all(0),
             controller: _controller,
             focusNode: _focusNode,
             hint: widget.hintTxt,

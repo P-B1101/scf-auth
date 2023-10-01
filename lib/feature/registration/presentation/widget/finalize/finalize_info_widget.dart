@@ -1,12 +1,16 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:scf_auth/feature/registration/presentation/widget/finalize/board_members_intro_widget.dart';
-import 'package:scf_auth/feature/registration/presentation/widget/finalize/company_intro_widget.dart';
-import 'package:scf_auth/feature/registration/presentation/widget/finalize/files_widget.dart';
-import 'package:scf_auth/feature/registration/presentation/widget/finalize/suggested_comapnies_widget.dart';
+import 'package:scf_auth/core/components/button/m_button.dart';
 
 import '../../../../../core/utils/assets.dart';
+import '../../../../../core/utils/ui_utils.dart';
 import '../../../../language/manager/localizatios.dart';
+import 'address_contact_info_widget.dart';
+import 'board_members_intro_widget.dart';
+import 'company_intro_widget.dart';
+import 'files_widget.dart';
+import 'suggested_branch_widget.dart';
+import 'suggested_comapnies_widget.dart';
 
 @RoutePage()
 class FinalizeInfoWidget extends StatefulWidget {
@@ -66,9 +70,25 @@ class __BodyWidgetState extends State<_BodyWidget> {
                     onSuggestedCompanyEditClick: _onSuggestedCompanyEditClick,
                   ),
                   const SizedBox(height: 100),
+                  AddressContactInfoWidget(
+                    onAddressContactEditClick: _onAddressContactEditClick,
+                    onWatchingLocationClick: _onWatchingLocationClick,
+                  ),
+                  const SizedBox(height: 100),
+                  FinalizeSuggestedBranchWidget(
+                      onSuggestedBranchEditClick: _onSuggestedBranchEditClick),
+                  const SizedBox(height: 100),
                 ],
               ),
             ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsetsDirectional.symmetric(vertical: 16),
+          child: MButtonWidget(
+            width: UiUtils.maxInputSize,
+            onClick: _onFinalSubmitClick,
+            title: Strings.of(context).final_review_and_submit,
           ),
         ),
         //Todo: button
@@ -115,6 +135,19 @@ class __BodyWidgetState extends State<_BodyWidget> {
     //Todo: Complete it later
   }
   void _onSuggestedCompanyEditClick() {
+    //Todo: Complete it later
+  }
+  void _onAddressContactEditClick() {
+    //Todo: Complete it later
+  }
+  void _onWatchingLocationClick() {
+    //Todo: Complete it later
+    //Todo: show pop up
+  }
+  void _onSuggestedBranchEditClick() {
+    //Todo: Complete it later
+  }
+  void _onFinalSubmitClick() {
     //Todo: Complete it later
   }
 }

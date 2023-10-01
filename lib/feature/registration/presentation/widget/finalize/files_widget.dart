@@ -39,6 +39,7 @@ class FilesWidget extends StatelessWidget {
                     hintTxt: Strings.of(context).statute_label,
                     value: state.statute?.fileName,
                     seeDocIcon: Icons.remove_red_eye,
+                    isLong: false,
                   ),
                   //روز نامه
                   ReadOnlyWidgets(
@@ -46,6 +47,7 @@ class FilesWidget extends StatelessWidget {
                     hintTxt: Strings.of(context).newspaper_label,
                     value: state.newspaper?.fileName,
                     seeDocIcon: Icons.remove_red_eye,
+                    isLong: false,
                   ),
                   //تراز نامه
                   ReadOnlyWidgets(
@@ -53,6 +55,7 @@ class FilesWidget extends StatelessWidget {
                     hintTxt: Strings.of(context).balance_sheet_label,
                     value: state.balanceSheet?.fileName,
                     seeDocIcon: Icons.remove_red_eye,
+                    isLong: false,
                   ),
                   //صورت سود زیان
                   ReadOnlyWidgets(
@@ -60,6 +63,7 @@ class FilesWidget extends StatelessWidget {
                     hintTxt: Strings.of(context).profit_and_loss_statement_label,
                     value: state.profitAndLossStatement?.fileName,
                     seeDocIcon: Icons.remove_red_eye,
+                    isLong: false,
                   ),
                   //سایر
                   ...state.otherDocuments
@@ -68,6 +72,7 @@ class FilesWidget extends StatelessWidget {
                           label: Strings.of(context).other,
                           hintTxt: Strings.of(context).other,
                           value: e?.fileName,
+                          isLong: false,
                         ),
                       )
                       .toList()

@@ -40,12 +40,14 @@ class BoardMembersIntroWidget extends StatelessWidget {
                         label: Strings.of(context).ceo_name_label,
                         hintTxt: Strings.of(context).ceo_name_label,
                         value: state.ceoInfo.name,
+                        isLong: false,
                       ),
                       //کدملی مدیرعامل
                       ReadOnlyWidgets(
                         label: Strings.of(context).ceo_national_code_label,
                         hintTxt: Strings.of(context).ceo_national_code_label,
                         value: state.ceoInfo.nationalCode,
+                        isLong: false,
                       ),
                     ],
                   ),
@@ -61,6 +63,7 @@ class BoardMembersIntroWidget extends StatelessWidget {
                                 hintTxt:
                                     Strings.of(context).board_member_name_label,
                                 value: e.name,
+                                isLong: false,
                               ),
                               //کدملی عضو هیئت مدیره
                               ReadOnlyWidgets(
@@ -69,6 +72,7 @@ class BoardMembersIntroWidget extends StatelessWidget {
                                 hintTxt: Strings.of(context)
                                     .board_member_national_code_label,
                                 value: e.nationalCode,
+                                isLong: false,
                               ),
                             ],
                           ))

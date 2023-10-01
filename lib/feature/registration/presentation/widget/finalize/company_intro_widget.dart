@@ -38,18 +38,21 @@ class CompanyIntroWidget extends StatelessWidget {
                     label: Strings.of(context).company_title_label,
                     hintTxt: Strings.of(context).official_title,
                     value: state.companyTitle,
+                    isLong: false,
                   ),
                   //شناسه اقتصادی
                   ReadOnlyWidgets(
                     label: Strings.of(context).economic_id_label,
                     hintTxt: Strings.of(context).economic_id_label,
                     value: state.economicId,
+                    isLong: false,
                   ),
                   //نوع فعالیت
                   ReadOnlyWidgets(
                     label: Strings.of(context).activity_type_label,
                     hintTxt: Strings.of(context).activity_type_label,
                     value: state.activityType?.title,
+                    isLong: false,
                   ),
                   //حوزه فعالیت
                   ...state.activityArea
@@ -58,6 +61,7 @@ class CompanyIntroWidget extends StatelessWidget {
                           label: Strings.of(context).activity_area_label,
                           hintTxt: Strings.of(context).activity_area_label,
                           value: e?.title ?? '',
+                          isLong: false,
                         ),
                       )
                       .toList()

@@ -112,6 +112,7 @@
     "email_hint": "ایمیل شرکت را وارد کنید",
     "website_label": "وبسایت",
     "website_hint": "آدرس وبسایت شرکت را وارد کنید",
+    "address_and_contact_info": "آدرس و اطلاعات تماس",
     "province_label": "استان",
     "province_hint": "استان را انتخاب کنید",
     "city_label": "شهر",
@@ -156,5 +157,7 @@
     "verb": "کنید.",
     "company_introduction": "معرفی بنگاه",
     "files": "فایل‌ها",
-    "official_title": "عنوان رسمی"
+    "official_title": "عنوان رسمی",
+    "watching_location": "مشاهده نقطه مکانی",
+    "final_review_and_submit": "ثبت و بررسی نهایی"
 }
