@@ -12,6 +12,7 @@ class ReadOnlyWidgets extends StatefulWidget {
     required this.hintTxt,
     required this.value,
     this.seeDocIcon,
+    this.onSeeDocumentClick,
     this.isCurrency = false,
     this.isLong = false,
   });
@@ -22,6 +23,7 @@ class ReadOnlyWidgets extends StatefulWidget {
   final IconData? seeDocIcon;
   final bool isLong;
   final bool isCurrency;
+  final Function()? onSeeDocumentClick;
 
   @override
   State<ReadOnlyWidgets> createState() => _ReadOnlyWidgetsState();
@@ -62,26 +64,26 @@ class _ReadOnlyWidgetsState extends State<ReadOnlyWidgets> {
         const SizedBox(height: 18),
         if (!widget.isCurrency)
           SizedBox(
-            width: (widget.isLong)
-                ? double.infinity
-                : UiUtils.maxInputSize,
+            width: (widget.isLong) ? double.infinity : UiUtils.maxInputSize,
             child: MInputWidget(
-              
-              //Todo: Is it okay to set content padding like this?
-              // contentPadding: (widget.seeDocIcon != null)
-              //     ? const EdgeInsetsDirectional.only(end: 50)
-              //     : const EdgeInsetsDirectional.all(0),
               controller: _controller,
               focusNode: _focusNode,
               hint: widget.hintTxt,
               isReadOnly: true,
               suffixWidget: Padding(
                 padding: const EdgeInsetsDirectional.only(end: 13),
-                //Todo: Maybe in future you will need to wrap the icon with InkWell
-                child: Icon(
-                  size: 22,
-                  widget.seeDocIcon,
-                  color: MColors.primaryColor,
+                child: SizedBox(
+                  height: 30,
+                  width: 30,
+                  child: InkWell(
+                    customBorder: const CircleBorder(),
+                    onTap: widget.onSeeDocumentClick,
+                    child: Icon(
+                      size: 22,
+                      widget.seeDocIcon,
+                      color: MColors.primaryColor,
+                    ),
+                  ),
                 ),
               ),
             ),

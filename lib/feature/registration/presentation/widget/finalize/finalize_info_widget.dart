@@ -1,10 +1,19 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scf_auth/core/components/button/m_button.dart';
+import 'package:scf_auth/feature/registration/presentation/widget/contact_info/contact_info_widget.dart';
+import 'package:scf_auth/feature/registration/presentation/widget/documents_upload/documents_upload_widget.dart';
+import 'package:scf_auth/feature/registration/presentation/widget/management_introduction/management_introduction_widget.dart';
+import 'package:scf_auth/feature/registration/presentation/widget/suggested_branch/suggested_branch_widget.dart';
+import 'package:scf_auth/feature/registration/presentation/widget/suggested_company/suggested_company_widget.dart';
 
 import '../../../../../core/utils/assets.dart';
+import '../../../../../core/utils/enums.dart';
 import '../../../../../core/utils/ui_utils.dart';
 import '../../../../language/manager/localizatios.dart';
+import '../../cubit/registration_controller_cubit.dart';
+import '../company_introduction/company_introduction_widget.dart';
 import 'address_contact_info_widget.dart';
 import 'board_members_intro_widget.dart';
 import 'company_intro_widget.dart';
@@ -64,6 +73,7 @@ class __BodyWidgetState extends State<_BodyWidget> {
                   const SizedBox(height: 100),
                   FilesWidget(
                     onFileEditClick: _onFilesEditClick,
+                    onSeeDocumentClick: _onSeeDocumentClick,
                   ),
                   const SizedBox(height: 100),
                   SuggestedCompaniesWidget(
@@ -126,26 +136,66 @@ class __BodyWidgetState extends State<_BodyWidget> {
       );
 
   void _onCompanyIntroEditClick() {
-    //Todo: Complete it later
+    context.read<RegistrationControllerCubit>().onPageClick(
+          RegistrationSteps.companyIntroduction,
+        );
+    AutoTabsRouter.of(context)
+        .setActiveIndex(RegistrationSteps.companyIntroduction.index);
+    context.navigateNamedTo(CompanyIntroductionWidget.path);
   }
+
   void _onBoardMembersIntroEditClick() {
-    //Todo: Complete it later
+    context.read<RegistrationControllerCubit>().onPageClick(
+          RegistrationSteps.managementIntroduction,
+        );
+    AutoTabsRouter.of(context)
+        .setActiveIndex(RegistrationSteps.managementIntroduction.index);
+    context.navigateNamedTo(ManagementIntroductionWidget.path);
   }
+
   void _onFilesEditClick() {
-    //Todo: Complete it later
+    context.read<RegistrationControllerCubit>().onPageClick(
+          RegistrationSteps.documentsUpload,
+        );
+    AutoTabsRouter.of(context)
+        .setActiveIndex(RegistrationSteps.documentsUpload.index);
+    context.navigateNamedTo(DocumentsUploadWidget.path);
   }
+
   void _onSuggestedCompanyEditClick() {
-    //Todo: Complete it later
+    context.read<RegistrationControllerCubit>().onPageClick(
+          RegistrationSteps.suggestedCompany,
+        );
+    AutoTabsRouter.of(context)
+        .setActiveIndex(RegistrationSteps.suggestedCompany.index);
+    context.navigateNamedTo(SuggestedCompanyWidget.path);
   }
+
   void _onAddressContactEditClick() {
-    //Todo: Complete it later
+    context.read<RegistrationControllerCubit>().onPageClick(
+          RegistrationSteps.contactInfo,
+        );
+    AutoTabsRouter.of(context)
+        .setActiveIndex(RegistrationSteps.contactInfo.index);
+    context.navigateNamedTo(ContactInfoWidget.path);
   }
-  void _onWatchingLocationClick() {
-    //Todo: Complete it later
-    //Todo: show pop up
-  }
+
   void _onSuggestedBranchEditClick() {
+    context.read<RegistrationControllerCubit>().onPageClick(
+          RegistrationSteps.suggestedBranch,
+        );
+    AutoTabsRouter.of(context)
+        .setActiveIndex(RegistrationSteps.suggestedBranch.index);
+    context.navigateNamedTo(SuggestedBranchWidget.path);
+  }
+
+  void _onWatchingLocationClick() {
+    
+  }
+  
+  void _onSeeDocumentClick() {
     //Todo: Complete it later
+    //Todo: This function should be able to download the uploaded file
   }
   void _onFinalSubmitClick() {
     //Todo: Complete it later
