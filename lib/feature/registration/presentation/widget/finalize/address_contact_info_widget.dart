@@ -44,27 +44,24 @@ class AddressContactInfoWidget extends StatelessWidget {
                           label: Strings.of(context).mobile_label,
                           hintTxt: Strings.of(context).mobile_label,
                           value: state.mobileNumber,
-                          isLong: false,
                         ),
                         //شماره ثابت
                         ReadOnlyWidgets(
                           label: Strings.of(context).phone_label,
                           hintTxt: Strings.of(context).phone_label,
                           value: state.phoneNumber,
-                          isLong: false,
                         ),
                         // ایمیل
                         ReadOnlyWidgets(
                           label: Strings.of(context).email_label,
                           hintTxt: Strings.of(context).email_label,
                           value: state.email,
-                          isLong: false,
                         ),
+                        //وبسایت
                         ReadOnlyWidgets(
                           label: Strings.of(context).website_label,
                           hintTxt: Strings.of(context).website_label,
                           value: state.website,
-                          isLong: false,
                         ),
                       ],
                     ),
@@ -78,7 +75,10 @@ class AddressContactInfoWidget extends StatelessWidget {
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     itemCount: state.address.length,
-                    separatorBuilder: (context, index) => const Divider(),
+                    separatorBuilder: (context, index) => const Padding(
+                      padding: EdgeInsetsDirectional.only(top: 14, bottom: 38),
+                      child: Divider(color: MColors.primaryColor),
+                    ),
                     itemBuilder: ((context, index) => Wrap(
                           runSpacing: 40,
                           alignment: WrapAlignment.spaceBetween,
@@ -88,14 +88,12 @@ class AddressContactInfoWidget extends StatelessWidget {
                               label: Strings.of(context).province_label,
                               hintTxt: Strings.of(context).province_label,
                               value: state.address[index].province?.title,
-                              isLong: false,
                             ),
                             //شهر
                             ReadOnlyWidgets(
                               label: Strings.of(context).city_label,
                               hintTxt: Strings.of(context).city_label,
                               value: state.address[index].city?.title,
-                              isLong: false,
                             ),
                             //آدرس
                             ReadOnlyWidgets(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:scf_auth/core/components/input/currency_input_widget.dart';
 import 'package:scf_auth/core/components/input/m_input_widget.dart';
 
 import '../../../../../core/utils/assets.dart';
@@ -10,8 +11,9 @@ class ReadOnlyWidgets extends StatefulWidget {
     required this.label,
     required this.hintTxt,
     required this.value,
-    required this.isLong,
     this.seeDocIcon,
+    this.isCurrency = false,
+    this.isLong = false,
   });
 
   final String? label;
@@ -19,6 +21,7 @@ class ReadOnlyWidgets extends StatefulWidget {
   final String? value;
   final IconData? seeDocIcon;
   final bool isLong;
+  final bool isCurrency;
 
   @override
   State<ReadOnlyWidgets> createState() => _ReadOnlyWidgetsState();
@@ -45,30 +48,54 @@ class _ReadOnlyWidgetsState extends State<ReadOnlyWidgets> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(widget.label ?? '', style: const TextStyle()),
+        if (widget.label != null)
+          Text(
+            widget.label ?? '',
+            style: const TextStyle(
+              color: MColors.primaryTextColor,
+              fontSize: 14,
+              fontWeight: Fonts.regular400,
+            ),
+          )
+        else
+          const Text(""),
         const SizedBox(height: 18),
-        SizedBox(
-          width: (widget.isLong)? double.infinity : UiUtils.maxInputSize,
-          child: MInputWidget(
-            //Todo: Is it okay to set content padding like this?
-            // contentPadding: (widget.seeDocIcon != null)
-            //     ? const EdgeInsetsDirectional.only(end: 50)
-            //     : const EdgeInsetsDirectional.all(0),
-            controller: _controller,
-            focusNode: _focusNode,
-            hint: widget.hintTxt,
-            isReadOnly: true,
-            suffixWidget: Padding(
-              padding: const EdgeInsetsDirectional.only(end: 13),
-              //Todo: Maybe in future you will need to wrap icon with InkWell
-              child: Icon(
-                size: 22,
-                widget.seeDocIcon,
-                color: MColors.primaryColor,
+        if (!widget.isCurrency)
+          SizedBox(
+            width: (widget.isLong)
+                ? double.infinity
+                : UiUtils.maxInputSize,
+            child: MInputWidget(
+              
+              //Todo: Is it okay to set content padding like this?
+              // contentPadding: (widget.seeDocIcon != null)
+              //     ? const EdgeInsetsDirectional.only(end: 50)
+              //     : const EdgeInsetsDirectional.all(0),
+              controller: _controller,
+              focusNode: _focusNode,
+              hint: widget.hintTxt,
+              isReadOnly: true,
+              suffixWidget: Padding(
+                padding: const EdgeInsetsDirectional.only(end: 13),
+                //Todo: Maybe in future you will need to wrap the icon with InkWell
+                child: Icon(
+                  size: 22,
+                  widget.seeDocIcon,
+                  color: MColors.primaryColor,
+                ),
               ),
             ),
+          )
+        else
+          SizedBox(
+            width: UiUtils.maxInputSize,
+            child: CurrencyInputWidget(
+              controller: _controller,
+              focusNode: _focusNode,
+              hint: widget.hintTxt,
+              isReadOnly: true,
+            ),
           ),
-        ),
       ],
     );
   }

@@ -5,6 +5,7 @@ import 'package:scf_auth/feature/registration/presentation/cubit/registration_co
 import 'package:scf_auth/feature/registration/presentation/widget/finalize/edit_title.dart';
 import 'package:scf_auth/feature/registration/presentation/widget/finalize/read_only_widgets.dart';
 
+import '../../../../../core/utils/assets.dart';
 import '../../../../../core/utils/ui_utils.dart';
 import '../../../../language/manager/localizatios.dart';
 
@@ -31,10 +32,17 @@ class SuggestedCompaniesWidget extends StatelessWidget {
               RegistrationControllerState>(
             builder: (context, state) {
               return ListView.separated(
-                //Todo: Check the functionality of these code later (DO IT FOR SURE!)
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
-                separatorBuilder: (context, index) => const Divider(),
+                separatorBuilder: (context, index) => const Padding(
+                  padding: EdgeInsetsDirectional.only(
+                    top: 45,
+                    bottom: 24,
+                  ),
+                  child: Divider(
+                    color: MColors.primaryColor,
+                  ),
+                ),
                 itemCount: state.suggestedCompanies.length,
                 itemBuilder: (context, index) {
                   final company = state.suggestedCompanies[index];
@@ -47,23 +55,19 @@ class SuggestedCompaniesWidget extends StatelessWidget {
                         hintTxt:
                             Strings.of(context).suggested_company_name_label,
                         value: company.name,
-                        isLong: false,
                       ),
                       ReadOnlyWidgets(
                         label: Strings.of(context).company_economic_id,
                         hintTxt: Strings.of(context).company_economic_id,
                         value: company.economicId,
-                        isLong: false,
                       ),
                       ReadOnlyWidgets(
                         label: Strings.of(context)
                             .suggested_company_financial_interaction_label,
                         hintTxt: Strings.of(context)
                             .suggested_company_financial_interaction_label,
-                        value: company.financialInteraction
-                            .toString()
-                            .toCurrency(context),
-                        isLong: false,
+                        value: company.financialInteraction?.toCurrency,
+                        isCurrency: true,
                       ),
                     ],
                   );

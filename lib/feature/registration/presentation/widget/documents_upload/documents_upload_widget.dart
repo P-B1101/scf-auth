@@ -250,31 +250,31 @@ class _DocumentsUploadWidgetState extends State<DocumentsUploadWidget> {
                   titleHint: Strings.of(context).other_document_title_hint,
                   fileLabel: Strings.of(context).other_document_label,
                   titleLabel: Strings.of(context).other_document_title_label,
-                  title: state.profitAndLossStatement?.title,
+                  title: items[index]?.title,
                   fileError: () {
                     if (!state.showError ||
                         !state.invalidOtherDocumentsFile ||
-                        (state.otherDocuments[index] != null &&
-                            !state.otherDocuments[index]!.invalidFile)) {
+                        (items[index] != null &&
+                            !items[index]!.invalidFile)) {
                       return null;
                     }
                     return Strings.of(context)
                         .empty_other_document_error
                         .replaceFirst(
                             '\$0',
-                            state.otherDocuments[index]?.title ??
+                            items[index]?.title ??
                                 Strings.of(context).other_document_label);
                   }(),
                   titleError: () {
                     if (!state.showError ||
                         !state.invalidOtherDocumentsTitle ||
-                        (state.otherDocuments[index] != null &&
-                            !state.otherDocuments[index]!.invalidTitle)) {
+                        (items[index] != null &&
+                            !items[index]!.invalidTitle)) {
                       return null;
                     }
                     return Strings.of(context).empty_other_document_title_error;
                   }(),
-                  name: state.otherDocuments[index]?.fileName,
+                  name: items[index]?.fileName,
                   onTitleChange: (title) => context
                       .read<RegistrationControllerCubit>()
                       .updateOtherDocumentsTitleAt(index, title),

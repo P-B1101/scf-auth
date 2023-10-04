@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:scf_auth/core/utils/extensions.dart';
 import 'package:scf_auth/feature/registration/presentation/cubit/registration_controller_cubit.dart';
 import 'package:scf_auth/feature/registration/presentation/widget/finalize/edit_title.dart';
 import 'package:scf_auth/feature/registration/presentation/widget/finalize/read_only_widgets.dart';
@@ -38,33 +39,29 @@ class CompanyIntroWidget extends StatelessWidget {
                     label: Strings.of(context).company_title_label,
                     hintTxt: Strings.of(context).official_title,
                     value: state.companyTitle,
-                    isLong: false,
                   ),
                   //شناسه اقتصادی
                   ReadOnlyWidgets(
                     label: Strings.of(context).economic_id_label,
                     hintTxt: Strings.of(context).economic_id_label,
                     value: state.economicId,
-                    isLong: false,
                   ),
                   //نوع فعالیت
                   ReadOnlyWidgets(
                     label: Strings.of(context).activity_type_label,
                     hintTxt: Strings.of(context).activity_type_label,
                     value: state.activityType?.title,
-                    isLong: false,
                   ),
                   //حوزه فعالیت
-                  ...state.activityArea
-                      .map(
-                        (e) => ReadOnlyWidgets(
-                          label: Strings.of(context).activity_area_label,
-                          hintTxt: Strings.of(context).activity_area_label,
-                          value: e?.title ?? '',
-                          isLong: false,
-                        ),
-                      )
-                      .toList()
+                  ...List.generate(
+                    state.activityArea.length,
+                    (index) => ReadOnlyWidgets(
+                      label:
+                          "${Strings.of(context).activity_area_label} ${(index + 1).toStringValue(context)}",
+                      hintTxt: Strings.of(context).activity_area_label,
+                      value: state.activityArea[index]?.title ?? '',
+                    ),
+                  ),
                 ],
               );
             },

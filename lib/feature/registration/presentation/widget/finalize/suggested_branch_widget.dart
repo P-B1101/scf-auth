@@ -34,7 +34,6 @@ class FinalizeSuggestedBranchWidget extends StatelessWidget {
                 hintTxt:
                     Strings.of(context).registration_steps_suggested_branch,
                 value: state.selectedBranch?.title ?? '',
-                isLong: false,
               );
             },
           ),
