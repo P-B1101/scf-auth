@@ -38,6 +38,7 @@ class DialogManager {
     required BuildContext context,
     double? lat,
     double? lng,
+    bool isReadOnly = false,
   }) async {
     if (_showSelectLocationDialog) return null;
     _showSelectLocationDialog = true;
@@ -46,7 +47,11 @@ class DialogManager {
       builder: (context) => Dialog(
         insetPadding: EdgeInsets.zero,
         backgroundColor: Colors.transparent,
-        child: SelectLocationDialogWidget(lat: lat, lng: lng),
+        child: SelectLocationDialogWidget(
+          lat: lat,
+          lng: lng,
+          isReadOnly: isReadOnly,
+        ),
       ),
       barrierColor: Colors.transparent,
     );

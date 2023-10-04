@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scf_auth/core/components/button/m_button.dart';
+import 'package:scf_auth/feature/dialog/manager/dialog_manager.dart';
 import 'package:scf_auth/feature/registration/presentation/widget/contact_info/contact_info_widget.dart';
 import 'package:scf_auth/feature/registration/presentation/widget/documents_upload/documents_upload_widget.dart';
 import 'package:scf_auth/feature/registration/presentation/widget/management_introduction/management_introduction_widget.dart';
@@ -12,6 +13,8 @@ import '../../../../../core/utils/assets.dart';
 import '../../../../../core/utils/enums.dart';
 import '../../../../../core/utils/ui_utils.dart';
 import '../../../../language/manager/localizatios.dart';
+import '../../../domain/entity/address_info.dart';
+import '../../bloc/sign_up_bloc.dart';
 import '../../cubit/registration_controller_cubit.dart';
 import '../company_introduction/company_introduction_widget.dart';
 import 'address_contact_info_widget.dart';
@@ -80,9 +83,14 @@ class __BodyWidgetState extends State<_BodyWidget> {
                     onSuggestedCompanyEditClick: _onSuggestedCompanyEditClick,
                   ),
                   const SizedBox(height: 100),
-                  AddressContactInfoWidget(
-                    onAddressContactEditClick: _onAddressContactEditClick,
-                    onWatchingLocationClick: _onWatchingLocationClick,
+                  BlocBuilder<RegistrationControllerCubit,
+                      RegistrationControllerState>(
+                    builder: (context, state) {
+                      return AddressContactInfoWidget(
+                        onAddressContactEditClick: _onAddressContactEditClick,
+                        onWatchingLocationClick: _onWatchingLocationClick,
+                      );
+                    },
                   ),
                   const SizedBox(height: 100),
                   FinalizeSuggestedBranchWidget(
@@ -95,10 +103,13 @@ class __BodyWidgetState extends State<_BodyWidget> {
         ),
         Padding(
           padding: const EdgeInsetsDirectional.symmetric(vertical: 16),
-          child: MButtonWidget(
-            width: UiUtils.maxInputSize,
-            onClick: _onFinalSubmitClick,
-            title: Strings.of(context).final_review_and_submit,
+          child: BlocBuilder<SignUpBloc, SignUpState>(
+            builder: (context, state) => MButtonWidget(
+                isLoading: state is SignUpLoadingState,
+                width: UiUtils.maxInputSize,
+                onClick: _onFinalSubmitClick,
+                title: Strings.of(context).final_review_and_submit,
+              ),
           ),
         ),
         //Todo: button
@@ -189,15 +200,43 @@ class __BodyWidgetState extends State<_BodyWidget> {
     context.navigateNamedTo(SuggestedBranchWidget.path);
   }
 
-  void _onWatchingLocationClick() {
-    
+  void _onWatchingLocationClick(AddressInfo addressInfo) async {
+    await DialogManager.instance.showSelectLocationDialog(
+      context: context,
+      isReadOnly: true,
+      lat: addressInfo.lat,
+      lng: addressInfo.lng,
+    );
   }
-  
+
   void _onSeeDocumentClick() {
     //Todo: Complete it later
     //Todo: This function should be able to download the uploaded file
   }
   void _onFinalSubmitClick() {
-    //Todo: Complete it later
+    final state = context.read<RegistrationControllerCubit>().onNextClick();
+    if (state == null) return;
+    context.read<SignUpBloc>().add(SubmitSignUpEvent(
+          activityArea: state.getActivityArea,
+          activityType: state.activityType!,
+          address: state.address,
+          balanceSheet: state.balanceSheet!,
+          boardMemberInfo: state.boardMemberInfo,
+          ceoInfo: state.ceoInfo,
+          // city: state.city!,
+          companyTitle: state.companyTitle,
+          economicId: state.getEconomicId!,
+          email: state.email,
+          mobileNumber: state.mobileNumber,
+          newspaper: state.newspaper!,
+          otherDocuments: state.getOtherDocuments,
+          phoneNumber: state.phoneNumber,
+          profitAndLossStatement: state.profitAndLossStatement!,
+          // province: state.province!,
+          selectedBranch: state.selectedBranch!,
+          statute: state.statute!,
+          suggestedComapnies: state.suggestedCompanies,
+          website: state.website,
+        ));
   }
 }

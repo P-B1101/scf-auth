@@ -36,10 +36,12 @@ class _State extends Equatable {
 class SelectLocationDialogWidget extends StatelessWidget {
   final double? lat;
   final double? lng;
+  final bool isReadOnly;
   const SelectLocationDialogWidget({
     super.key,
     required this.lat,
     required this.lng,
+    this.isReadOnly = false,
   });
 
   @override
@@ -50,7 +52,7 @@ class SelectLocationDialogWidget extends StatelessWidget {
           create: (context) => _Cubit(lat, lng),
         )
       ],
-      child: const _SelectLocationDialogWidget(),
+      child: _SelectLocationDialogWidget(isReadOnly: isReadOnly),
     );
   }
 }
@@ -58,7 +60,9 @@ class SelectLocationDialogWidget extends StatelessWidget {
 class _SelectLocationDialogWidget extends StatelessWidget {
   const _SelectLocationDialogWidget({
     Key? key,
+    required this.isReadOnly,
   }) : super(key: key);
+  final bool isReadOnly;
   @override
   Widget build(BuildContext context) {
     return BaseDialogWidget(
@@ -93,7 +97,7 @@ class _SelectLocationDialogWidget extends StatelessWidget {
             ),
             _mapWidget,
             const SizedBox(height: 32),
-            _selectButtonWidet,
+            if (!isReadOnly) _selectButtonWidget,
             const SizedBox(height: 22),
           ],
         ),
@@ -103,7 +107,9 @@ class _SelectLocationDialogWidget extends StatelessWidget {
         builder: (context) => Padding(
           padding: const EdgeInsets.only(top: 18, bottom: 18),
           child: Text(
-            Strings.of(context).select_location_title,
+            (isReadOnly)
+                ? Strings.of(context).location_title
+                : Strings.of(context).select_location_title,
             textAlign: TextAlign.center,
             style: const TextStyle(
               fontSize: 16,
@@ -120,19 +126,32 @@ class _SelectLocationDialogWidget extends StatelessWidget {
           child: AspectRatio(
             aspectRatio: 1,
             child: BlocBuilder<_Cubit, _State>(
-              builder: (context, state) => MMapWidget(
-                updateCamera: false,
-                lat: state.selectedLocation?.lat,
-                lng: state.selectedLocation?.lng,
-                onLocationSelected:
-                    context.read<_Cubit>().updateSelectedLocation,
-              ),
+              builder: (context, state) {
+                if (isReadOnly) {
+                  return MMapWidget(
+                    updateCamera: false,
+                    lat: state.selectedLocation?.lat,
+                    lng: state.selectedLocation?.lng,
+                    // onLocationSelected:
+                    //     context.read<_Cubit>().updateSelectedLocation,
+                  );
+                } //
+                else {
+                  return MMapWidget(
+                    updateCamera: false,
+                    lat: state.selectedLocation?.lat,
+                    lng: state.selectedLocation?.lng,
+                    onLocationSelected:
+                        context.read<_Cubit>().updateSelectedLocation,
+                  );
+                }
+              },
             ),
           ),
         ),
       );
 
-  Widget get _selectButtonWidet => BlocBuilder<_Cubit, _State>(
+  Widget get _selectButtonWidget => BlocBuilder<_Cubit, _State>(
         builder: (context, state) => MButtonWidget(
           onClick: () => Navigator.of(context).pop(state.selectedLocation),
           title: Strings.of(context).submit,
