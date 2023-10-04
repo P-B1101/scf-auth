@@ -142,7 +142,6 @@ class RegistrationControllerCubit extends Cubit<RegistrationControllerState> {
         newState = state.copyWith(step: RegistrationSteps.contactInfo);
         break;
       case RegistrationSteps.finalize:
-        print('menu');
         newState = state.copyWith(step: RegistrationSteps.suggestedBranch);
         break;
     }
@@ -233,30 +232,30 @@ class RegistrationControllerCubit extends Cubit<RegistrationControllerState> {
 
   void addSuggestedCompany() {
     final newItems = [...state.suggestedCompanies, SuggestedCompany.init()];
-    emit(state.copyWith(suggestedComapnies: newItems));
+    emit(state.copyWith(suggestedCompanies: newItems));
   }
 
   void deleteSuggestedCompany(int index) {
     final newItems = state.suggestedCompanies.deleteItemAt(index);
-    emit(state.copyWith(suggestedComapnies: newItems));
+    emit(state.copyWith(suggestedCompanies: newItems));
   }
 
   void updateSuggestedCompanyNameAt(int index, String title) {
     final newItems = state.suggestedCompanies.updateNameAt(index, title);
-    emit(state.copyWith(suggestedComapnies: newItems));
+    emit(state.copyWith(suggestedCompanies: newItems));
   }
 
   void updateSuggestedCompanyEconomicIdAt(int index, String economicId) {
     final newItems =
         state.suggestedCompanies.updateEconomicIdAt(index, economicId);
-    emit(state.copyWith(suggestedComapnies: newItems));
+    emit(state.copyWith(suggestedCompanies: newItems));
   }
 
   void updateSuggestedCompanyFinancialInteractionAt(
       int index, int? financialInteraction) {
     final newItems = state.suggestedCompanies
         .updateFinancialInteractionAt(index, financialInteraction);
-    emit(state.copyWith(suggestedComapnies: newItems));
+    emit(state.copyWith(suggestedCompanies: newItems));
   }
 
   void updateSelectedBranch(BranchInfo selectedBranch) =>

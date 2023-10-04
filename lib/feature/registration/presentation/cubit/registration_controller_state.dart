@@ -92,7 +92,7 @@ class RegistrationControllerState extends Equatable {
     UploadFileResult? balanceSheet,
     UploadFileResult? profitAndLossStatement,
     List<UploadFileResult?>? otherDocuments,
-    List<SuggestedCompany>? suggestedComapnies,
+    List<SuggestedCompany>? suggestedCompanies,
     BranchInfo? selectedBranch,
     String? mobileNumber,
     String? phoneNumber,
@@ -117,7 +117,7 @@ class RegistrationControllerState extends Equatable {
         profitAndLossStatement:
             profitAndLossStatement ?? this.profitAndLossStatement,
         statute: statute ?? this.statute,
-        suggestedCompanies: suggestedComapnies ?? this.suggestedCompanies,
+        suggestedCompanies: suggestedCompanies ?? this.suggestedCompanies,
         selectedBranch: selectedBranch ?? this.selectedBranch,
         address: address ?? this.address,
         email: email ?? this.email,
@@ -183,23 +183,22 @@ class RegistrationControllerState extends Equatable {
       );
 
   bool get isEnable {
-    return true;
-    // switch (step) {
-    //   case RegistrationSteps.companyIntroduction:
-    //     return _isCompanyIntroductionValid;
-    //   case RegistrationSteps.managementIntroduction:
-    //     return _isManagementIntroductionValid;
-    //   case RegistrationSteps.documentsUpload:
-    //     return _isDocumentsUploadValid;
-    //   case RegistrationSteps.suggestedCompany:
-    //     return _isSuggestedCompaniesValid;
-    //   case RegistrationSteps.contactInfo:
-    //     return _isContactInfoValid;
-    //   case RegistrationSteps.suggestedBranch:
-    //     return _isSuggestedBranchValid;
-    //   case RegistrationSteps.finalize:
-    //     return true;
-    // }
+    switch (step) {
+      case RegistrationSteps.companyIntroduction:
+        return _isCompanyIntroductionValid;
+      case RegistrationSteps.managementIntroduction:
+        return _isManagementIntroductionValid;
+      case RegistrationSteps.documentsUpload:
+        return _isDocumentsUploadValid;
+      case RegistrationSteps.suggestedCompany:
+        return _isSuggestedCompaniesValid;
+      case RegistrationSteps.contactInfo:
+        return _isContactInfoValid;
+      case RegistrationSteps.suggestedBranch:
+        return _isSuggestedBranchValid;
+      case RegistrationSteps.finalize:
+        return true;
+    }
   }
 
   RegistrationSteps? get getInvalidStep {
@@ -270,15 +269,10 @@ class RegistrationControllerState extends Equatable {
   }
 
   bool get _isContactInfoValid {
-    dev.log('1');
     if (invalidMobile) return false;
-    dev.log('2');
     if (invalidPhone) return false;
-    dev.log('3');
     if (invalidEmail) return false;
-    dev.log('4');
     if (invalidWebsite) return false;
-    dev.log('5');
     // if (invalidProvince) return false;
     // if (invalidCity) return false;
     if (invalidAddress) return false;
