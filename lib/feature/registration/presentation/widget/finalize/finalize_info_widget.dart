@@ -108,7 +108,7 @@ class __BodyWidgetState extends State<_BodyWidget> {
                 isLoading: state is SignUpLoadingState,
                 width: UiUtils.maxInputSize,
                 onClick: _onFinalSubmitClick,
-                title: Strings.of(context).final_review_and_submit,
+                title: Strings.of(context).submit_info,
               ),
           ),
         ),

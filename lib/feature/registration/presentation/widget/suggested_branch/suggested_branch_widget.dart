@@ -141,7 +141,7 @@ class _SuggestedBranchWidgetState extends State<SuggestedBranchWidget> {
         builder: (context, state) => BlocBuilder<SignUpBloc, SignUpState>(
           builder: (context, sState) => MButtonWidget(
             onClick: _onSuggestedBranchSubmitClick,
-            title: Strings.of(context).submit_info,
+            title: Strings.of(context).final_review_and_submit,
             width: UiUtils.maxInputSize,
             isEnable: state.isEnable,
             isLoading: sState is SignUpLoadingState,
