@@ -13,6 +13,7 @@ import '../../../../map/presentation/widget/m_map_widget.dart';
 import '../../bloc/sign_up_bloc.dart';
 import '../../cubit/registration_controller_cubit.dart';
 import '../contact_info/contact_info_widget.dart';
+import '../finalize/finalize_info_widget.dart';
 
 @RoutePage()
 class SuggestedBranchWidget extends StatefulWidget {
@@ -165,28 +166,31 @@ class _SuggestedBranchWidgetState extends State<SuggestedBranchWidget> {
 
   void _onSuggestedBranchSubmitClick() {
     final state = context.read<RegistrationControllerCubit>().onNextClick();
+
     if (state == null) return;
-    context.read<SignUpBloc>().add(SubmitSignUpEvent(
-          activityArea: state.getActivityArea,
-          activityType: state.activityType!,
-          address: state.address,
-          balanceSheet: state.balanceSheet!,
-          boardMemberInfo: state.boardMemberInfo,
-          ceoInfo: state.ceoInfo,
-          city: state.city!,
-          companyTitle: state.companyTitle,
-          economicId: state.getEconomicId!,
-          email: state.email,
-          mobileNumber: state.mobileNumber,
-          newspaper: state.newspaper!,
-          otherDocuments: state.getOtherDocuments,
-          phoneNumber: state.phoneNumber,
-          profitAndLossStatement: state.profitAndLossStatement!,
-          province: state.province!,
-          selectedBranch: state.selectedBranch!,
-          statute: state.statute!,
-          suggestedComapnies: state.suggestedComapnies,
-          website: state.website,
-        ));
+    AutoTabsRouter.of(context).setActiveIndex(state.step.index);
+    context.navigateNamedTo(FinalizeInfoWidget.path);
+    // context.read<SignUpBloc>().add(SubmitSignUpEvent(
+    //       activityArea: state.getActivityArea,
+    //       activityType: state.activityType!,
+    //       address: state.address,
+    //       balanceSheet: state.balanceSheet!,
+    //       boardMemberInfo: state.boardMemberInfo,
+    //       ceoInfo: state.ceoInfo,
+    //       // city: state.city!,
+    //       companyTitle: state.companyTitle,
+    //       economicId: state.getEconomicId!,
+    //       email: state.email,
+    //       mobileNumber: state.mobileNumber,
+    //       newspaper: state.newspaper!,
+    //       otherDocuments: state.getOtherDocuments,
+    //       phoneNumber: state.phoneNumber,
+    //       profitAndLossStatement: state.profitAndLossStatement!,
+    //       // province: state.province!,
+    //       selectedBranch: state.selectedBranch!,
+    //       statute: state.statute!,
+    //       suggestedComapnies: state.suggestedComapnies,
+    //       website: state.website,
+    //     ));
   }
 }

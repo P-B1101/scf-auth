@@ -10,6 +10,7 @@ import '../../../cdn/domain/entity/upload_file_result.dart';
 import '../../domain/entity/address_info.dart';
 import '../../domain/entity/director.dart';
 import '../../domain/entity/suggested_company.dart';
+import 'dart:developer' as dev;
 
 part 'registration_controller_state.dart';
 
@@ -29,14 +30,14 @@ class RegistrationControllerCubit extends Cubit<RegistrationControllerState> {
           otherDocuments: const [null],
           profitAndLossStatement: null,
           statute: null,
-          suggestedComapnies: [SuggestedCompany.init()],
+          suggestedCompanies: [SuggestedCompany.init()],
           selectedBranch: null,
           address: [AddressInfo.init()],
-          city: null,
+          // city: null,
           email: '',
           mobileNumber: phoneNumber ?? '',
           phoneNumber: '',
-          province: null,
+          // province: null,
           website: '',
           errorStep: null,
         ));
@@ -57,6 +58,7 @@ class RegistrationControllerCubit extends Cubit<RegistrationControllerState> {
         case RegistrationSteps.documentsUpload:
         case RegistrationSteps.suggestedCompany:
         case RegistrationSteps.contactInfo:
+        case RegistrationSteps.finalize:
           emit(state.copyWith(showError: true));
           break;
         case RegistrationSteps.suggestedBranch:
@@ -105,6 +107,12 @@ class RegistrationControllerCubit extends Cubit<RegistrationControllerState> {
         );
         break;
       case RegistrationSteps.suggestedBranch:
+        newState = state.copyWith(
+          showError: false,
+          step: RegistrationSteps.finalize,
+        );
+        break;
+      case RegistrationSteps.finalize:
         newState = state.copyWith(showError: false);
         break;
     }
@@ -132,6 +140,10 @@ class RegistrationControllerCubit extends Cubit<RegistrationControllerState> {
         break;
       case RegistrationSteps.suggestedBranch:
         newState = state.copyWith(step: RegistrationSteps.contactInfo);
+        break;
+      case RegistrationSteps.finalize:
+        print('menu');
+        newState = state.copyWith(step: RegistrationSteps.suggestedBranch);
         break;
     }
     emit(newState);
@@ -220,29 +232,29 @@ class RegistrationControllerCubit extends Cubit<RegistrationControllerState> {
   }
 
   void addSuggestedCompany() {
-    final newItems = [...state.suggestedComapnies, SuggestedCompany.init()];
+    final newItems = [...state.suggestedCompanies, SuggestedCompany.init()];
     emit(state.copyWith(suggestedComapnies: newItems));
   }
 
   void deleteSuggestedCompany(int index) {
-    final newItems = state.suggestedComapnies.deleteItemAt(index);
+    final newItems = state.suggestedCompanies.deleteItemAt(index);
     emit(state.copyWith(suggestedComapnies: newItems));
   }
 
   void updateSuggestedCompanyNameAt(int index, String title) {
-    final newItems = state.suggestedComapnies.updateNameAt(index, title);
+    final newItems = state.suggestedCompanies.updateNameAt(index, title);
     emit(state.copyWith(suggestedComapnies: newItems));
   }
 
   void updateSuggestedCompanyEconomicIdAt(int index, String economicId) {
     final newItems =
-        state.suggestedComapnies.updateEconomicIdAt(index, economicId);
+        state.suggestedCompanies.updateEconomicIdAt(index, economicId);
     emit(state.copyWith(suggestedComapnies: newItems));
   }
 
   void updateSuggestedCompanyFinancialInteractionAt(
       int index, int? financialInteraction) {
-    final newItems = state.suggestedComapnies
+    final newItems = state.suggestedCompanies
         .updateFinancialInteractionAt(index, financialInteraction);
     emit(state.copyWith(suggestedComapnies: newItems));
   }
@@ -265,14 +277,14 @@ class RegistrationControllerCubit extends Cubit<RegistrationControllerState> {
 
   void updateWebsite(String website) => emit(state.copyWith(website: website));
 
-  void updateProvince(ProvinceCity province) {
-    final oldProvince = state.province;
-    if (province == oldProvince) return;
-    final newState = state.copyWith(province: province).updateCity(null);
-    emit(newState);
-  }
+  // void updateProvince(ProvinceCity province) {
+  //   final oldProvince = state.province;
+  //   if (province == oldProvince) return;
+  //   final newState = state.copyWith(province: province).updateCity(null);
+  //   emit(newState);
+  // }
 
-  void updateCity(ProvinceCity? city) => emit(state.updateCity(city));
+  // void updateCity(ProvinceCity? city) => emit(state.updateCity(city));
 
   void updateAddressAddressAt(int index, String address) {
     final newItems = state.address.updateAddressAddressAt(index, address);

@@ -25,8 +25,8 @@ final class SubmitSignUpEvent extends SignUpEvent {
   final String phoneNumber;
   final String email;
   final String website;
-  final ProvinceCity province;
-  final ProvinceCity city;
+  // final ProvinceCity province;
+  // final ProvinceCity city;
   final List<AddressInfo> address;
 
 
@@ -37,7 +37,7 @@ final class SubmitSignUpEvent extends SignUpEvent {
     required this.balanceSheet,
     required this.boardMemberInfo,
     required this.ceoInfo ,
-    required this.city,
+    // required this.city,
     required this.companyTitle,
     required this.economicId,
     required this.email,
@@ -46,7 +46,7 @@ final class SubmitSignUpEvent extends SignUpEvent {
     required this.otherDocuments,
     required this.phoneNumber,
     required this.profitAndLossStatement,
-    required this.province,
+    // required this.province,
     required this.selectedBranch,
     required this.statute,
     required this.suggestedComapnies,
@@ -62,7 +62,7 @@ final class SubmitSignUpEvent extends SignUpEvent {
     balanceSheet,
     boardMemberInfo,
     ceoInfo ,
-    city,
+    // city,
     companyTitle,
     economicId,
     email,
@@ -71,7 +71,7 @@ final class SubmitSignUpEvent extends SignUpEvent {
     otherDocuments,
     phoneNumber,
     profitAndLossStatement,
-    province,
+    // province,
     selectedBranch,
     statute,
     suggestedComapnies,

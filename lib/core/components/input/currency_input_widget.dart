@@ -34,11 +34,13 @@ class CurrencyInputWidget extends StatelessWidget {
   final Function(String)? onTextChange;
   final String hint;
   final String? error;
+  final bool isReadOnly;
   const CurrencyInputWidget({
     super.key,
     required this.controller,
     required this.focusNode,
     required this.hint,
+    this.isReadOnly = false,
     this.onTextChange,
     this.error,
   });
@@ -57,6 +59,7 @@ class CurrencyInputWidget extends StatelessWidget {
         hint: hint,
         onTextChange: onTextChange,
         error: error,
+        isReadOnly: isReadOnly,
       ),
     );
   }
@@ -68,6 +71,7 @@ class _CurrencyInputWidget extends StatefulWidget {
   final String hint;
   final Function(String)? onTextChange;
   final String? error;
+  final bool isReadOnly;
   const _CurrencyInputWidget({
     Key? key,
     required this.controller,
@@ -75,6 +79,7 @@ class _CurrencyInputWidget extends StatefulWidget {
     required this.hint,
     required this.onTextChange,
     required this.error,
+    required this.isReadOnly,
   }) : super(key: key);
 
   @override
@@ -96,6 +101,7 @@ class _CurrencyInputWidgetState extends State<_CurrencyInputWidget> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         MInputWidget(
+          isReadOnly: widget.isReadOnly,
           controller: widget.controller,
           focusNode: widget.focusNode,
           hint: widget.hint,

@@ -14,14 +14,14 @@ class RegistrationControllerState extends Equatable {
   final UploadFileResult? balanceSheet;
   final UploadFileResult? profitAndLossStatement;
   final List<UploadFileResult?> otherDocuments;
-  final List<SuggestedCompany> suggestedComapnies;
+  final List<SuggestedCompany> suggestedCompanies;
   final BranchInfo? selectedBranch;
   final String mobileNumber;
   final String phoneNumber;
   final String email;
   final String website;
-  final ProvinceCity? province;
-  final ProvinceCity? city;
+  // final ProvinceCity? province;
+  // final ProvinceCity? city;
   final List<AddressInfo> address;
   final bool showError;
 
@@ -39,14 +39,14 @@ class RegistrationControllerState extends Equatable {
     required this.otherDocuments,
     required this.profitAndLossStatement,
     required this.statute,
-    required this.suggestedComapnies,
+    required this.suggestedCompanies,
     required this.selectedBranch,
     required this.address,
-    required this.city,
+    // required this.city,
     required this.email,
     required this.mobileNumber,
     required this.phoneNumber,
-    required this.province,
+    // required this.province,
     required this.website,
     required this.errorStep,
   });
@@ -66,14 +66,14 @@ class RegistrationControllerState extends Equatable {
         otherDocuments,
         profitAndLossStatement,
         statute,
-        suggestedComapnies,
+        suggestedCompanies,
         selectedBranch,
         address,
-        city,
+        // city,
         email,
         mobileNumber,
         phoneNumber,
-        province,
+        // province,
         website,
         errorStep,
       ];
@@ -98,7 +98,7 @@ class RegistrationControllerState extends Equatable {
     String? phoneNumber,
     String? email,
     String? website,
-    ProvinceCity? province,
+    // ProvinceCity? province,
     List<AddressInfo>? address,
   }) =>
       RegistrationControllerState(
@@ -117,43 +117,43 @@ class RegistrationControllerState extends Equatable {
         profitAndLossStatement:
             profitAndLossStatement ?? this.profitAndLossStatement,
         statute: statute ?? this.statute,
-        suggestedComapnies: suggestedComapnies ?? this.suggestedComapnies,
+        suggestedCompanies: suggestedComapnies ?? this.suggestedCompanies,
         selectedBranch: selectedBranch ?? this.selectedBranch,
         address: address ?? this.address,
         email: email ?? this.email,
         mobileNumber: mobileNumber ?? this.mobileNumber,
         phoneNumber: phoneNumber ?? this.phoneNumber,
-        province: province ?? this.province,
+        // province: province ?? this.province,
         website: website ?? this.website,
-        city: city,
+        // city: city,
       );
 
-  RegistrationControllerState updateCity(ProvinceCity? city) =>
-      RegistrationControllerState(
-        step: step,
-        errorStep: errorStep,
-        activityType: activityType,
-        activityArea: activityArea,
-        companyTitle: companyTitle,
-        economicId: economicId,
-        showError: showError,
-        boardMemberInfo: boardMemberInfo,
-        ceoInfo: ceoInfo,
-        balanceSheet: balanceSheet,
-        newspaper: newspaper,
-        otherDocuments: otherDocuments,
-        profitAndLossStatement: profitAndLossStatement,
-        statute: statute,
-        suggestedComapnies: suggestedComapnies,
-        selectedBranch: selectedBranch,
-        address: address,
-        city: city,
-        email: email,
-        mobileNumber: mobileNumber,
-        phoneNumber: phoneNumber,
-        province: province,
-        website: website,
-      );
+  // RegistrationControllerState updateCity(ProvinceCity? city) =>
+  //     RegistrationControllerState(
+  //       step: step,
+  //       errorStep: errorStep,
+  //       activityType: activityType,
+  //       activityArea: activityArea,
+  //       companyTitle: companyTitle,
+  //       economicId: economicId,
+  //       showError: showError,
+  //       boardMemberInfo: boardMemberInfo,
+  //       ceoInfo: ceoInfo,
+  //       balanceSheet: balanceSheet,
+  //       newspaper: newspaper,
+  //       otherDocuments: otherDocuments,
+  //       profitAndLossStatement: profitAndLossStatement,
+  //       statute: statute,
+  //       suggestedComapnies: suggestedComapnies,
+  //       selectedBranch: selectedBranch,
+  //       address: address,
+  //       city: city,
+  //       email: email,
+  //       mobileNumber: mobileNumber,
+  //       phoneNumber: phoneNumber,
+  //       province: province,
+  //       website: website,
+  //     );
 
   RegistrationControllerState updateErrorStep(RegistrationSteps? errorStep) =>
       RegistrationControllerState(
@@ -171,36 +171,41 @@ class RegistrationControllerState extends Equatable {
         otherDocuments: otherDocuments,
         profitAndLossStatement: profitAndLossStatement,
         statute: statute,
-        suggestedComapnies: suggestedComapnies,
+        suggestedCompanies: suggestedCompanies,
         selectedBranch: selectedBranch,
         address: address,
-        city: city,
+        // city: city,
         email: email,
         mobileNumber: mobileNumber,
         phoneNumber: phoneNumber,
-        province: province,
+        // province: province,
         website: website,
       );
 
   bool get isEnable {
-    switch (step) {
-      case RegistrationSteps.companyIntroduction:
-        return _isCompanyIntroductionValid;
-      case RegistrationSteps.managementIntroduction:
-        return _isManagementIntroductionValid;
-      case RegistrationSteps.documentsUpload:
-        return _isDocumentsUploadValid;
-      case RegistrationSteps.suggestedCompany:
-        return _isSuggestedCompaniesValid;
-      case RegistrationSteps.contactInfo:
-        return _isContactInfoValid;
-      case RegistrationSteps.suggestedBranch:
-        return _isSuggestedBranchValid;
-    }
+    return true;
+    // switch (step) {
+    //   case RegistrationSteps.companyIntroduction:
+    //     return _isCompanyIntroductionValid;
+    //   case RegistrationSteps.managementIntroduction:
+    //     return _isManagementIntroductionValid;
+    //   case RegistrationSteps.documentsUpload:
+    //     return _isDocumentsUploadValid;
+    //   case RegistrationSteps.suggestedCompany:
+    //     return _isSuggestedCompaniesValid;
+    //   case RegistrationSteps.contactInfo:
+    //     return _isContactInfoValid;
+    //   case RegistrationSteps.suggestedBranch:
+    //     return _isSuggestedBranchValid;
+    //   case RegistrationSteps.finalize:
+    //     return true;
+    // }
   }
 
   RegistrationSteps? get getInvalidStep {
     switch (step) {
+      case RegistrationSteps.finalize:
+        return null;
       case RegistrationSteps.companyIntroduction:
         return RegistrationSteps.companyIntroduction;
       case RegistrationSteps.managementIntroduction:
@@ -265,12 +270,17 @@ class RegistrationControllerState extends Equatable {
   }
 
   bool get _isContactInfoValid {
+    dev.log('1');
     if (invalidMobile) return false;
+    dev.log('2');
     if (invalidPhone) return false;
+    dev.log('3');
     if (invalidEmail) return false;
+    dev.log('4');
     if (invalidWebsite) return false;
-    if (invalidProvince) return false;
-    if (invalidCity) return false;
+    dev.log('5');
+    // if (invalidProvince) return false;
+    // if (invalidCity) return false;
     if (invalidAddress) return false;
     return true;
   }
@@ -338,15 +348,15 @@ class RegistrationControllerState extends Equatable {
   bool get canAddOtherDocuments => otherDocuments.length < 5;
 
   bool get invalidSuggestedCompaniesName =>
-      suggestedComapnies.any((element) => element.invalidName);
+      suggestedCompanies.any((element) => element.invalidName);
 
   bool get invalidSuggestedCompaniesEconomicId =>
-      suggestedComapnies.any((element) => element.invalidEconomicId);
+      suggestedCompanies.any((element) => element.invalidEconomicId);
 
   bool get invalidSuggestedCompaniesFinancialInteraction =>
-      suggestedComapnies.any((element) => element.invalidFinancialIteraction);
+      suggestedCompanies.any((element) => element.invalidFinancialIteraction);
 
-  bool get canAddSuggestedCompanies => suggestedComapnies.length < 5;
+  bool get canAddSuggestedCompanies => suggestedCompanies.length < 5;
 
   bool get invalidMobile => !mobileNumber.isValidMobileNumber;
 
@@ -356,9 +366,9 @@ class RegistrationControllerState extends Equatable {
 
   bool get invalidWebsite => !website.isValidWebsite;
 
-  bool get invalidProvince => province == null;
+  // bool get invalidProvince => province == null;
 
-  bool get invalidCity => city == null;
+  // bool get invalidCity => city == null;
 
   bool get invalidAddress => address.any((element) => !element.isValidAddress);
 
@@ -375,4 +385,9 @@ class RegistrationControllerState extends Equatable {
       .toList();
 
   int? get getEconomicId => int.tryParse(economicId);
+
+  bool get showMenu => switch (step) {
+        RegistrationSteps.finalize => false,
+        _ => true,
+      };
 }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../registration/presentation/widget/company_introduction/company_introduction_widget.dart';
 import '../registration/presentation/widget/contact_info/contact_info_widget.dart';
 import '../registration/presentation/widget/documents_upload/documents_upload_widget.dart';
+import '../registration/presentation/widget/finalize/finalize_info_widget.dart';
 import '../registration/presentation/widget/management_introduction/management_introduction_widget.dart';
 import '../registration/presentation/widget/suggested_company/suggested_company_widget.dart';
 
@@ -47,6 +48,10 @@ class AppRouter extends $AppRouter {
             AutoRoute(
               path: SuggestedBranchWidget.path,
               page: SuggestedBranchRoute.page,
+            ),
+             AutoRoute(
+              path: FinalizeInfoWidget.path,
+              page: FinalizeInfoRoute.page,
             ),
           ],
         ),

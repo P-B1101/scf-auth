@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
         fontFamily: Fonts.yekan,
       ),
       onGenerateTitle: (context) => Strings.of(context).app_name,
-      themeMode: ThemeMode.system,
+      themeMode: ThemeMode.light,
       builder: (context, child) {
         final MediaQueryData data = MediaQuery.of(context);
         final scaleFactor = data.size.width.scaleFactor;

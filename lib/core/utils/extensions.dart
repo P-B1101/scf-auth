@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
+import 'package:scf_auth/feature/registration/presentation/widget/finalize/finalize_info_widget.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 
 import '../../feature/cdn/domain/entity/key_value.dart';
@@ -148,6 +149,8 @@ extension StringExt on String {
         return RegistrationSteps.contactInfo;
       case SuggestedBranchWidget.path:
         return RegistrationSteps.suggestedBranch;
+      case FinalizeInfoWidget.path:
+        return RegistrationSteps.finalize;
     }
     return null;
   }
@@ -263,6 +266,8 @@ extension RegistrationStepsExt on RegistrationSteps {
         return Strings.of(context).registration_steps_contact_info;
       case RegistrationSteps.suggestedBranch:
         return Strings.of(context).registration_steps_suggested_branch;
+      case RegistrationSteps.finalize:
+        return Strings.of(context).registration_steps_finalize;
     }
   }
 }
