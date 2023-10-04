@@ -10,7 +10,6 @@ import '../../../cdn/domain/entity/upload_file_result.dart';
 import '../../domain/entity/address_info.dart';
 import '../../domain/entity/director.dart';
 import '../../domain/entity/suggested_company.dart';
-import 'dart:developer' as dev;
 
 part 'registration_controller_state.dart';
 
