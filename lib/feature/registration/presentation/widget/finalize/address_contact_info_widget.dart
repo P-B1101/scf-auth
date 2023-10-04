@@ -7,6 +7,7 @@ import 'package:scf_auth/feature/registration/presentation/widget/finalize/read_
 import '../../../../../core/utils/assets.dart';
 import '../../../../../core/utils/ui_utils.dart';
 import '../../../../language/manager/localizatios.dart';
+import '../../../domain/entity/address_info.dart';
 
 class AddressContactInfoWidget extends StatelessWidget {
   const AddressContactInfoWidget({
@@ -16,7 +17,7 @@ class AddressContactInfoWidget extends StatelessWidget {
   });
 
   final Function() onAddressContactEditClick;
-  final Function() onWatchingLocationClick;
+  final Function(AddressInfo addressInfo) onWatchingLocationClick;
 
   @override
   Widget build(BuildContext context) {
@@ -106,7 +107,9 @@ class AddressContactInfoWidget extends StatelessWidget {
                             MouseRegion(
                               cursor: SystemMouseCursors.click,
                               child: GestureDetector(
-                                onTap: onWatchingLocationClick,
+                                onTap: () {
+                                  onWatchingLocationClick(state.address[index]);
+                                },
                                 child: Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [

@@ -137,6 +137,7 @@
     "delete_address": "حذف آدرس",
     "delete_lat_lng": "حذف نقطه مکانی",
     "select_location_title": "انتخاب نقطه مکانی",
+    "location_title": "نقطه مکانی",
     "submit": "تایید",
     "wrong_economic_id_error": "شناسه اقتصادی وارد شده اشتباه می باشد",
     "wrong_suggested_company_economic_id_error": "شناسه اقتصادی بنگاه وارد شده اشتباه می باشد",

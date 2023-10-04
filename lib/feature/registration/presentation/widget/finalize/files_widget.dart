@@ -11,9 +11,11 @@ class FilesWidget extends StatelessWidget {
   const FilesWidget({
     super.key,
     required this.onFileEditClick,
+    required this.onSeeDocumentClick,
   });
 
   final Function() onFileEditClick;
+  final Function() onSeeDocumentClick;
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +41,7 @@ class FilesWidget extends StatelessWidget {
                     hintTxt: Strings.of(context).statute_label,
                     value: state.statute?.fileName,
                     seeDocIcon: Icons.remove_red_eye,
+                    onSeeDocumentClick: onSeeDocumentClick,
                   ),
                   //روز نامه
                   ReadOnlyWidgets(
@@ -46,6 +49,7 @@ class FilesWidget extends StatelessWidget {
                     hintTxt: Strings.of(context).newspaper_label,
                     value: state.newspaper?.fileName,
                     seeDocIcon: Icons.remove_red_eye,
+                    onSeeDocumentClick: onSeeDocumentClick,
                   ),
                   //تراز نامه
                   ReadOnlyWidgets(
@@ -53,6 +57,7 @@ class FilesWidget extends StatelessWidget {
                     hintTxt: Strings.of(context).balance_sheet_label,
                     value: state.balanceSheet?.fileName,
                     seeDocIcon: Icons.remove_red_eye,
+                    onSeeDocumentClick: onSeeDocumentClick,
                   ),
                   //صورت سود زیان
                   ReadOnlyWidgets(
@@ -61,6 +66,7 @@ class FilesWidget extends StatelessWidget {
                         Strings.of(context).profit_and_loss_statement_label,
                     value: state.profitAndLossStatement?.fileName,
                     seeDocIcon: Icons.remove_red_eye,
+                    onSeeDocumentClick: onSeeDocumentClick,
                   ),
                   //سایر
                   ...List.generate(
@@ -70,6 +76,7 @@ class FilesWidget extends StatelessWidget {
                       hintTxt: Strings.of(context).other,
                       value: state.otherDocuments[index]?.fileName,
                       seeDocIcon: Icons.remove_red_eye,
+                      onSeeDocumentClick: onSeeDocumentClick,
                     ),
                   )
                 ],
