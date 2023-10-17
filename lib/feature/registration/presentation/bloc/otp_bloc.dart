@@ -4,6 +4,7 @@ import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../../core/error/failures.dart';
+import '../../domain/use_case/resend_otp.dart' as r;
 import '../../domain/use_case/send_otp.dart' as s;
 import '../../domain/use_case/validate_otp.dart';
 
@@ -14,12 +15,12 @@ part 'otp_state.dart';
 class OtpBloc extends Bloc<OtpEvent, OtpState> {
   final s.SendOtp _sendOtp;
   final ValidateOtp _validateOtp;
-  OtpBloc(
-    this._sendOtp,
-    this._validateOtp,
-  ) : super(OtpInitial()) {
+  final r.ResendOtp _resendOtp;
+  OtpBloc(this._sendOtp, this._validateOtp, this._resendOtp)
+      : super(OtpInitial()) {
     on<SendOtpEvent>(_onSendOtpEvent, transformer: droppable());
     on<ValidateOtpEvent>(_onValidateOtpEvent, transformer: droppable());
+    on<ResendOtpEvent>(_onResendOtpEvent, transformer: droppable());
   }
 
   Future<void> _onSendOtpEvent(
@@ -28,6 +29,19 @@ class OtpBloc extends Bloc<OtpEvent, OtpState> {
   ) async {
     emit(SendOtpLaodingState());
     final result = await _sendOtp(s.Params(phoneNumber: event.phoneNumber));
+    final newState = await result.fold(
+      (failure) async => failure.toState,
+      (otpToken) async => SendOtpSuccessState(otpToken: otpToken),
+    );
+    emit(newState);
+  }
+
+  Future<void> _onResendOtpEvent(
+    ResendOtpEvent event,
+    Emitter<OtpState> emit,
+  ) async {
+    emit(ResendOtpLaodingState());
+    final result = await _resendOtp(r.Params(otpToken: event.otpToken));
     final newState = await result.fold(
       (failure) async => failure.toState,
       (otpToken) async => SendOtpSuccessState(otpToken: otpToken),

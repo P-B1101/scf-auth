@@ -17,6 +17,16 @@ final class SendOtpEvent extends OtpEvent {
   List<Object> get props => [phoneNumber];
 }
 
+final class ResendOtpEvent extends OtpEvent {
+  final String otpToken;
+  const ResendOtpEvent({
+    required this.otpToken,
+  });
+
+  @override
+  List<Object> get props => [otpToken];
+}
+
 final class ValidateOtpEvent extends OtpEvent {
   final String otpToken;
   final String code;

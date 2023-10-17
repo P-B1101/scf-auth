@@ -160,5 +160,7 @@
     "files": "فایل‌ها",
     "official_title": "عنوان رسمی",
     "watching_location": "مشاهده نقطه مکانی",
-    "final_review_and_submit": "ثبت و بررسی نهایی"
+    "final_review_and_submit": "ثبت و بررسی نهایی",
+    "timer_place_holder": "$0 تا ارسال مجدد کد",
+    "resend_otp_title": "ارسال مجدد"
 }

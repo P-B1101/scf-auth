@@ -8,16 +8,16 @@ import 'package:scf_auth/core/utils/enums.dart';
 import 'package:scf_auth/core/utils/extensions.dart';
 import 'package:scf_auth/feature/language/manager/localizatios.dart';
 import 'package:scf_auth/feature/registration/presentation/bloc/otp_bloc.dart';
+import 'package:scf_auth/feature/timer/presentation/cubit/timer_controller_cubit.dart';
 
 import '../../../../core/components/button/close_button_widget.dart';
 import '../../../../core/utils/assets.dart';
 import '../../../../core/utils/ui_utils.dart';
 import '../../../../injectable_container.dart';
 import '../../../dialog/presentation/base_dialog_widget.dart';
+import '../../../timer/presentation/widget/timer_widget.dart';
 import '../../../toast/manager/toast_manager.dart';
 import '../cubit/registration_dialog_controller_cubit.dart';
-
-// TODO: add timer
 
 class RegistrationOTPDialogWidget extends StatelessWidget {
   const RegistrationOTPDialogWidget({
@@ -393,8 +393,40 @@ class __RegistrationOTPDialogWidgetState
                 ),
                 secondChild: const SizedBox(width: double.infinity),
               ),
-            )
+            ),
+            const SizedBox(height: 32),
+            _timerWidget,
           ],
+        ),
+      );
+
+  Widget get _timerWidget => BlocBuilder<OtpBloc, OtpState>(
+        builder: (context, state) => BlocBuilder<
+            RegistrationDialogControllerCubit,
+            RegistrationDialogControllerState>(
+          builder: (context, rState) => TimerWidget(
+            id: rState.otpToken,
+            action: MButtonWidget.text(
+              padding: const EdgeInsets.symmetric(vertical: 8),
+              onClick: _onResendClick,
+              title: Strings.of(context).resend_otp_title,
+              width: 120,
+              isLoading: state is ResendOtpLaodingState,
+              color: MColors.whiteColor,
+            ),
+            builder: (remainTime) => Text(
+              Strings.of(context)
+                  .timer_place_holder
+                  .replaceFirst('\$0', remainTime.toMinuteAndSecond)
+                  .toPersianNumber,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: Fonts.medium500,
+                color: MColors.whiteColor,
+              ),
+            ),
+          ),
         ),
       );
 
@@ -423,7 +455,7 @@ class __RegistrationOTPDialogWidgetState
         break;
       case OTPStep.otp:
         context.read<OtpBloc>().add(ValidateOtpEvent(
-              code: _otpController.text,
+              code: _otpController.text.clearFormat,
               otpToken: state.otpToken,
             ));
         break;
@@ -432,6 +464,11 @@ class __RegistrationOTPDialogWidgetState
 
   void _onBackClick() {
     context.read<RegistrationDialogControllerCubit>().onBackClick();
+  }
+
+  void _onResendClick() {
+    final state = context.read<RegistrationDialogControllerCubit>().state;
+    context.read<OtpBloc>().add(ResendOtpEvent(otpToken: state.otpToken));
   }
 
   void _handleOtpState(OtpState state) async {
@@ -443,6 +480,7 @@ class __RegistrationOTPDialogWidgetState
           .read<RegistrationDialogControllerCubit>()
           .updateOTPToken(state.otpToken);
       _otpNode.requestFocus();
+      context.read<TimerControllerCubit>().startTimer(state.otpToken);
     } else if (state is ValidateOtpSuccessState) {
       Navigator.of(context).pop(_phoneNumberController.text);
     }

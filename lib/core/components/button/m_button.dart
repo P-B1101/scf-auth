@@ -15,6 +15,8 @@ class MButtonWidget extends StatelessWidget {
   final double? width;
   final ButtonType type;
   final Widget? child;
+  final Color? color;
+  final EdgeInsetsGeometry? padding;
   const MButtonWidget({
     super.key,
     required this.onClick,
@@ -26,6 +28,8 @@ class MButtonWidget extends StatelessWidget {
     this.width,
     this.type = ButtonType.fill,
     this.child,
+    this.color,
+    this.padding,
   });
 
   factory MButtonWidget.outline({
@@ -55,7 +59,9 @@ class MButtonWidget extends StatelessWidget {
     bool enableClickWhenDisable = true,
     FontWeight? textWeight,
     bool isLoading = false,
+    Color? color,
     double? width,
+    EdgeInsetsGeometry? padding,
   }) =>
       MButtonWidget(
         onClick: onClick,
@@ -66,6 +72,8 @@ class MButtonWidget extends StatelessWidget {
         type: ButtonType.text,
         textWeight: textWeight,
         width: width,
+        color: color,
+        padding: padding,
       );
 
   factory MButtonWidget.textWithIcon({
@@ -112,7 +120,7 @@ class MButtonWidget extends StatelessWidget {
           color: () {
             switch (type) {
               case ButtonType.fill:
-                return MColors.primaryColor;
+                return color ?? MColors.primaryColor;
               case ButtonType.outline:
               case ButtonType.text:
               case ButtonType.textAndIcon:
@@ -120,7 +128,7 @@ class MButtonWidget extends StatelessWidget {
             }
           }(),
           border: Border.all(
-            color: MColors.primaryColor,
+            color: color ?? MColors.primaryColor,
             width: 1,
             style: () {
               switch (type) {
@@ -139,16 +147,19 @@ class MButtonWidget extends StatelessWidget {
           child: InkWell(
             borderRadius: BorderRadius.circular(8),
             onTap: _canClick ? onClick : null,
-            child: () {
-              switch (type) {
-                case ButtonType.outline:
-                case ButtonType.text:
-                case ButtonType.fill:
-                  return Center(child: _finalChildWidget);
-                case ButtonType.textAndIcon:
-                  return _finalChildWidget;
-              }
-            }(),
+            child: Padding(
+              padding: padding ?? EdgeInsets.zero,
+              child: () {
+                switch (type) {
+                  case ButtonType.outline:
+                  case ButtonType.text:
+                  case ButtonType.fill:
+                    return Center(child: _finalChildWidget);
+                  case ButtonType.textAndIcon:
+                    return _finalChildWidget;
+                }
+              }(),
+            ),
           ),
         ),
       ),
@@ -198,7 +209,7 @@ class MButtonWidget extends StatelessWidget {
                         case ButtonType.outline:
                         case ButtonType.text:
                         case ButtonType.textAndIcon:
-                          return MColors.primaryColor;
+                          return color ?? MColors.primaryColor;
                         case ButtonType.fill:
                           return MColors.buttonTextColorOf(context);
                       }

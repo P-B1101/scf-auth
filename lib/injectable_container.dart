@@ -3,6 +3,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:injectable/injectable.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'injectable_container.config.dart';
@@ -43,4 +44,10 @@ abstract class RegisterFToast {
 abstract class RegisterFilePicker {
   @lazySingleton
   FilePicker get tosat => FilePicker.platform;
+}
+
+@module
+abstract class RegisterJwtDecoder {
+  @lazySingleton
+  JwtDecoder get decoder => JwtDecoder();
 }

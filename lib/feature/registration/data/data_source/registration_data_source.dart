@@ -1,4 +1,9 @@
+import 'dart:convert';
+
 import 'package:injectable/injectable.dart';
+import 'package:scf_auth/core/utils/extensions.dart';
+import 'package:scf_auth/core/utils/ui_utils.dart';
+import 'package:scf_auth/feature/env/env_manager.dart';
 
 import '../../../api/manager/api_caller.dart';
 import '../../../api/manager/my_client.dart';
@@ -12,6 +17,8 @@ abstract class RegistrationDataSource {
   Future<SignUpResponse> signUp(SignUpRequestBodyModel body);
 
   Future<String> sendOtp(String phoneNumber);
+
+  Future<String> resendOtp(String otpToken);
 
   Future<String> validateOtp({
     required String otpToken,
@@ -36,8 +43,23 @@ class RegistrationDataSourceImpl implements RegistrationDataSource {
 
   @override
   Future<String> sendOtp(String phoneNumber) async {
-    await Future.delayed(const Duration(milliseconds: 1500));
-    return 'otpToken-${DateTime.now().millisecondsSinceEpoch}';
+    final body = {
+      'mobileNumber': phoneNumber,
+      'targetPlatformType': Utils.targetPlatformType.toValue,
+    };
+    return apiCaller.callApi(
+      converter: (body) => body['otpToken'],
+      request: () => client.post(
+        EnvManager.getUri(
+          path: 'scf-registration/public/mobile-registration',
+        ),
+        body: json.encode(body),
+        encoding: Encoding.getByName('utf-8'),
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
+        },
+      ),
+    );
   }
 
   @override
@@ -45,7 +67,45 @@ class RegistrationDataSourceImpl implements RegistrationDataSource {
     required String otpToken,
     required String code,
   }) async {
-    await Future.delayed(const Duration(milliseconds: 2000));
-    return 'token-${DateTime.now().millisecondsSinceEpoch}';
+    final body = {
+      'otpToken': otpToken,
+      'code': code,
+    };
+    return apiCaller.callApi(
+      converter: (body) => body['accessToken'],
+      request: () => client.post(
+        EnvManager.getUri(
+          path: 'scf-registration/public/mobile-registration/verify',
+        ),
+        body: json.encode(body),
+        encoding: Encoding.getByName('utf-8'),
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
+        },
+      ),
+    );
+  }
+
+  @override
+  Future<String> resendOtp(String otpToken) async {
+    await Future.delayed(const Duration(milliseconds: 1500));
+    return otpToken;
+    // final body = {
+    //   'mobileNumber': phoneNumber,
+    //   'targetPlatformType': Utils.targetPlatformType.toValue,
+    // };
+    // return apiCaller.callApi(
+    //   converter: (body) => body['otpToken'],
+    //   request: () => client.post(
+    //     EnvManager.getUri(
+    //       path: 'scf-registration/public/mobile-registration',
+    //     ),
+    //     body: json.encode(body),
+    //     encoding: Encoding.getByName('utf-8'),
+    //     headers: {
+    //       'Content-Type': 'application/json; charset=utf-8',
+    //     },
+    //   ),
+    // );
   }
 }

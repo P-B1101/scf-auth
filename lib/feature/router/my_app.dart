@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:scf_auth/feature/language/manager/localizatios.dart';
+import 'package:scf_auth/feature/timer/presentation/widget/timer_widget_wrapper.dart';
 
 import '../../core/components/container/keyboard_dismissable_widget.dart';
 import '../../core/utils/assets.dart';
@@ -47,12 +48,14 @@ class MyApp extends StatelessWidget {
                   statusBarColor: Colors.transparent,
                 ),
           child: KeyboardDismissableWidget(
-            child: MediaQuery(
-              data: data.copyWith(
-                textScaleFactor: scaleFactor,
-                boldText: false,
+            child: TimerWidgetWrapper(
+              child: MediaQuery(
+                data: data.copyWith(
+                  textScaleFactor: scaleFactor,
+                  boldText: false,
+                ),
+                child: child!,
               ),
-              child: child!,
             ),
           ),
         );

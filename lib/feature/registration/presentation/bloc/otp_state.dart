@@ -16,6 +16,8 @@ final class OtpInitial extends OtpState {}
 
 final class SendOtpLaodingState extends OtpState {}
 
+final class ResendOtpLaodingState extends OtpState {}
+
 final class ValidateOtpLaodingState extends OtpState {}
 
 final class SendOtpSuccessState extends OtpState {

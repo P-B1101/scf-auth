@@ -1,4 +1,6 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:scf_auth/core/utils/enums.dart';
 
 class UiUtils {
   const UiUtils._();
@@ -21,4 +23,24 @@ class Utils {
 
   static const maxFileSizeAllowed = 10 * 1024 * 1024;
   static const allowedExtensions = ['zip', 'pdf', 'jpeg', 'png'];
+
+  static TargetPlatformType get targetPlatformType {
+    switch (defaultTargetPlatform) {
+      case TargetPlatform.android:
+        return kIsWeb
+            ? TargetPlatformType.androidPwa
+            : TargetPlatformType.androidNative;
+      case TargetPlatform.iOS:
+        return kIsWeb
+            ? TargetPlatformType.iosPwa
+            : TargetPlatformType.iosNative;
+      case TargetPlatform.linux:
+      case TargetPlatform.macOS:
+      case TargetPlatform.windows:
+      case TargetPlatform.fuchsia:
+        return TargetPlatformType.other;
+    }
+  }
+  
+  static Duration timerDuration = const Duration(seconds: 180);
 }

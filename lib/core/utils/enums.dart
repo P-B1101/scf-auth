@@ -48,3 +48,11 @@ enum OTPStep {
   phoneNumber,
   otp,
 }
+
+enum TargetPlatformType {
+  androidNative, // ANDROID_NATIVE
+  androidPwa, // ANDROID_PWA
+  iosNative, // IOS_NATIVE
+  iosPwa, // IOS_PWA
+  other, // OTHER
+}

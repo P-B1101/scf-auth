@@ -40,6 +40,8 @@ extension DoubleExt on double {
 }
 
 extension IntExt on int {
+  DateTime get toDateTime => DateTime.fromMillisecondsSinceEpoch(this * 1000);
+
   String toSizeStringValue(BuildContext context) {
     const int b = 1;
     const int kb = b * 1024;
@@ -387,4 +389,23 @@ extension PositionExt on Position {
         Position.member => 'MEMBER',
         Position.ceo => 'CEO',
       };
+}
+
+extension TargetPlatformTypeExt on TargetPlatformType {
+  String get toValue => switch (this) {
+        TargetPlatformType.androidNative => 'ANDROID_NATIVE',
+        TargetPlatformType.androidPwa => 'ANDROID_PWA',
+        TargetPlatformType.iosNative => 'IOS_NATIVE',
+        TargetPlatformType.iosPwa => 'IOS_PWA',
+        TargetPlatformType.other => 'OTHER',
+      };
+}
+
+extension DurationExt on Duration {
+  String get toMinuteAndSecond {
+    final data = inSeconds;
+    final minute = data ~/ 60;
+    final seconds = data % 60;
+    return '${minute.toTwoDigit}:${seconds.toTwoDigit}';
+  }
 }

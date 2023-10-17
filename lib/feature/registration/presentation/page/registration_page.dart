@@ -1,12 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:scf_auth/feature/registration/presentation/widget/company_introduction/company_introduction_widget.dart';
-import 'package:scf_auth/feature/registration/presentation/widget/contact_info/contact_info_widget.dart';
-import 'package:scf_auth/feature/registration/presentation/widget/documents_upload/documents_upload_widget.dart';
-import 'package:scf_auth/feature/registration/presentation/widget/management_introduction/management_introduction_widget.dart';
-import 'package:scf_auth/feature/registration/presentation/widget/suggested_branch/suggested_branch_widget.dart';
-import 'package:scf_auth/feature/registration/presentation/widget/suggested_company/suggested_company_widget.dart';
+import '../widget/company_introduction/company_introduction_widget.dart';
+import '../widget/contact_info/contact_info_widget.dart';
+import '../widget/documents_upload/documents_upload_widget.dart';
+import '../widget/management_introduction/management_introduction_widget.dart';
+import '../widget/suggested_branch/suggested_branch_widget.dart';
+import '../widget/suggested_company/suggested_company_widget.dart';
 
 import '../../../../core/utils/enums.dart';
 import '../../../../core/utils/extensions.dart';

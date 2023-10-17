@@ -21,6 +21,6 @@ class ErrorModel extends Error {
         );
 
   factory ErrorModel.fromJson(Map<String, dynamic> json) => ErrorModel(
-        message: json['errorMessage'] ?? '',
+        message: json['localeExceptionMessage'] ?? '',
       );
 }
