@@ -1,15 +1,15 @@
 import 'dart:convert';
 
 import 'package:injectable/injectable.dart';
-import 'package:scf_auth/core/utils/extensions.dart';
-import 'package:scf_auth/core/utils/ui_utils.dart';
-import 'package:scf_auth/feature/env/env_manager.dart';
-import 'package:scf_auth/feature/registration/data/model/sign_up_response_model.dart';
 
+import '../../../../core/utils/extensions.dart';
+import '../../../../core/utils/ui_utils.dart';
 import '../../../api/manager/api_caller.dart';
 import '../../../api/manager/my_client.dart';
+import '../../../env/env_manager.dart';
 import '../../domain/entity/sign_up_response.dart';
 import '../model/sign_up_request_body_model.dart';
+import '../model/sign_up_response_model.dart';
 
 abstract class RegistrationDataSource {
   /// Request to post registration info as [body].
@@ -103,6 +103,8 @@ class RegistrationDataSourceImpl implements RegistrationDataSource {
 
   @override
   Future<String> resendOtp(String otpToken) async {
+    await Future.delayed(const Duration(milliseconds: 1000));
+    return otpToken;
     final body = {'otpToken': otpToken};
     return apiCaller.callApi(
       converter: (body) => body['otpToken'],

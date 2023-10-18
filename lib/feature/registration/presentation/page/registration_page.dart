@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:scf_auth/feature/language/manager/localizatios.dart';
 import '../widget/company_introduction/company_introduction_widget.dart';
 import '../widget/contact_info/contact_info_widget.dart';
 import '../widget/documents_upload/documents_upload_widget.dart';
@@ -212,7 +213,13 @@ class __RegistrationPageState extends State<_RegistrationPage> {
   }
 
   void _handleSignUpState(SignUpState state) async {
-    if (state is SignUpFailureState) {
+    if (state is SignUpUnAuthorizeFailureState) {
+      getIt<ToastManager>().showFailureToast(
+        context: context,
+        message: Strings.of(context).send_phone_number_again_error_message,
+      );
+      context.replaceRoute(const LandingRoute());
+    } else if (state is SignUpFailureState) {
       getIt<ToastManager>()
           .showFailureToast(context: context, message: state.message);
     } else if (state is SignUpSuccessState) {
