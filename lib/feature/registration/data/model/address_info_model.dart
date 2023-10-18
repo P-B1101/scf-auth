@@ -19,7 +19,7 @@ class AddressInfoModel extends AddressInfo {
       );
 
   Map<String, dynamic> get toJson => {
-        'state': province == null
+        'province': province == null
             ? null
             : ProvinceCityModel.fromEntity(province!).toJson,
         'city':

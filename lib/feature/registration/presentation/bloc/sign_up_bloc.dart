@@ -30,20 +30,20 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     emit(SignUpLoadingState());
     final body = SignUpRequestBody(
       address: event.address,
-      documents: [
+      uploadedDocuments: [
         event.statute,
         event.newspaper,
         event.balanceSheet,
         event.profitAndLossStatement,
         ...event.otherDocuments,
       ],
-      economicNationalId: event.economicId,
+      nationalId: event.economicId,
       email: event.email,
-      enterpriseFullName: event.companyTitle,
-      industries: event.activityArea,
+      businessUnitFullName: event.companyTitle,
+      activityAreas: event.activityArea,
       mobile: event.mobileNumber,
-      partners: event.suggestedComapnies,
-      people: [
+      associatedBusinessUnits: event.suggestedComapnies,
+      directors: [
         event.ceoInfo,
         ...event.boardMemberInfo,
       ],

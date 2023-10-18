@@ -2,48 +2,48 @@ import 'package:equatable/equatable.dart';
 
 class SuggestedCompany extends Equatable {
   final String name;
-  final String economicId;
-  final int? financialInteraction;
+  final String nationalId;
+  final int? annualFinancialInteractionAmount;
 
   const SuggestedCompany({
-    required this.economicId,
-    required this.financialInteraction,
+    required this.nationalId,
+    required this.annualFinancialInteractionAmount,
     required this.name,
   });
 
   @override
   List<Object?> get props => [
         name,
-        economicId,
-        financialInteraction,
+        nationalId,
+        annualFinancialInteractionAmount,
       ];
 
   factory SuggestedCompany.init() => const SuggestedCompany(
-        economicId: '',
-        financialInteraction: null,
+        nationalId: '',
+        annualFinancialInteractionAmount: null,
         name: '',
       );
 
   bool get invalidName => name.isEmpty;
-  bool get invalidEconomicId => economicId.isEmpty || getEconomicId == null;
-  bool get invalidFinancialIteraction => financialInteraction == null;
+  bool get invalidEconomicId => nationalId.isEmpty || getEconomicId == null;
+  bool get invalidFinancialIteraction => annualFinancialInteractionAmount == null;
 
-  int? get getEconomicId => int.tryParse(economicId);
+  int? get getEconomicId => int.tryParse(nationalId);
 
   SuggestedCompany copyWith({
     String? name,
-    String? economicId,
+    String? nationalId,
   }) =>
       SuggestedCompany(
-        economicId: economicId ?? this.economicId,
-        financialInteraction: financialInteraction,
+        nationalId: nationalId ?? this.nationalId,
+        annualFinancialInteractionAmount: annualFinancialInteractionAmount,
         name: name ?? this.name,
       );
 
   SuggestedCompany updateFinancialInteraction(int? financialInteraction) =>
       SuggestedCompany(
-        economicId: economicId,
-        financialInteraction: financialInteraction,
+        nationalId: nationalId,
+        annualFinancialInteractionAmount: financialInteraction,
         name: name,
       );
 }

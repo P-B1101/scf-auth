@@ -1,4 +1,4 @@
-import 'package:scf_auth/feature/cdn/domain/entity/province_city.dart';
+import '../../domain/entity/province_city.dart';
 
 class ProvinceCityModel extends ProvinceCity {
   const ProvinceCityModel({
@@ -14,8 +14,8 @@ class ProvinceCityModel extends ProvinceCity {
           if (value is! List) return <ProvinceCity>[];
           return value.map((e) => ProvinceCityModel.fromJson(e)).toList();
         }(),
-        id: json['id'],
-        title: json['title'],
+        id: json['key'],
+        title: json['value'],
       );
 
   factory ProvinceCityModel.fromEntity(ProvinceCity entity) =>
@@ -26,7 +26,7 @@ class ProvinceCityModel extends ProvinceCity {
       );
 
   Map<String, dynamic> get toJson => {
-        'id': id,
-        'title': title,
+        'key': id,
+        'value': title,
       };
 }

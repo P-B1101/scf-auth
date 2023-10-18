@@ -25,9 +25,10 @@ class ApiCallerImpl implements ApiCaller {
     final result = await request();
     String logString = result.request?.url.toString() ?? 'null';
     logString = '$logString\nStatusCode: ${result.statusCode.toString()}';
+    final body = utf8.decode(result.bodyBytes);
     if (result.statusCode >= 200 && result.statusCode < 300) {
       logString =
-          '$logString\n${result.body.isEmpty ? 'empty body' : result.body}';
+          '$logString\n${body.isEmpty ? 'empty body' : body}';
       debugPrint(
         '--------------------- Start ---------------------\n'
         '$logString\n'
@@ -35,22 +36,22 @@ class ApiCallerImpl implements ApiCaller {
       );
       dynamic decodedBody;
       try {
-        decodedBody = json.decode(result.body);
+        decodedBody = json.decode(body);
       } on FormatException {
-        decodedBody = result.body;
+        decodedBody = body;
       }
-      final decodedResult = result.body.isEmpty ? null : decodedBody;
+      final decodedResult = body.isEmpty ? null : decodedBody;
       final bodyResult = converter(decodedResult);
       return bodyResult;
     }
-    logString = '$logString \n ${result.body}';
+    logString = '$logString \n $body';
     debugPrint(
       '--------------------- Start ---------------------\n'
       '$logString\n'
       '--------------------- End ---------------------',
     );
     if (result.statusCode == 401) throw const UnAuthorizeException();
-    final errorMessage = handleError(result.body);
+    final errorMessage = handleError(body);
     throw ServerException(message: errorMessage);
   }
 

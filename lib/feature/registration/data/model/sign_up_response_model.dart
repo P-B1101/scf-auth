@@ -7,6 +7,6 @@ class SignUpResponseModel extends SignUpResponse {
 
   factory SignUpResponseModel.fromJson(Map<String, dynamic> json) =>
       SignUpResponseModel(
-        trackingId: json['trackingId'],
+        trackingId: json['referenceCode'],
       );
 }

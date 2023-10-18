@@ -4,6 +4,7 @@ import 'package:injectable/injectable.dart';
 import 'package:scf_auth/core/utils/extensions.dart';
 import 'package:scf_auth/core/utils/ui_utils.dart';
 import 'package:scf_auth/feature/env/env_manager.dart';
+import 'package:scf_auth/feature/registration/data/model/sign_up_response_model.dart';
 
 import '../../../api/manager/api_caller.dart';
 import '../../../api/manager/my_client.dart';
@@ -14,7 +15,10 @@ abstract class RegistrationDataSource {
   /// Request to post registration info as [body].
   /// Call a [POST] request to the http://.... endpoint.
   ///
-  Future<SignUpResponse> signUp(SignUpRequestBodyModel body);
+  Future<SignUpResponse> signUp({
+    required SignUpRequestBodyModel body,
+    required String token,
+  });
 
   Future<String> sendOtp(String phoneNumber);
 
@@ -36,11 +40,22 @@ class RegistrationDataSourceImpl implements RegistrationDataSource {
   });
 
   @override
-  Future<SignUpResponse> signUp(SignUpRequestBodyModel body) async {
-    await Future.delayed(const Duration(milliseconds: 1500));
-    return const SignUpResponse(trackingId: '1758735693');
-  }
-
+  Future<SignUpResponse> signUp({
+    required SignUpRequestBodyModel body,
+    required String token,
+  }) =>
+      apiCaller.callApi(
+        converter: (body) => SignUpResponseModel.fromJson(body),
+        request: () => client.post(
+          EnvManager.getUri(path: 'scf-registration/info-registration'),
+          body: json.encode(body.toJson),
+          encoding: Encoding.getByName('utf-8'),
+          headers: {
+            'Content-Type': 'application/json; charset=utf-8',
+            'Authorization':'Bearer $token',
+          },
+        ),
+      );
   @override
   Future<String> sendOtp(String phoneNumber) async {
     final body = {

@@ -97,8 +97,8 @@ class _SuggestedCompanyWidgetState extends State<SuggestedCompanyWidget> {
                 child: SuggestedCompanyInfoWidget(
                   hasDivider: index < items.length - 1 ||
                       state.canAddSuggestedCompanies,
-                  economicId: items[index].economicId,
-                  financialInteraction: items[index].financialInteraction,
+                  economicId: items[index].nationalId,
+                  financialInteraction: items[index].annualFinancialInteractionAmount,
                   name: items[index].name,
                   onEconomicIdChange: (value) => context
                       .read<RegistrationControllerCubit>()
@@ -139,7 +139,7 @@ class _SuggestedCompanyWidgetState extends State<SuggestedCompanyWidget> {
                         !items[index].invalidEconomicId) {
                       return null;
                     }
-                    if (items[index].economicId.isEmpty) {
+                    if (items[index].nationalId.isEmpty) {
                       return Strings.of(context)
                           .empty_suggested_company_economic_id_error;
                     }

@@ -343,7 +343,7 @@ extension SuggestedCompanyListExt on List<SuggestedCompany> {
 
   List<SuggestedCompany> updateEconomicIdAt(int index, String economicId) => [
         for (int i = 0; i < length; i++)
-          index == i ? this[i].copyWith(economicId: economicId) : this[i]
+          index == i ? this[i].copyWith(nationalId: economicId) : this[i]
       ];
 
   List<SuggestedCompany> updateFinancialInteractionAt(

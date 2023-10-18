@@ -18,6 +18,6 @@ class DirectorModel extends Director {
   Map<String, dynamic> get toJson => {
         'fullName': name,
         'position': position.toValue,
-        'nationalId': nationalCode,
+        'nationalCode': nationalCode,
       };
 }

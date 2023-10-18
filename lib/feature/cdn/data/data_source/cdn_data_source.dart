@@ -53,8 +53,8 @@ class CDNDataSourceImpl implements CDNDataSource {
     } else if (urn == CDNRequestType.scfRegistrationActivityType.toValue) {
       await Future.delayed(const Duration(milliseconds: 1000));
       return [
-        const KeyValue(id: '4', title: 'تولیدی'),
-        const KeyValue(id: '5', title: 'خدماتی'),
+        const KeyValue(id: 'PRODUCT', title: 'تولیدی'),
+        const KeyValue(id: 'SERVICE', title: 'خدماتی'),
       ];
     }
     return [];

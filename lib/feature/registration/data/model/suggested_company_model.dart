@@ -2,21 +2,23 @@ import 'package:scf_auth/feature/registration/domain/entity/suggested_company.da
 
 class SuggestedCompanyModel extends SuggestedCompany {
   const SuggestedCompanyModel({
-    required super.economicId,
-    required super.financialInteraction,
+    required super.nationalId,
+    required super.annualFinancialInteractionAmount,
     required super.name,
   });
 
   factory SuggestedCompanyModel.fromEntity(SuggestedCompany entity) =>
       SuggestedCompanyModel(
-        economicId: entity.economicId,
-        financialInteraction: entity.financialInteraction,
+        nationalId: entity.nationalId,
+        annualFinancialInteractionAmount:
+            entity.annualFinancialInteractionAmount,
         name: entity.name,
       );
 
   Map<String, dynamic> get toJson => {
-        'enterpriseFullName': name,
-        'economicNationalId': int.tryParse(economicId),
-        'annualFinancialInteractionAmount': financialInteraction?.toString(),
+        'businessUnitFullName': name,
+        'nationalId': nationalId,
+        'annualFinancialInteractionAmount':
+            annualFinancialInteractionAmount?.toString(),
       };
 }

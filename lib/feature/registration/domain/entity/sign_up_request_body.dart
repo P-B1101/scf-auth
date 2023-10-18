@@ -8,13 +8,13 @@ import 'director.dart';
 import 'suggested_company.dart';
 
 class SignUpRequestBody extends Equatable {
-  final String enterpriseFullName;
-  final int economicNationalId;
+  final String businessUnitFullName;
+  final int nationalId;
   final KeyValue serviceType;
-  final List<KeyValue> industries;
-  final List<Director> people;
-  final List<UploadFileResult> documents;
-  final List<SuggestedCompany> partners;
+  final List<KeyValue> activityAreas;
+  final List<Director> directors;
+  final List<UploadFileResult> uploadedDocuments;
+  final List<SuggestedCompany> associatedBusinessUnits;
   final BranchInfo suggestedBranch;
   final String telephone;
   final String mobile;
@@ -23,13 +23,13 @@ class SignUpRequestBody extends Equatable {
   final List<AddressInfo> address;
 
   const SignUpRequestBody({
-    required this.enterpriseFullName,
-    required this.economicNationalId,
+    required this.businessUnitFullName,
+    required this.nationalId,
     required this.serviceType,
-    required this.industries,
-    required this.people,
-    required this.documents,
-    required this.partners,
+    required this.activityAreas,
+    required this.directors,
+    required this.uploadedDocuments,
+    required this.associatedBusinessUnits,
     required this.suggestedBranch,
     required this.telephone,
     required this.mobile,
@@ -40,13 +40,13 @@ class SignUpRequestBody extends Equatable {
 
   @override
   List<Object?> get props => [
-        enterpriseFullName,
-        economicNationalId,
+        businessUnitFullName,
+        nationalId,
         serviceType,
-        industries,
-        people,
-        documents,
-        partners,
+        activityAreas,
+        directors,
+        uploadedDocuments,
+        associatedBusinessUnits,
         suggestedBranch,
         telephone,
         mobile,

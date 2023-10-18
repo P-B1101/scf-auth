@@ -32,8 +32,11 @@ class RegistrationRepositoryImpl implements RegistrationRepository {
 
   @override
   Future<Either<Failure, SignUpResponse>> signUp(SignUpRequestBody body) =>
-      repositoryHelper.tryToLoad(
-        () => dataSource.signUp(SignUpRequestBodyModel.fromEntity(body)),
+      repositoryHelper.tryToAuthLoad(
+        (token) => dataSource.signUp(
+          body: SignUpRequestBodyModel.fromEntity(body),
+          token: token,
+        ),
       );
 
   @override

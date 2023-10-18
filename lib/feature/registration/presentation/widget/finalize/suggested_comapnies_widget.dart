@@ -59,14 +59,14 @@ class SuggestedCompaniesWidget extends StatelessWidget {
                       ReadOnlyWidgets(
                         label: Strings.of(context).company_economic_id,
                         hintTxt: Strings.of(context).company_economic_id,
-                        value: company.economicId,
+                        value: company.nationalId,
                       ),
                       ReadOnlyWidgets(
                         label: Strings.of(context)
                             .suggested_company_financial_interaction_label,
                         hintTxt: Strings.of(context)
                             .suggested_company_financial_interaction_label,
-                        value: company.financialInteraction?.toCurrency,
+                        value: company.annualFinancialInteractionAmount?.toCurrency,
                         isCurrency: true,
                       ),
                     ],
