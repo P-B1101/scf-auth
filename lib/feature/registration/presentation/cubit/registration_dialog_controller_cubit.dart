@@ -23,6 +23,11 @@ class RegistrationDialogControllerCubit
         step: OTPStep.otp,
       ));
 
+  void clearOTPToken() => emit(state.copyWith(
+        otpToken: null,
+        step: OTPStep.phoneNumber,
+      ));
+
   RegistrationDialogControllerState? nextClick() {
     if (!state.isEnable) {
       emit(state.copyWith(showError: true));

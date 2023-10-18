@@ -11,7 +11,7 @@ class EnvManager {
   }) {
     switch (env) {
       case Environment.dev:
-        return Uri.http('10.154.51.46:8104', path, query);
+        return Uri.http('api.holding.local', path, query);
       case Environment.stage:
         return Uri.https('stage.negah.ir', path, query);
       case Environment.prelive:

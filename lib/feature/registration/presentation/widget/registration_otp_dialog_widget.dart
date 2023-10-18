@@ -472,7 +472,14 @@ class __RegistrationOTPDialogWidgetState
   }
 
   void _handleOtpState(OtpState state) async {
-    if (state is OtpFailureState) {
+    if (state is ValidateOtpUnAuthorizeState) {
+      context.read<RegistrationDialogControllerCubit>().clearOTPToken();
+      getIt<ToastManager>().showFailureToast(
+        context: context,
+        message: Strings.of(context).send_phone_number_again_error_message,
+      );
+      _phoneNode.requestFocus();
+    } else if (state is OtpFailureState) {
       getIt<ToastManager>()
           .showFailureToast(context: context, message: state.message);
     } else if (state is SendOtpSuccessState) {

@@ -41,3 +41,5 @@ final class OtpFailureState extends OtpState {
   @override
   List<Object?> get props => [message];
 }
+
+final class ValidateOtpUnAuthorizeState extends OtpState {}

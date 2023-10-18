@@ -70,6 +70,7 @@ extension FailureToState on Failure {
   OtpState get toState => switch (this) {
         ServerFailure(message: String? message) =>
           OtpFailureState(message: message),
+        AuthenticationFailure() => ValidateOtpUnAuthorizeState(),
         _ => const OtpFailureState(),
       };
 }

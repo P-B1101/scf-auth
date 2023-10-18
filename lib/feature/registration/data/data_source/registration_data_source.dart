@@ -52,7 +52,7 @@ class RegistrationDataSourceImpl implements RegistrationDataSource {
           encoding: Encoding.getByName('utf-8'),
           headers: {
             'Content-Type': 'application/json; charset=utf-8',
-            'Authorization':'Bearer $token',
+            'Authorization': 'Bearer $token',
           },
         ),
       );
@@ -103,24 +103,19 @@ class RegistrationDataSourceImpl implements RegistrationDataSource {
 
   @override
   Future<String> resendOtp(String otpToken) async {
-    await Future.delayed(const Duration(milliseconds: 1500));
-    return otpToken;
-    // final body = {
-    //   'mobileNumber': phoneNumber,
-    //   'targetPlatformType': Utils.targetPlatformType.toValue,
-    // };
-    // return apiCaller.callApi(
-    //   converter: (body) => body['otpToken'],
-    //   request: () => client.post(
-    //     EnvManager.getUri(
-    //       path: 'scf-registration/public/mobile-registration',
-    //     ),
-    //     body: json.encode(body),
-    //     encoding: Encoding.getByName('utf-8'),
-    //     headers: {
-    //       'Content-Type': 'application/json; charset=utf-8',
-    //     },
-    //   ),
-    // );
+    final body = {'otpToken': otpToken};
+    return apiCaller.callApi(
+      converter: (body) => body['otpToken'],
+      request: () => client.post(
+        EnvManager.getUri(
+          path: 'scf-registration/public/mobile-registration/resend',
+        ),
+        body: json.encode(body),
+        encoding: Encoding.getByName('utf-8'),
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
+        },
+      ),
+    );
   }
 }

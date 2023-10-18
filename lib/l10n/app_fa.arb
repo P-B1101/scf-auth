@@ -162,5 +162,6 @@
     "watching_location": "مشاهده نقطه مکانی",
     "final_review_and_submit": "ثبت و بررسی نهایی",
     "timer_place_holder": "$0 تا ارسال مجدد کد",
-    "resend_otp_title": "ارسال مجدد"
+    "resend_otp_title": "ارسال مجدد",
+    "send_phone_number_again_error_message": "درخواست شما منقضی شده است. لطفا مجددا تلاش نمایید"
 }
