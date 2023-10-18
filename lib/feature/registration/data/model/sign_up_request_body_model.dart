@@ -54,7 +54,7 @@ class SignUpRequestBodyModel extends SignUpRequestBody {
         'associatedBusinessUnits': associatedBusinessUnits
             .map((e) => SuggestedCompanyModel.fromEntity(e).toJson)
             .toList(),
-        'branchId': suggestedBranch.id,
+        'suggestedBranchId': suggestedBranch.id,
         'contact': {
           'telephone': telephone,
           'mobile': mobile,
