@@ -329,15 +329,19 @@ class RegistrationControllerState extends Equatable {
   bool get invalidProfitAndLossStatement => profitAndLossStatement == null;
 
   bool get invalidOtherDocuments =>
-      otherDocuments.any((element) => element == null) ||
-      invalidOtherDocumentsTitle ||
-      invalidOtherDocumentsFile;
+      otherDocuments.length > 1 &&
+      (otherDocuments.any((element) => element == null) ||
+          invalidOtherDocumentsTitle ||
+          invalidOtherDocumentsFile);
 
   bool get invalidOtherDocumentsTitle =>
-      otherDocuments.any((element) => element == null || element.invalidTitle);
+      otherDocuments.length > 1 &&
+      (otherDocuments
+          .any((element) => element == null || element.invalidTitle));
 
   bool get invalidOtherDocumentsFile =>
-      otherDocuments.any((element) => element == null || element.invalidFile);
+      otherDocuments.length > 1 &&
+      (otherDocuments.any((element) => element == null || element.invalidFile));
 
   bool get canAddOtherDocuments => otherDocuments.length < 5;
 

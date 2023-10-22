@@ -45,6 +45,9 @@ class _ContactInfoWidgetState extends State<ContactInfoWidget> {
     _phoneController.text = state.phoneNumber;
     _emailController.text = state.email;
     _websiteController.text = state.website;
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      _phoneNode.requestFocus();
+    });
   }
 
   @override
@@ -135,15 +138,17 @@ class _ContactInfoWidgetState extends State<ContactInfoWidget> {
       );
 
   Widget get _inputListWidget => Builder(
-        builder: (context) => Wrap(
-          spacing: 86,
-          runSpacing: 40,
-          children: [
-            _mobileWidget,
-            _phoneWidget,
-            _emailWidget,
-            _websiteWidget,
-          ],
+        builder: (context) => FocusTraversalGroup(
+          child: Wrap(
+            spacing: 86,
+            runSpacing: 40,
+            children: [
+              _mobileWidget,
+              _phoneWidget,
+              _emailWidget,
+              _websiteWidget,
+            ],
+          ),
         ),
       );
 

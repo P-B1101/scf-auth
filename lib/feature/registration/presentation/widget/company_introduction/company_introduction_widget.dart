@@ -41,8 +41,15 @@ class _CompanyIntroductionWidgetState extends State<CompanyIntroductionWidget> {
     _economicIdController.dispose();
     _economicFocusNode.dispose();
     _titleFocusNode.dispose();
-
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      _titleFocusNode.requestFocus();
+    });
   }
 
   @override
@@ -103,14 +110,16 @@ class _CompanyIntroductionWidgetState extends State<CompanyIntroductionWidget> {
       );
 
   Widget get _inputListWidget => Builder(
-        builder: (context) => Wrap(
-          spacing: 86,
-          runSpacing: 40,
-          children: [
-            _companyTitleInput,
-            _economicIdInput,
-            _activityAreaListWidget,
-          ],
+        builder: (context) => FocusTraversalGroup(
+          child: Wrap(
+            spacing: 86,
+            runSpacing: 40,
+            children: [
+              _companyTitleInput,
+              _economicIdInput,
+              _activityAreaListWidget,
+            ],
+          ),
         ),
       );
 

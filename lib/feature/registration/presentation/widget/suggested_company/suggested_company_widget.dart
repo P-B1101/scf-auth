@@ -88,64 +88,69 @@ class _SuggestedCompanyWidgetState extends State<SuggestedCompanyWidget> {
             (previous.suggestedCompanies != current.suggestedCompanies),
         builder: (context, state) {
           final items = state.suggestedCompanies;
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: List.generate(
-              items.length,
-              (index) => Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                child: SuggestedCompanyInfoWidget(
-                  hasDivider: index < items.length - 1 ||
-                      state.canAddSuggestedCompanies,
-                  economicId: items[index].nationalId,
-                  financialInteraction: items[index].annualFinancialInteractionAmount,
-                  name: items[index].name,
-                  onEconomicIdChange: (value) => context
-                      .read<RegistrationControllerCubit>()
-                      .updateSuggestedCompanyEconomicIdAt(index, value),
-                  onFinancialInteractionChange: (value) => context
-                      .read<RegistrationControllerCubit>()
-                      .updateSuggestedCompanyFinancialInteractionAt(
-                          index, value),
-                  onNameChange: (value) => context
-                      .read<RegistrationControllerCubit>()
-                      .updateSuggestedCompanyNameAt(index, value),
-                  onDeleteClick: index > 0
-                      ? () => context
-                          .read<RegistrationControllerCubit>()
-                          .deleteSuggestedCompany(index)
-                      : null,
-                  financialInteractionError: () {
-                    if (!state.showError ||
-                        !state.invalidSuggestedCompaniesFinancialInteraction ||
-                        !items[index].invalidFinancialIteraction) {
-                      return null;
-                    }
-                    return Strings.of(context)
-                        .empty_suggested_company_financial_interaction_error;
-                  }(),
-                  nameError: () {
-                    if (!state.showError ||
-                        !state.invalidSuggestedCompaniesName ||
-                        !items[index].invalidName) {
-                      return null;
-                    }
-                    return Strings.of(context)
-                        .empty_suggested_company_name_error;
-                  }(),
-                  economicIdError: () {
-                    if (!state.showError ||
-                        !state.invalidSuggestedCompaniesEconomicId ||
-                        !items[index].invalidEconomicId) {
-                      return null;
-                    }
-                    if (items[index].nationalId.isEmpty) {
+          return FocusTraversalGroup(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: List.generate(
+                items.length,
+                (index) => Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  child: SuggestedCompanyInfoWidget(
+                    requestFocus: index == 0,
+                    hasDivider: index < items.length - 1 ||
+                        state.canAddSuggestedCompanies,
+                    economicId: items[index].nationalId,
+                    financialInteraction:
+                        items[index].annualFinancialInteractionAmount,
+                    name: items[index].name,
+                    onEconomicIdChange: (value) => context
+                        .read<RegistrationControllerCubit>()
+                        .updateSuggestedCompanyEconomicIdAt(index, value),
+                    onFinancialInteractionChange: (value) => context
+                        .read<RegistrationControllerCubit>()
+                        .updateSuggestedCompanyFinancialInteractionAt(
+                            index, value),
+                    onNameChange: (value) => context
+                        .read<RegistrationControllerCubit>()
+                        .updateSuggestedCompanyNameAt(index, value),
+                    onDeleteClick: index > 0
+                        ? () => context
+                            .read<RegistrationControllerCubit>()
+                            .deleteSuggestedCompany(index)
+                        : null,
+                    financialInteractionError: () {
+                      if (!state.showError ||
+                          !state
+                              .invalidSuggestedCompaniesFinancialInteraction ||
+                          !items[index].invalidFinancialIteraction) {
+                        return null;
+                      }
                       return Strings.of(context)
-                          .empty_suggested_company_economic_id_error;
-                    }
-                    return Strings.of(context)
-                        .wrong_suggested_company_economic_id_error;
-                  }(),
+                          .empty_suggested_company_financial_interaction_error;
+                    }(),
+                    nameError: () {
+                      if (!state.showError ||
+                          !state.invalidSuggestedCompaniesName ||
+                          !items[index].invalidName) {
+                        return null;
+                      }
+                      return Strings.of(context)
+                          .empty_suggested_company_name_error;
+                    }(),
+                    economicIdError: () {
+                      if (!state.showError ||
+                          !state.invalidSuggestedCompaniesEconomicId ||
+                          !items[index].invalidEconomicId) {
+                        return null;
+                      }
+                      if (items[index].nationalId.isEmpty) {
+                        return Strings.of(context)
+                            .empty_suggested_company_economic_id_error;
+                      }
+                      return Strings.of(context)
+                          .wrong_suggested_company_economic_id_error;
+                    }(),
+                  ),
                 ),
               ),
             ),

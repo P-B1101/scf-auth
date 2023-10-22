@@ -234,55 +234,57 @@ class _DocumentsUploadWidgetState extends State<DocumentsUploadWidget> {
         builder: (context, state) {
           final items = state.otherDocuments;
           final length = items.length;
-          return Column(
-            children: List.generate(
-              length,
-              (index) => Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                child: SelectAndUploadWithTitleWidget(
-                  onFileUploaded: (result) => context
-                      .read<RegistrationControllerCubit>()
-                      .updateOtherDocumentsAt(index, result),
-                  onFileExtensionFailure: _onFileExtensionFailure,
-                  onFileSizeFailure: _onFileSizeFailure,
-                  onFileFailure: _onFileFailure,
-                  fileHint: Strings.of(context).other_document_hint,
-                  titleHint: Strings.of(context).other_document_title_hint,
-                  fileLabel: Strings.of(context).other_document_label,
-                  titleLabel: Strings.of(context).other_document_title_label,
-                  title: items[index]?.title,
-                  fileError: () {
-                    if (!state.showError ||
-                        !state.invalidOtherDocumentsFile ||
-                        (items[index] != null &&
-                            !items[index]!.invalidFile)) {
-                      return null;
-                    }
-                    return Strings.of(context)
-                        .empty_other_document_error
-                        .replaceFirst(
-                            '\$0',
-                            items[index]?.title ??
-                                Strings.of(context).other_document_label);
-                  }(),
-                  titleError: () {
-                    if (!state.showError ||
-                        !state.invalidOtherDocumentsTitle ||
-                        (items[index] != null &&
-                            !items[index]!.invalidTitle)) {
-                      return null;
-                    }
-                    return Strings.of(context).empty_other_document_title_error;
-                  }(),
-                  name: items[index]?.fileName,
-                  onTitleChange: (title) => context
-                      .read<RegistrationControllerCubit>()
-                      .updateOtherDocumentsTitleAt(index, title),
-                  onDeleteClick: index > 0
-                      ? () => context
-                          .read<RegistrationControllerCubit>()
-                          .deleteOtherDocument(index)
-                      : null,
+          return FocusTraversalGroup(
+            child: Column(
+              children: List.generate(
+                length,
+                (index) => Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  child: SelectAndUploadWithTitleWidget(
+                    onFileUploaded: (result) => context
+                        .read<RegistrationControllerCubit>()
+                        .updateOtherDocumentsAt(index, result),
+                    onFileExtensionFailure: _onFileExtensionFailure,
+                    onFileSizeFailure: _onFileSizeFailure,
+                    onFileFailure: _onFileFailure,
+                    fileHint: Strings.of(context).other_document_hint,
+                    titleHint: Strings.of(context).other_document_title_hint,
+                    fileLabel: Strings.of(context).other_document_label,
+                    titleLabel: Strings.of(context).other_document_title_label,
+                    title: items[index]?.title,
+                    fileError: () {
+                      if (!state.showError ||
+                          !state.invalidOtherDocumentsFile ||
+                          (items[index] != null &&
+                              !items[index]!.invalidFile)) {
+                        return null;
+                      }
+                      return Strings.of(context)
+                          .empty_other_document_error
+                          .replaceFirst(
+                              '\$0',
+                              items[index]?.title ??
+                                  Strings.of(context).other_document_label);
+                    }(),
+                    titleError: () {
+                      if (!state.showError ||
+                          !state.invalidOtherDocumentsTitle ||
+                          (items[index] != null &&
+                              !items[index]!.invalidTitle)) {
+                        return null;
+                      }
+                      return Strings.of(context).empty_other_document_title_error;
+                    }(),
+                    name: items[index]?.fileName,
+                    onTitleChange: (title) => context
+                        .read<RegistrationControllerCubit>()
+                        .updateOtherDocumentsTitleAt(index, title),
+                    onDeleteClick: index > 0
+                        ? () => context
+                            .read<RegistrationControllerCubit>()
+                            .deleteOtherDocument(index)
+                        : null,
+                  ),
                 ),
               ),
             ),

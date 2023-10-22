@@ -24,6 +24,7 @@ class SuggestedCompanyInfoWidget extends StatefulWidget {
   final IntChangeListener onFinancialInteractionChange;
   final Function()? onDeleteClick;
   final bool hasDivider;
+  final bool requestFocus;
 
   const SuggestedCompanyInfoWidget({
     super.key,
@@ -38,6 +39,7 @@ class SuggestedCompanyInfoWidget extends StatefulWidget {
     required this.nameError,
     required this.hasDivider,
     required this.onDeleteClick,
+    this.requestFocus = false,
   });
 
   @override
@@ -62,6 +64,9 @@ class _SuggestedCompanyInfoWidgetState
     _economicIdController.text = widget.economicId;
     _financialInteractionController.text =
         widget.financialInteraction?.toString() ?? '';
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      if (widget.requestFocus) _nameNode.requestFocus();
+    });
   }
 
   @override

@@ -85,13 +85,15 @@ class _ManagementIntroductionWidgetState
       );
 
   Widget get _inputListWidget => Builder(
-        builder: (context) => Wrap(
-          spacing: 86,
-          runSpacing: 40,
-          children: [
-            _ceoWidget,
-            _boardMemberListWidget,
-          ],
+        builder: (context) => FocusTraversalGroup(
+          child: Wrap(
+            spacing: 86,
+            runSpacing: 40,
+            children: [
+              _ceoWidget,
+              _boardMemberListWidget,
+            ],
+          ),
         ),
       );
 
@@ -101,6 +103,7 @@ class _ManagementIntroductionWidgetState
             (previous.ceoInfo != current.ceoInfo) ||
             previous.showError != current.showError,
         builder: (context, state) => NameNationalCodeFieldWidget(
+          requestFocus: true,
           onNameChange:
               context.read<RegistrationControllerCubit>().updateCeoName,
           onNationalCodeChange:

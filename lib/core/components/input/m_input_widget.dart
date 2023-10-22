@@ -169,7 +169,8 @@ class MInputWidget extends StatelessWidget {
                             if (maxLength != null &&
                                 value.length >= maxLength! &&
                                 closeKeyboardOnFinish) {
-                              focusNode.unfocus();
+                              final focus = FocusScope.of(context);
+                              focus.nextFocus();
                             }
                           },
                           buildCounter: (

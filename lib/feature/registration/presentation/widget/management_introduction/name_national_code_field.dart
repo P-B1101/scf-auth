@@ -17,6 +17,7 @@ class NameNationalCodeFieldWidget extends StatefulWidget {
   final String? nameError;
   final String? nationalCodeError;
   final Function()? onDeleteFieldClick;
+  final bool requestFocus;
   const NameNationalCodeFieldWidget({
     super.key,
     required this.onNameChange,
@@ -27,6 +28,7 @@ class NameNationalCodeFieldWidget extends StatefulWidget {
     required this.nameLabel,
     required this.nationalCodeHint,
     required this.nationalCodeLabel,
+    this.requestFocus = false,
     this.nameError,
     this.nationalCodeError,
     this.onDeleteFieldClick,
@@ -49,6 +51,9 @@ class _NameNationalCodeFieldWidgetState
     super.initState();
     _nameController.text = widget.name;
     _nationalCodeController.text = widget.nationalCode;
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      if (widget.requestFocus) _nameNode.requestFocus();
+    });
   }
 
   @override

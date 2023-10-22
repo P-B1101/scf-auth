@@ -80,7 +80,7 @@
     "empty_other_document_error": "بارگذاری $0 اجباری است",
     "file_extension_failure_message": "امکان بارگذاری فایل از نوع $0 وجود ندارد. تنها فرمت های مجاز $1 می باشد",
     "file_size_failure_message": "امکان بارگذاری فایل با حجم $0 وجود ندارد. حداکثر حجم مجاز بارگذاری، $1 می باشد",
-    "suggested_company_title": "لطفا اطلاعات مربوط به بنگاه مورد نظر خود را وارد کنید",
+    "suggested_company_title": "لطفا اطلاعات مربوط به بنگاه هایی که با آنها تعامل مالی دارید را وارد کنید",
     "suggested_company_name_hint": "نام بنگاه را وارد کنید",
     "suggested_company_name_label": "نام بنگاه",
     "company_economic_id": "کد اقتصادی بنگاه",
