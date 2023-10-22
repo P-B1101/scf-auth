@@ -103,8 +103,6 @@ class RegistrationDataSourceImpl implements RegistrationDataSource {
 
   @override
   Future<String> resendOtp(String otpToken) async {
-    await Future.delayed(const Duration(milliseconds: 1000));
-    return otpToken;
     final body = {'otpToken': otpToken};
     return apiCaller.callApi(
       converter: (body) => body['otpToken'],

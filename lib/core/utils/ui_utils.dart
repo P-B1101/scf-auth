@@ -42,5 +42,6 @@ class Utils {
     }
   }
   
-  static Duration timerDuration = const Duration(seconds: 180);
+  // static Duration timerDuration = const Duration(seconds: 180);
+  static Duration timerDuration = const Duration(seconds: 5);
 }

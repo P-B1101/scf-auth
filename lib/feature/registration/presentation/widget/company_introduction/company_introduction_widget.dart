@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:scf_auth/feature/registration/presentation/widget/management_introduction/management_introduction_widget.dart';
 
 import '../../../../../core/components/button/m_button.dart';
 import '../../../../../core/components/input/m_input_widget.dart';
@@ -15,6 +14,7 @@ import '../../../../drop_down/presentation/widget/m_drop_down_widget.dart';
 import '../../../../language/manager/localizatios.dart';
 import '../../../../router/app_router.gr.dart';
 import '../../cubit/registration_controller_cubit.dart';
+import '../management_introduction/management_introduction_widget.dart';
 
 @RoutePage()
 class CompanyIntroductionWidget extends StatefulWidget {
@@ -32,7 +32,7 @@ class CompanyIntroductionWidget extends StatefulWidget {
 class _CompanyIntroductionWidgetState extends State<CompanyIntroductionWidget> {
   final _titleController = TextEditingController();
   final _economicIdController = TextEditingController();
-  final _titleFocusNode = FocusScopeNode();
+  final _titleFocusNode = FocusNode();
   final _economicFocusNode = FocusNode();
 
   @override
@@ -134,6 +134,7 @@ class _CompanyIntroductionWidgetState extends State<CompanyIntroductionWidget> {
                 controller: _titleController,
                 focusNode: _titleFocusNode,
                 nextFocusNode: _economicFocusNode,
+                textInputAction: TextInputAction.next,
                 autofillHints: const [AutofillHints.organizationName],
                 hint: Strings.of(context).company_title_hint,
                 onTextChange: context

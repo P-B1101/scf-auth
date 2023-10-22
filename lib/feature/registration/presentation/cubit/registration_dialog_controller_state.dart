@@ -20,6 +20,7 @@ class RegistrationDialogControllerState extends Equatable {
         phoneNumber,
         step,
         showError,
+        otpToken,
       ];
 
   factory RegistrationDialogControllerState.init() =>

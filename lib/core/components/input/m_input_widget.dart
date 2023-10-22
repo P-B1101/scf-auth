@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -265,12 +264,12 @@ class MInputWidget extends StatelessWidget {
                 if (prefixWidget != null)
                   Align(
                     alignment: AlignmentDirectional.centerStart,
-                    child: prefixWidget,
+                    child: ExcludeFocus(child: prefixWidget!),
                   ),
                 if (suffixWidget != null)
                   Align(
                     alignment: AlignmentDirectional.centerEnd,
-                    child: suffixWidget,
+                    child: ExcludeFocus(child: suffixWidget!),
                   ),
               ],
             ),
@@ -308,8 +307,6 @@ class MInputWidget extends StatelessWidget {
 
   bool get _hasError => error != null && error!.isNotEmpty;
 }
-
-
 
 class MNumberFormatter extends TextInputFormatter {
   static final RegExp _digitOnlyRegex = RegExp(r'\d+');
