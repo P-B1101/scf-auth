@@ -13,8 +13,8 @@ class EnvManager {
     switch (env) {
       case Environment.dev:
         return Uri.http(baseUrl ?? 'api.holding.local', path, query);
-      case Environment.stage:
-        return Uri.https('stage.negah.ir', path, query);
+      case Environment.uat:
+        return Uri.https('api-uat.holding.local', path, query);
       case Environment.prelive:
         return Uri.https('prelive.negah.ir', path, query);
       case Environment.live:
@@ -25,9 +25,9 @@ class EnvManager {
   static String get getAddress {
     switch (env) {
       case Environment.dev:
-        return '10.154.51.46';
-      case Environment.stage:
-        return '10.154.51.46';
+        return 'api.holding.local';
+      case Environment.uat:
+        return 'api-uat.holding.local';
       case Environment.prelive:
         return '10.154.51.46';
       case Environment.live:

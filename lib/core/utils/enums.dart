@@ -1,6 +1,6 @@
 enum Environment {
   dev,
-  stage,
+  uat,
   prelive,
   live,
 }
