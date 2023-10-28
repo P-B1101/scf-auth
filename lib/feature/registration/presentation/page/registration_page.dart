@@ -30,12 +30,12 @@ import '../widget/registration_toolbar_widget.dart';
 @RoutePage()
 class RegistrationPage extends StatelessWidget {
   static const path = 'registration';
-  final String? phoneNumber;
-  final bool? isTracking;
+  final String? phonenumber;
+  final String? followup;
   const RegistrationPage({
     super.key,
-    @PathParam() this.phoneNumber,
-    @PathParam() this.isTracking,
+    @PathParam() this.phonenumber,
+    @PathParam() this.followup,
   });
 
   @override
@@ -43,7 +43,7 @@ class RegistrationPage extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<RegistrationControllerCubit>(
-          create: (context) => RegistrationControllerCubit(phoneNumber),
+          create: (context) => RegistrationControllerCubit(phonenumber),
         ),
         BlocProvider<ActivityAreaBloc>(
           create: (context) => getIt<ActivityAreaBloc>(),
@@ -65,8 +65,8 @@ class RegistrationPage extends StatelessWidget {
         ),
       ],
       child: _RegistrationPage(
-        phoneNumber: phoneNumber,
-        isTracking: isTracking ?? false,
+        phoneNumber: phonenumber,
+        followup: followup?.toLowerCase() == 'true',
       ),
     );
   }
@@ -74,11 +74,11 @@ class RegistrationPage extends StatelessWidget {
 
 class _RegistrationPage extends StatefulWidget {
   final String? phoneNumber;
-  final bool isTracking;
+  final bool followup;
   const _RegistrationPage({
     Key? key,
     required this.phoneNumber,
-    required this.isTracking,
+    required this.followup,
   }) : super(key: key);
 
   @override
@@ -95,46 +95,46 @@ class __RegistrationPageState extends State<_RegistrationPage> {
   @override
   Widget build(BuildContext context) {
     if (invalidPhoneNumber) return const SizedBox();
-    return MultiBlocListener(
-      listeners: [
-        BlocListener<BranchInfoBloc, BranchInfoState>(
-          listener: (context, state) => _handleBranchInfoState(state),
-        ),
-        BlocListener<ActivityAreaBloc, KeyValueItemState>(
-          listener: (context, state) => _handleKeyValueItemState(state),
-        ),
-        // BlocListener<ActivityTypeBloc, KeyValueItemState>(
-        //   listener: (context, state) => _handleKeyValueItemState(state),
-        // ),
-        BlocListener<ProvinceCityBloc, ProvinceCityState>(
-          listener: (context, state) => _handleProvinceCityState(state),
-        ),
-        BlocListener<SignUpBloc, SignUpState>(
-          listener: (context, state) => _handleSignUpState(state),
-        ),
-        BlocListener<SavedRegistrationInfoBloc, SavedRegistrationInfoState>(
-          listener: (context, state) =>
-              _handleSavedRegistrationInfoState(state),
-        ),
+    return AutoTabsRouter(
+      routes: [
+        CompanyIntroductionRoute(),
+        ManagementIntroductionRoute(),
+        DocumentsUploadRoute(),
+        SuggestedCompanyRoute(),
+        ContactInfoRoute(),
+        SuggestedBranchRoute(),
+        FinalizeInfoRoute(),
       ],
-      child: AutoTabsRouter(
-        routes: [
-          CompanyIntroductionRoute(),
-          ManagementIntroductionRoute(),
-          DocumentsUploadRoute(),
-          SuggestedCompanyRoute(),
-          ContactInfoRoute(),
-          SuggestedBranchRoute(),
-          FinalizeInfoRoute(),
-        ],
-        transitionBuilder: (context, child, animation) => FadeTransition(
-          opacity: animation,
-          child: child,
-        ),
-        builder: (context, child) {
-          final tabsRouter = AutoTabsRouter.of(context);
-          //Todo: Fixing menu bar later
-          return Scaffold(
+      transitionBuilder: (context, child, animation) => FadeTransition(
+        opacity: animation,
+        child: child,
+      ),
+      builder: (context, child) {
+        final tabsRouter = AutoTabsRouter.of(context);
+        //Todo: Fixing menu bar later
+        return MultiBlocListener(
+          listeners: [
+            BlocListener<BranchInfoBloc, BranchInfoState>(
+              listener: (context, state) => _handleBranchInfoState(state),
+            ),
+            BlocListener<ActivityAreaBloc, KeyValueItemState>(
+              listener: (context, state) => _handleKeyValueItemState(state),
+            ),
+            // BlocListener<ActivityTypeBloc, KeyValueItemState>(
+            //   listener: (context, state) => _handleKeyValueItemState(state),
+            // ),
+            BlocListener<ProvinceCityBloc, ProvinceCityState>(
+              listener: (context, state) => _handleProvinceCityState(state),
+            ),
+            BlocListener<SignUpBloc, SignUpState>(
+              listener: (context, state) => _handleSignUpState(state),
+            ),
+            BlocListener<SavedRegistrationInfoBloc, SavedRegistrationInfoState>(
+              listener: (context, state) =>
+                  _handleSavedRegistrationInfoState(state),
+            ),
+          ],
+          child: Scaffold(
             body: Column(
               children: [
                 const RegistrationToolbarWidget(),
@@ -144,7 +144,7 @@ class __RegistrationPageState extends State<_RegistrationPage> {
                     _onStepClick(step);
                   },
                 ),
-                !widget.isTracking
+                !widget.followup
                     ? Expanded(child: child)
                     : Expanded(
                         child: BlocBuilder<SavedRegistrationInfoBloc,
@@ -168,9 +168,9 @@ class __RegistrationPageState extends State<_RegistrationPage> {
                       ),
               ],
             ),
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 
@@ -212,7 +212,7 @@ class __RegistrationPageState extends State<_RegistrationPage> {
     }
     if (!mounted) return;
     _handleInitialTab();
-    if (widget.isTracking) {
+    if (widget.followup) {
       context
           .read<SavedRegistrationInfoBloc>()
           .add(GetSavedRegistrationInfoEvent());
@@ -293,7 +293,7 @@ class __RegistrationPageState extends State<_RegistrationPage> {
   }
 
   bool get invalidPhoneNumber {
-    if (widget.isTracking) return false;
+    if (widget.followup) return false;
     if (widget.phoneNumber == null) return true;
     if (!widget.phoneNumber!.isValidMobileNumber) return true;
     return false;

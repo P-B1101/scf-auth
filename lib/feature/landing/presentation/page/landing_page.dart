@@ -52,8 +52,8 @@ class __LandingPageState extends State<_LandingPage> {
     if (!mounted) return;
     if (!phoneNumber.isValidMobileNumber) return;
     context.pushRoute(RegistrationRoute(
-      phoneNumber: phoneNumber,
-      isTracking: false,
+      phonenumber: phoneNumber,
+      followup: 'false',
     ));
   }
   
@@ -62,6 +62,6 @@ class __LandingPageState extends State<_LandingPage> {
     final result = await DialogManager.instance.showFollowUpDialog(context);
     if (!mounted) return;
     if (!result) return;
-    context.pushRoute(RegistrationRoute(isTracking: true));
+    context.pushRoute(RegistrationRoute(followup: 'true'));
   }
 }

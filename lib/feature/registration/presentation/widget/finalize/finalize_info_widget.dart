@@ -27,16 +27,16 @@ import 'suggested_comapnies_widget.dart';
 @RoutePage()
 class FinalizeInfoWidget extends StatelessWidget {
   static const path = 'finalize-info';
-  final bool? isTracking;
+  final bool? followup;
   const FinalizeInfoWidget({
     super.key,
     @PathParam.inherit() String? phoneNumber,
-    @PathParam.inherit() this.isTracking,
+    @PathParam.inherit() this.followup,
   });
 
   @override
   Widget build(BuildContext context) {
-    return _BodyWidget(isFollowUp: isTracking ?? false);
+    return _BodyWidget(isFollowUp: followup ?? false);
   }
 }
 

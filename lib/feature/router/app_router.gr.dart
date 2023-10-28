@@ -79,7 +79,7 @@ abstract class $AppRouter extends _i10.RootStackRouter {
         child: _i4.FinalizeInfoWidget(
           key: args.key,
           phoneNumber: pathParams.optString('phoneNumber'),
-          isTracking: pathParams.optBool('isTracking'),
+          followup: pathParams.optBool('followup'),
         ),
       );
     },
@@ -105,15 +105,15 @@ abstract class $AppRouter extends _i10.RootStackRouter {
       final pathParams = routeData.inheritedPathParams;
       final args = routeData.argsAs<RegistrationRouteArgs>(
           orElse: () => RegistrationRouteArgs(
-                phoneNumber: pathParams.optString('phoneNumber'),
-                isTracking: pathParams.optBool('isTracking'),
+                phonenumber: pathParams.optString('phonenumber'),
+                followup: pathParams.optString('followup'),
               ));
       return _i10.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: _i7.RegistrationPage(
           key: args.key,
-          phoneNumber: args.phoneNumber,
-          isTracking: args.isTracking,
+          phonenumber: args.phonenumber,
+          followup: args.followup,
         ),
       );
     },
@@ -311,19 +311,19 @@ class ManagementIntroductionRouteArgs {
 class RegistrationRoute extends _i10.PageRouteInfo<RegistrationRouteArgs> {
   RegistrationRoute({
     _i11.Key? key,
-    String? phoneNumber,
-    bool? isTracking,
+    String? phonenumber,
+    String? followup,
     List<_i10.PageRouteInfo>? children,
   }) : super(
           RegistrationRoute.name,
           args: RegistrationRouteArgs(
             key: key,
-            phoneNumber: phoneNumber,
-            isTracking: isTracking,
+            phonenumber: phonenumber,
+            followup: followup,
           ),
           rawPathParams: {
-            'phoneNumber': phoneNumber,
-            'isTracking': isTracking,
+            'phonenumber': phonenumber,
+            'followup': followup,
           },
           initialChildren: children,
         );
@@ -337,19 +337,19 @@ class RegistrationRoute extends _i10.PageRouteInfo<RegistrationRouteArgs> {
 class RegistrationRouteArgs {
   const RegistrationRouteArgs({
     this.key,
-    this.phoneNumber,
-    this.isTracking,
+    this.phonenumber,
+    this.followup,
   });
 
   final _i11.Key? key;
 
-  final String? phoneNumber;
+  final String? phonenumber;
 
-  final bool? isTracking;
+  final String? followup;
 
   @override
   String toString() {
-    return 'RegistrationRouteArgs{key: $key, phoneNumber: $phoneNumber, isTracking: $isTracking}';
+    return 'RegistrationRouteArgs{key: $key, phonenumber: $phonenumber, followup: $followup}';
   }
 }
 
