@@ -45,6 +45,8 @@ abstract class RegistrationDataSource {
     required String code,
   });
 
+  Future<String> resendFollowUpOtp(String otpToken);
+
   Future<SignUpRequestBody> getSavedRegistrationInfo(String token);
 }
 
@@ -223,5 +225,25 @@ class RegistrationDataSourceImpl implements RegistrationDataSource {
         },
       ),
     );
+  }
+
+  @override
+  Future<String> resendFollowUpOtp(String otpToken) async {
+    await Future.delayed(const Duration(milliseconds: 1000));
+    return otpToken;
+    // final body = {'otpToken': otpToken};
+    // return apiCaller.callApi(
+    //   converter: (body) => body['otpToken'],
+    //   request: () => client.post(
+    //     EnvManager.getUri(
+    //       path: 'scf-registration/public/mobile-registration/resend',
+    //     ),
+    //     body: json.encode(body),
+    //     encoding: Encoding.getByName('utf-8'),
+    //     headers: {
+    //       'Content-Type': 'application/json; charset=utf-8',
+    //     },
+    //   ),
+    // );
   }
 }

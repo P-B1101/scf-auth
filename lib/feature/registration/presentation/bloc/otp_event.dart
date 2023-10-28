@@ -24,12 +24,27 @@ final class SendOtpEvent extends OtpEvent {
 
 final class ResendOtpEvent extends OtpEvent {
   final String otpToken;
+  final bool isFollowUp;
   const ResendOtpEvent({
     required this.otpToken,
+    required this.isFollowUp,
   });
 
+  factory ResendOtpEvent.registration(String otpToken) => ResendOtpEvent(
+        otpToken: otpToken,
+        isFollowUp: false,
+      );
+
+  factory ResendOtpEvent.followUp(String otpToken) => ResendOtpEvent(
+        otpToken: otpToken,
+        isFollowUp: false,
+      );
+
   @override
-  List<Object> get props => [otpToken];
+  List<Object> get props => [
+        otpToken,
+        isFollowUp,
+      ];
 }
 
 final class ValidateOtpEvent extends OtpEvent {

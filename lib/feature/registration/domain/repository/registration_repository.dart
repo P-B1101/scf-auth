@@ -14,7 +14,7 @@ abstract class RegistrationRepository {
     String? refrenceCode,
   );
 
-  Future<Either<Failure, String>> resendOtp(String otpToken);
+  Future<Either<Failure, String>> resendOtp(String otpToken, bool isFollowUp);
 
   Future<Either<Failure, void>> validateOtp({
     required String code,

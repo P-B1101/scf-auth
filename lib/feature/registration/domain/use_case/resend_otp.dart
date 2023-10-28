@@ -14,15 +14,20 @@ class ResendOtp extends UseCase<String, Params> {
 
   @override
   Future<Either<Failure, String>> call(Params param) =>
-      repository.resendOtp(param.otpToken);
+      repository.resendOtp(param.otpToken, param.isFollowUp);
 }
 
 class Params extends NoParams {
   final String otpToken;
+  final bool isFollowUp;
   const Params({
     required this.otpToken,
+    required this.isFollowUp,
   });
 
   @override
-  List<Object?> get props => [otpToken];
+  List<Object?> get props => [
+        otpToken,
+        isFollowUp,
+      ];
 }

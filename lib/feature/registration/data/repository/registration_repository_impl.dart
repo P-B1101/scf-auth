@@ -97,9 +97,11 @@ class RegistrationRepositoryImpl implements RegistrationRepository {
       });
 
   @override
-  Future<Either<Failure, String>> resendOtp(String otpToken) =>
+  Future<Either<Failure, String>> resendOtp(String otpToken, bool isFollowUp) =>
       repositoryHelper.tryToLoad(() async {
-        final result = await dataSource.resendOtp(otpToken);
+        final result = isFollowUp
+            ? await dataSource.resendFollowUpOtp(otpToken)
+            : await dataSource.resendOtp(otpToken);
         _saveTimerDuration(result);
         return result;
       });

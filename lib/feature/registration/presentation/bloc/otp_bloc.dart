@@ -44,7 +44,10 @@ class OtpBloc extends Bloc<OtpEvent, OtpState> {
     Emitter<OtpState> emit,
   ) async {
     emit(ResendOtpLaodingState());
-    final result = await _resendOtp(r.Params(otpToken: event.otpToken));
+    final result = await _resendOtp(r.Params(
+      otpToken: event.otpToken,
+      isFollowUp: event.isFollowUp,
+    ));
     final newState = await result.fold(
       (failure) async => failure.toState,
       (otpToken) async => SendOtpSuccessState(otpToken: otpToken),

@@ -501,7 +501,7 @@ class __RegistrationOTPDialogWidgetState
 
   void _onResendClick() {
     final state = context.read<FollowUpDialogControllerCubit>().state;
-    context.read<OtpBloc>().add(ResendOtpEvent(otpToken: state.otpToken));
+    context.read<OtpBloc>().add(ResendOtpEvent.followUp(state.otpToken));
   }
 
   void _handleOtpState(OtpState state) async {
