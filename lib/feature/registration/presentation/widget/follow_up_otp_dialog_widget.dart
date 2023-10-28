@@ -63,7 +63,7 @@ class __RegistrationOTPDialogWidgetState
   @override
   void initState() {
     super.initState();
-    _phoneNode.requestFocus();
+    _refrenceCodeNode.requestFocus();
   }
 
   @override
@@ -148,7 +148,7 @@ class __RegistrationOTPDialogWidgetState
             child: () {
               return switch (state.step) {
                 OTPStep.phoneNumber => Text(
-                    Strings.of(context).registration_otp_title,
+                    Strings.of(context).follow_up_registration_otp_title,
                     textAlign: TextAlign.center,
                     style: const TextStyle(
                       fontSize: 18,

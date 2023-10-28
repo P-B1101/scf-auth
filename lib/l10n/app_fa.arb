@@ -148,6 +148,7 @@
     "wrong_economic_id_error": "شناسه اقتصادی وارد شده اشتباه می باشد",
     "wrong_suggested_company_economic_id_error": "شناسه اقتصادی بنگاه وارد شده اشتباه می باشد",
     "registration_otp_title": "جهت ورود به سامانه عضویت لطفا شماره تماس شرکت را وارد کنید",
+    "follow_up_registration_otp_title": "جهت ویرایش فرم عضویت لطفا کد پیگیری و\nشماره موبایل شرکت را وارد کنید",
     "registration_otp_validate_otp_title": "کد ورود برای شماره $0 ارسال شد",
     "edit_phone_number": "ویرایش شماره همراه",
     "resend_otp_place_holder": "$0 تا ارسال مجدد کد",
