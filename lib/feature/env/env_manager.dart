@@ -14,7 +14,7 @@ class EnvManager {
       case Environment.dev:
         return Uri.http(baseUrl ?? 'api.holding.local', path, query);
       case Environment.uat:
-        return Uri.https('api-uat.holding.local', path, query);
+        return Uri.http('api-uat.holding.local', path, query);
       case Environment.prelive:
         return Uri.https('prelive.negah.ir', path, query);
       case Environment.live:
