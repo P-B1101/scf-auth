@@ -44,4 +44,9 @@ class Utils {
   
   // static Duration timerDuration = const Duration(seconds: 180);
   static Duration timerDuration = const Duration(seconds: 5);
+
+  static const statuteTitle = 'اساس نامه';
+  static const newspaperTitle = 'روزنامه';
+  static const balanceSheetTitle = 'ترازنامه';
+  static const profitAndLossStatementTitle = 'صورت سود و زیان';
 }

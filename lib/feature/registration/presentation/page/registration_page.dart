@@ -1,7 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:scf_auth/core/components/loading/adaptive_loading_widget.dart';
+import 'package:scf_auth/core/utils/ui_utils.dart';
 import 'package:scf_auth/feature/language/manager/localizatios.dart';
+import 'package:scf_auth/feature/registration/presentation/bloc/saved_registration_info_bloc.dart';
 import '../widget/company_introduction/company_introduction_widget.dart';
 import '../widget/contact_info/contact_info_widget.dart';
 import '../widget/documents_upload/documents_upload_widget.dart';
@@ -28,9 +31,11 @@ import '../widget/registration_toolbar_widget.dart';
 class RegistrationPage extends StatelessWidget {
   static const path = 'registration';
   final String? phoneNumber;
+  final bool? isTracking;
   const RegistrationPage({
     super.key,
     @PathParam() this.phoneNumber,
+    @PathParam() this.isTracking,
   });
 
   @override
@@ -43,9 +48,9 @@ class RegistrationPage extends StatelessWidget {
         BlocProvider<ActivityAreaBloc>(
           create: (context) => getIt<ActivityAreaBloc>(),
         ),
-        BlocProvider<ActivityTypeBloc>(
-          create: (context) => getIt<ActivityTypeBloc>(),
-        ),
+        // BlocProvider<ActivityTypeBloc>(
+        //   create: (context) => getIt<ActivityTypeBloc>(),
+        // ),
         BlocProvider<BranchInfoBloc>(
           create: (context) => getIt<BranchInfoBloc>(),
         ),
@@ -55,17 +60,25 @@ class RegistrationPage extends StatelessWidget {
         BlocProvider<SignUpBloc>(
           create: (context) => getIt<SignUpBloc>(),
         ),
+        BlocProvider<SavedRegistrationInfoBloc>(
+          create: (context) => getIt<SavedRegistrationInfoBloc>(),
+        ),
       ],
-      child: _RegistrationPage(phoneNumber: phoneNumber),
+      child: _RegistrationPage(
+        phoneNumber: phoneNumber,
+        isTracking: isTracking ?? false,
+      ),
     );
   }
 }
 
 class _RegistrationPage extends StatefulWidget {
   final String? phoneNumber;
+  final bool isTracking;
   const _RegistrationPage({
     Key? key,
     required this.phoneNumber,
+    required this.isTracking,
   }) : super(key: key);
 
   @override
@@ -90,14 +103,18 @@ class __RegistrationPageState extends State<_RegistrationPage> {
         BlocListener<ActivityAreaBloc, KeyValueItemState>(
           listener: (context, state) => _handleKeyValueItemState(state),
         ),
-        BlocListener<ActivityTypeBloc, KeyValueItemState>(
-          listener: (context, state) => _handleKeyValueItemState(state),
-        ),
+        // BlocListener<ActivityTypeBloc, KeyValueItemState>(
+        //   listener: (context, state) => _handleKeyValueItemState(state),
+        // ),
         BlocListener<ProvinceCityBloc, ProvinceCityState>(
           listener: (context, state) => _handleProvinceCityState(state),
         ),
         BlocListener<SignUpBloc, SignUpState>(
           listener: (context, state) => _handleSignUpState(state),
+        ),
+        BlocListener<SavedRegistrationInfoBloc, SavedRegistrationInfoState>(
+          listener: (context, state) =>
+              _handleSavedRegistrationInfoState(state),
         ),
       ],
       child: AutoTabsRouter(
@@ -127,7 +144,28 @@ class __RegistrationPageState extends State<_RegistrationPage> {
                     _onStepClick(step);
                   },
                 ),
-                Expanded(child: child),
+                !widget.isTracking
+                    ? Expanded(child: child)
+                    : Expanded(
+                        child: BlocBuilder<SavedRegistrationInfoBloc,
+                            SavedRegistrationInfoState>(
+                          builder: (context, state) => AnimatedSwitcher(
+                            duration: UiUtils.duration,
+                            switchInCurve: Curves.easeIn,
+                            switchOutCurve: Curves.easeOut,
+                            child: () {
+                              if (state is SavedRegistrationInfoSuccessState) {
+                                return child;
+                              }
+                              if (state is SavedRegistrationInfoLoadingState) {
+                                return const Center(
+                                  child: AdaptiveLoadingWidget(),
+                                );
+                              }
+                            }(),
+                          ),
+                        ),
+                      ),
               ],
             ),
           );
@@ -174,12 +212,17 @@ class __RegistrationPageState extends State<_RegistrationPage> {
     }
     if (!mounted) return;
     _handleInitialTab();
+    if (widget.isTracking) {
+      context
+          .read<SavedRegistrationInfoBloc>()
+          .add(GetSavedRegistrationInfoEvent());
+    }
     context.read<ActivityAreaBloc>().add(const GetKeyValueItemEvent(
           requestType: CDNRequestType.scfRegistrationActivityArea,
         ));
-    context.read<ActivityTypeBloc>().add(const GetKeyValueItemEvent(
-          requestType: CDNRequestType.scfRegistrationActivityType,
-        ));
+    // context.read<ActivityTypeBloc>().add(const GetKeyValueItemEvent(
+    //       requestType: CDNRequestType.scfRegistrationActivityType,
+    //     ));
     context.read<BranchInfoBloc>().add(GetBranchInfoEvent());
     context.read<ProvinceCityBloc>().add(GetProvinceCityEvent());
   }
@@ -226,13 +269,31 @@ class __RegistrationPageState extends State<_RegistrationPage> {
       await DialogManager.instance.showSuccessSubmitDialog(
         context: context,
         trackingId: state.response.trackingId,
+        hasIban: state.hasIban,
       );
       if (!mounted) return;
       context.replaceRoute(const LandingRoute());
     }
   }
 
+  void _handleSavedRegistrationInfoState(
+      SavedRegistrationInfoState state) async {
+    if (state is SavedRegistrationInfoUnAuthorizeFailureState) {
+      getIt<ToastManager>().showFailureToast(
+        context: context,
+        message: Strings.of(context).send_phone_number_again_error_message,
+      );
+      context.replaceRoute(const LandingRoute());
+    } else if (state is SavedRegistrationInfoFailureState) {
+      getIt<ToastManager>()
+          .showFailureToast(context: context, message: state.message);
+    } else if (state is SavedRegistrationInfoSuccessState) {
+      context.read<RegistrationControllerCubit>().initialize(state.item);
+    }
+  }
+
   bool get invalidPhoneNumber {
+    if (widget.isTracking) return false;
     if (widget.phoneNumber == null) return true;
     if (!widget.phoneNumber!.isValidMobileNumber) return true;
     return false;

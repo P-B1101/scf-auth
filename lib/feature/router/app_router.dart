@@ -21,7 +21,7 @@ class AppRouter extends $AppRouter {
         ),
         RedirectRoute(path: '/${RegistrationPage.path}', redirectTo: '/'),
         AutoRoute(
-          path: '/${RegistrationPage.path}/:phoneNumber',
+          path: '/${RegistrationPage.path}/:isTracking/:phoneNumber',
           page: RegistrationRoute.page,
           children: [
             RedirectRoute(path: '', redirectTo: CompanyIntroductionWidget.path),
@@ -49,7 +49,7 @@ class AppRouter extends $AppRouter {
               path: SuggestedBranchWidget.path,
               page: SuggestedBranchRoute.page,
             ),
-             AutoRoute(
+            AutoRoute(
               path: FinalizeInfoWidget.path,
               page: FinalizeInfoRoute.page,
             ),

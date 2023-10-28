@@ -1,8 +1,11 @@
 import 'package:dartz/dartz.dart';
+import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../../core/error/failures.dart';
 import '../../../../core/utils/ui_utils.dart';
+import '../../../cdn/data/data_source/cdn_data_source.dart';
+import '../../../cdn/domain/entity/branch_info.dart';
 import '../../../database/data/data_source/database_data_source.dart';
 import '../../../jwt/manager/jwt_decoder.dart';
 import '../../../repository_manager/repository_manager.dart';
@@ -21,6 +24,7 @@ class RegistrationRepositoryImpl implements RegistrationRepository {
   final DataBaseDataSource database;
   final SecurityManager securityManager;
   final MJwtDecoder jwtDecoder;
+  final CDNDataSource cdnDataSource;
 
   const RegistrationRepositoryImpl({
     required this.dataSource,
@@ -28,7 +32,28 @@ class RegistrationRepositoryImpl implements RegistrationRepository {
     required this.database,
     required this.securityManager,
     required this.jwtDecoder,
+    required this.cdnDataSource,
   });
+  void _saveTimerDuration(String token) {
+    final decodedJson = jwtDecoder.decode(
+      token: token,
+      converter: (body) => TokenModel.fromJson(body, token),
+    );
+    Utils.timerDuration = decodedJson.getDuration ?? Utils.timerDuration;
+  }
+
+  Future<BranchInfo?> _tryToGetBranch(String? id) async {
+    try {
+      if (id == null) return null;
+      final result = await cdnDataSource.getBranchList();
+      final items = result.where((element) => id == element.id);
+      if (items.isEmpty) return null;
+      return items.first;
+    } catch (error) {
+      debugPrint(error.toString());
+      return null;
+    }
+  }
 
   @override
   Future<Either<Failure, SignUpResponse>> signUp(SignUpRequestBody body) =>
@@ -40,9 +65,17 @@ class RegistrationRepositoryImpl implements RegistrationRepository {
       );
 
   @override
-  Future<Either<Failure, String>> sendOtp(String phoneNumber) =>
+  Future<Either<Failure, String>> sendOtp(
+    String phoneNumber,
+    String? refrenceCode,
+  ) =>
       repositoryHelper.tryToLoad(() async {
-        final result = await dataSource.sendOtp(phoneNumber);
+        final result = refrenceCode == null
+            ? await dataSource.sendOtp(phoneNumber)
+            : await dataSource.sendFollowUpOtp(
+                phoneNumber: phoneNumber,
+                refrenceCode: refrenceCode,
+              );
         _saveTimerDuration(result);
         return result;
       });
@@ -51,10 +84,15 @@ class RegistrationRepositoryImpl implements RegistrationRepository {
   Future<Either<Failure, void>> validateOtp({
     required String code,
     required String otpToken,
+    required bool isFollowUp,
   }) =>
       repositoryHelper.tryToLoad(() async {
-        final result =
-            await dataSource.validateOtp(otpToken: otpToken, code: code);
+        final result = isFollowUp
+            ? await dataSource.validateFollowUpOtp(
+                otpToken: otpToken,
+                code: code,
+              )
+            : await dataSource.validateOtp(otpToken: otpToken, code: code);
         await database.saveAuth(securityManager.encode(result));
       });
 
@@ -66,11 +104,21 @@ class RegistrationRepositoryImpl implements RegistrationRepository {
         return result;
       });
 
-  void _saveTimerDuration(String token) {
-    final decodedJson = jwtDecoder.decode(
-      token: token,
-      converter: (body) => TokenModel.fromJson(body, token),
-    );
-    Utils.timerDuration = decodedJson.getDuration ?? Utils.timerDuration;
-  }
+  @override
+  Future<Either<Failure, SignUpRequestBody>> getSavedRegistrationInfo() =>
+      repositoryHelper.tryToAuthLoad((token) async {
+        final result = await dataSource.getSavedRegistrationInfo(token);
+        return result.copyWith(
+          suggestedBranch: await _tryToGetBranch(result.suggestedBranch?.id),
+        );
+      });
+
+  @override
+  Future<Either<Failure, SignUpResponse>> edit(SignUpRequestBody body) =>
+      repositoryHelper.tryToAuthLoad(
+        (token) => dataSource.edit(
+          body: SignUpRequestBodyModel.fromEntity(body),
+          token: token,
+        ),
+      );
 }

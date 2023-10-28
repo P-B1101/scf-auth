@@ -1,3 +1,11 @@
+import 'package:scf_auth/core/utils/extensions.dart';
+import 'package:scf_auth/feature/cdn/domain/entity/branch_info.dart';
+import 'package:scf_auth/feature/cdn/domain/entity/key_value.dart';
+import 'package:scf_auth/feature/cdn/domain/entity/upload_file_result.dart';
+import 'package:scf_auth/feature/registration/domain/entity/address_info.dart';
+import 'package:scf_auth/feature/registration/domain/entity/director.dart';
+import 'package:scf_auth/feature/registration/domain/entity/suggested_company.dart';
+
 import '../../../cdn/data/model/key_value_model.dart';
 import '../../../cdn/data/model/uploaded_file_result_model.dart';
 import '../../domain/entity/sign_up_request_body.dart';
@@ -20,6 +28,7 @@ class SignUpRequestBodyModel extends SignUpRequestBody {
     required super.suggestedBranch,
     required super.telephone,
     required super.webSite,
+    required super.iban,
   });
 
   factory SignUpRequestBodyModel.fromEntity(SignUpRequestBody entity) =>
@@ -37,12 +46,65 @@ class SignUpRequestBodyModel extends SignUpRequestBody {
         suggestedBranch: entity.suggestedBranch,
         telephone: entity.telephone,
         webSite: entity.webSite,
+        iban: entity.iban,
+      );
+
+  factory SignUpRequestBodyModel.fromJson(Map<String, dynamic> json) =>
+      SignUpRequestBodyModel(
+        activityAreas: () {
+          final value = json['activityAreas'];
+          if (value is! List) return <KeyValue>[];
+          return value.map((e) => KeyValueModel.fromJson(e)).toList();
+        }(),
+        address: () {
+          final value = json['contact']?['address'];
+          if (value is! List) return <AddressInfo>[];
+          return value.map((e) => AddressInfoModel.fromJson(e)).toList();
+        }(),
+        iban: json['iban'] ?? '',
+        associatedBusinessUnits: () {
+          final value = json['associatedBusinessUnits'];
+          if (value is! List) return <SuggestedCompany>[];
+          return value.map((e) => SuggestedCompanyModel.fromJson(e)).toList();
+        }(),
+        businessUnitFullName: json['businessUnitFullName'],
+        directors: () {
+          final value = json['directors'];
+          if (value is! List) return <Director>[];
+          return value.map((e) => DirectorModel.fromJson(e)).toList();
+        }(),
+        email: json['contact']?['email'],
+        mobile: json['contact']?['mobile'],
+        nationalId: json['nationalId'],
+        serviceType: () {
+          final value = json['activityType'];
+          if (value is! String) return null;
+          return value.toActivityType;
+        }(),
+        suggestedBranch: () {
+          final value = json['selectedBranchId'];
+          if (value == null) return null;
+          return BranchInfo(
+            id: value,
+            title: value,
+            lat: null,
+            lng: null,
+          );
+        }(),
+        telephone: json['contact']?['telephone'],
+        uploadedDocuments: () {
+          final value = json['uploadedDocuments'];
+          if (value is! List) return <UploadFileResult>[];
+          return value.map((e) => UploadFileResultModel.fromJson(e)).toList();
+        }(),
+        webSite: json['contact']?['webSite'],
       );
 
   Map<String, dynamic> get toJson => {
         'businessUnitFullName': businessUnitFullName,
         'nationalId': nationalId,
-        'activityType': serviceType.id,
+        'activityType': serviceType?.toValue,
+        'iban': iban.isEmpty ? null : iban,
         'activityAreas': activityAreas
             .map((e) => KeyValueModel.fromEntity(e).toJson)
             .toList(),
@@ -54,7 +116,7 @@ class SignUpRequestBodyModel extends SignUpRequestBody {
         'associatedBusinessUnits': associatedBusinessUnits
             .map((e) => SuggestedCompanyModel.fromEntity(e).toJson)
             .toList(),
-        'suggestedBranchId': suggestedBranch.id,
+        'selectedBranchId': suggestedBranch?.id,
         'contact': {
           'telephone': telephone,
           'mobile': mobile,

@@ -368,7 +368,7 @@ class _ContactInfoWidgetState extends State<ContactInfoWidget> {
                         }(),
                         provinceError: () {
                           if (!state.showError ||
-                              !state.invalidAddress ||
+                              !state.invalidProvince ||
                               items[index].isValidProvince) {
                             return null;
                           }
@@ -376,7 +376,7 @@ class _ContactInfoWidgetState extends State<ContactInfoWidget> {
                         }(),
                         cityError: () {
                           if (!state.showError ||
-                              !state.invalidAddress ||
+                              !state.invalidCity ||
                               items[index].isValidCity) {
                             return null;
                           }

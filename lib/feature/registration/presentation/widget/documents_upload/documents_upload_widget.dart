@@ -117,7 +117,7 @@ class _DocumentsUploadWidgetState extends State<DocumentsUploadWidget> {
           onFileFailure: _onFileFailure,
           hint: Strings.of(context).statute_hint,
           label: Strings.of(context).statute_label,
-          title: state.statute?.title ?? Strings.of(context).statute_label,
+          title: state.statute?.title ?? Utils.statuteTitle,
           error: () {
             if (!state.showError || !state.invalidStatute) {
               return null;
@@ -141,7 +141,7 @@ class _DocumentsUploadWidgetState extends State<DocumentsUploadWidget> {
           onFileFailure: _onFileFailure,
           hint: Strings.of(context).newspaper_hint,
           label: Strings.of(context).newspaper_label,
-          title: state.newspaper?.title ?? Strings.of(context).newspaper_label,
+          title: state.newspaper?.title ?? Utils.newspaperTitle,
           error: () {
             if (!state.showError || !state.invalidNewspaper) {
               return null;
@@ -165,8 +165,7 @@ class _DocumentsUploadWidgetState extends State<DocumentsUploadWidget> {
           onFileFailure: _onFileFailure,
           hint: Strings.of(context).balance_sheet_hint,
           label: Strings.of(context).balance_sheet_label,
-          title: state.balanceSheet?.title ??
-              Strings.of(context).balance_sheet_label,
+          title: state.balanceSheet?.title ?? Utils.balanceSheetTitle,
           error: () {
             if (!state.showError || !state.invalidBalanceSheet) {
               return null;
@@ -192,7 +191,7 @@ class _DocumentsUploadWidgetState extends State<DocumentsUploadWidget> {
           hint: Strings.of(context).profit_and_loss_statement_hint,
           label: Strings.of(context).profit_and_loss_statement_label,
           title: state.profitAndLossStatement?.title ??
-              Strings.of(context).profit_and_loss_statement_label,
+              Utils.profitAndLossStatementTitle,
           error: () {
             if (!state.showError || !state.invalidProfitAndLossStatement) {
               return null;
@@ -273,7 +272,8 @@ class _DocumentsUploadWidgetState extends State<DocumentsUploadWidget> {
                               !items[index]!.invalidTitle)) {
                         return null;
                       }
-                      return Strings.of(context).empty_other_document_title_error;
+                      return Strings.of(context)
+                          .empty_other_document_title_error;
                     }(),
                     name: items[index]?.fileName,
                     onTitleChange: (title) => context

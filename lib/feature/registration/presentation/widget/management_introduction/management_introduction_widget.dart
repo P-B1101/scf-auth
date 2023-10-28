@@ -103,11 +103,17 @@ class _ManagementIntroductionWidgetState
             (previous.ceoInfo != current.ceoInfo) ||
             previous.showError != current.showError,
         builder: (context, state) => NameNationalCodeFieldWidget(
+          hasDivider: true,
           requestFocus: true,
+          birthDate: state.ceoInfo.birthDate,
+          birthDateHint: Strings.of(context).ceo_birth_date_hint,
+          birthDateLabel: Strings.of(context).ceo_birth_date_label,
           onNameChange:
               context.read<RegistrationControllerCubit>().updateCeoName,
           onNationalCodeChange:
               context.read<RegistrationControllerCubit>().updateCeoNationalCode,
+          onBirthDateChange:
+              context.read<RegistrationControllerCubit>().updateCeoBirthDate,
           name: state.ceoInfo.name,
           nationalCode: state.ceoInfo.nationalCode,
           nameHint: Strings.of(context).ceo_name_hint,
@@ -129,6 +135,12 @@ class _ManagementIntroductionWidgetState
             }
             return Strings.of(context).wrong_ceo_national_code_error;
           }(),
+          birthDateError: () {
+            if (!state.showError || !state.invalidCeoBirthDate) {
+              return null;
+            }
+            return Strings.of(context).empty_ceo_birth_date_error;
+          }(),
         ),
       );
 
@@ -145,12 +157,18 @@ class _ManagementIntroductionWidgetState
             children: List.generate(
                 items.length,
                 (index) => NameNationalCodeFieldWidget(
+                      hasDivider: index < items.length - 1 ||
+                          state.canAddMoreBoardMember,
+                      onBirthDateChange: (birthDate) => context
+                          .read<RegistrationControllerCubit>()
+                          .updateBoardMemberBirthDateAt(index, birthDate),
                       onNameChange: (name) => context
                           .read<RegistrationControllerCubit>()
                           .updateBoardMemberNameAt(index, name),
                       onNationalCodeChange: (nationalCode) => context
                           .read<RegistrationControllerCubit>()
                           .updateBoardMemberNationalCodeAt(index, nationalCode),
+                      birthDate: items[index].birthDate,
                       name: items[index].name,
                       nationalCode: items[index].nationalCode,
                       nameHint: Strings.of(context).board_member_name_hint,
@@ -160,9 +178,13 @@ class _ManagementIntroductionWidgetState
                           Strings.of(context).board_member_national_code_hint,
                       nationalCodeLabel:
                           '${Strings.of(context).board_member_national_code_label} ${(index + 1).toStringValue(context)}',
+                      birthDateHint:
+                          Strings.of(context).board_member_birth_date_hint,
+                      birthDateLabel:
+                          '${Strings.of(context).board_member_birth_date_label} ${(index + 1).toStringValue(context)}',
                       nameError: () {
                         if (!state.showError ||
-                            !state.invalidBoardMemeberName ||
+                            !state.invalidBoardMemberName ||
                             !items[index].invalidName) {
                           return null;
                         }
@@ -171,16 +193,25 @@ class _ManagementIntroductionWidgetState
                       }(),
                       nationalCodeError: () {
                         if (!state.showError ||
-                            !state.invalidBoardMemeberNationalCode ||
+                            !state.invalidBoardMemberNationalCode ||
                             !items[index].invalidNationalCode) {
                           return null;
                         }
-                        if (state.emptyBoardMemeberNationalCodeAt(index)) {
+                        if (state.emptyBoardMemberNationalCodeAt(index)) {
                           return Strings.of(context)
                               .empty_board_member_national_code_error;
                         }
                         return Strings.of(context)
                             .wrong_board_member_national_code_error;
+                      }(),
+                      birthDateError: () {
+                        if (!state.showError ||
+                            !state.invalidBoardMemberBirthDate ||
+                            !items[index].invalidBirthDate) {
+                          return null;
+                        }
+                        return Strings.of(context)
+                            .empty_board_member_birth_date_error;
                       }(),
                       onDeleteFieldClick: index > 0
                           ? () => context

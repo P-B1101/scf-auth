@@ -34,7 +34,7 @@ class AddressInfo extends Equatable {
   }) =>
       AddressInfo(
         address: address ?? this.address,
-        city: city,
+        city: province != null && province != this.province ? null : city,
         lat: lat,
         lng: lng,
         province: province ?? this.province,

@@ -2,10 +2,10 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
-import 'package:scf_auth/feature/registration/presentation/widget/finalize/finalize_info_widget.dart';
-import 'package:shamsi_date/shamsi_date.dart';
 
+import 'package:iban/iban.dart' as i_validation;
 import '../../feature/cdn/domain/entity/key_value.dart';
 import '../../feature/cdn/domain/entity/province_city.dart';
 import '../../feature/cdn/domain/entity/upload_file_result.dart';
@@ -16,6 +16,7 @@ import '../../feature/registration/domain/entity/suggested_company.dart';
 import '../../feature/registration/presentation/widget/company_introduction/company_introduction_widget.dart';
 import '../../feature/registration/presentation/widget/contact_info/contact_info_widget.dart';
 import '../../feature/registration/presentation/widget/documents_upload/documents_upload_widget.dart';
+import '../../feature/registration/presentation/widget/finalize/finalize_info_widget.dart';
 import '../../feature/registration/presentation/widget/management_introduction/management_introduction_widget.dart';
 import '../../feature/registration/presentation/widget/suggested_branch/suggested_branch_widget.dart';
 import '../../feature/registration/presentation/widget/suggested_company/suggested_company_widget.dart';
@@ -87,6 +88,17 @@ extension IntExt on int {
 }
 
 extension StringExt on String {
+  bool get isValidIban {
+    final temp = clearFormat.startsWith('IR') ? clearFormat : 'IR$clearFormat';
+    return i_validation.isValid(temp);
+  }
+
+  ActivityType? get toActivityType => switch (this) {
+        'PRODUCT' => ActivityType.product,
+        'SERVICE' => ActivityType.service,
+        _ => null,
+      };
+
   bool get isValidOtp => length == 6;
   Position? get toPosition {
     switch (this) {
@@ -234,14 +246,13 @@ extension StringExt on String {
       .replaceAll('۹', '9')
       .replaceAll('۰', '0');
 
-  Jalali? get toJalali {
+  Jalali? get toJalaliLocal {
     final dateTime = DateTime.tryParse(this)?.toLocal();
     if (dateTime == null) return null;
     return Jalali.fromDateTime(dateTime).copy(
       hour: dateTime.hour,
       minute: dateTime.minute,
       second: dateTime.second,
-      millisecond: dateTime.millisecond,
     );
   }
 }
@@ -251,6 +262,8 @@ extension JalaliExt on Jalali {
       '${hour.toTwoDigit}:${minute.toTwoDigit}:${second.toTwoDigit}';
 
   String get toDateString => '$year.${month.toTwoDigit}.${day.toTwoDigit}';
+
+  String get toValue => toDateTime().toValue;
 }
 
 extension RegistrationStepsExt on RegistrationSteps {
@@ -279,8 +292,8 @@ extension CDNRequestTypeExt on CDNRequestType {
     switch (this) {
       case CDNRequestType.scfRegistrationActivityArea:
         return 'SCF-REGISTRATION-ACTIVITY-AREA';
-      case CDNRequestType.scfRegistrationActivityType:
-        return 'SCF-REGISTRATION-ACTIVITY-TYPE';
+      // case CDNRequestType.scfRegistrationActivityType:
+      //   return 'SCF-REGISTRATION-ACTIVITY-TYPE';
     }
   }
 }
@@ -322,6 +335,13 @@ extension NameNationalCodeListExt on List<Director> {
     return [
       for (int i = 0; i < length; i++)
         index == i ? this[i].copyWith(nationalCode: nationalCode) : this[i]
+    ];
+  }
+
+  List<Director> updateBirthDateAt(int index, Jalali birthDate) {
+    return [
+      for (int i = 0; i < length; i++)
+        index == i ? this[i].copyWith(birthDate: birthDate) : this[i]
     ];
   }
 }
@@ -408,4 +428,21 @@ extension DurationExt on Duration {
     final seconds = data % 60;
     return '${minute.toTwoDigit}:${seconds.toTwoDigit}';
   }
+}
+
+extension ActivityTypeExt on ActivityType {
+  String toStringValue(BuildContext context) => switch (this) {
+        ActivityType.product => Strings.of(context).activity_type_product,
+        ActivityType.service => Strings.of(context).activity_type_service,
+      };
+
+  String get toValue => switch (this) {
+        ActivityType.product => 'PRODUCT',
+        ActivityType.service => 'SERVICE',
+      };
+}
+
+extension DateTimeExt on DateTime {
+  String get toValue =>
+      '$year-${month.toTwoDigit}-${day.toTwoDigit}T${hour.toTwoDigit}:${minute.toTwoDigit}:${second.toTwoDigit}';
 }

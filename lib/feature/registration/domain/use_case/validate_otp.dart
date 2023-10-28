@@ -16,17 +16,20 @@ class ValidateOtp extends UseCase<void, Params> {
   Future<Either<Failure, void>> call(Params param) => repository.validateOtp(
         code: param.code,
         otpToken: param.otpToken,
+        isFollowUp: param.isFollowUp,
       );
 }
 
 class Params extends NoParams {
   final String code;
   final String otpToken;
+  final bool isFollowUp;
   const Params({
     required this.code,
     required this.otpToken,
+    required this.isFollowUp,
   });
 
   @override
-  List<Object?> get props => [code, otpToken];
+  List<Object?> get props => [code, otpToken, isFollowUp];
 }

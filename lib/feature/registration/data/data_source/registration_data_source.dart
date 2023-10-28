@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:injectable/injectable.dart';
+import 'package:scf_auth/feature/registration/domain/entity/sign_up_request_body.dart';
 
 import '../../../../core/utils/extensions.dart';
 import '../../../../core/utils/ui_utils.dart';
@@ -20,7 +21,17 @@ abstract class RegistrationDataSource {
     required String token,
   });
 
+  Future<SignUpResponse> edit({
+    required SignUpRequestBodyModel body,
+    required String token,
+  });
+
   Future<String> sendOtp(String phoneNumber);
+
+  Future<String> sendFollowUpOtp({
+    required String phoneNumber,
+    required String refrenceCode,
+  });
 
   Future<String> resendOtp(String otpToken);
 
@@ -28,6 +39,13 @@ abstract class RegistrationDataSource {
     required String otpToken,
     required String code,
   });
+
+  Future<String> validateFollowUpOtp({
+    required String otpToken,
+    required String code,
+  });
+
+  Future<SignUpRequestBody> getSavedRegistrationInfo(String token);
 }
 
 @LazySingleton(as: RegistrationDataSource)
@@ -56,6 +74,30 @@ class RegistrationDataSourceImpl implements RegistrationDataSource {
           },
         ),
       );
+
+  @override
+  Future<SignUpResponse> edit({
+    required SignUpRequestBodyModel body,
+    required String token,
+  }) async {
+    await Future.delayed(const Duration(milliseconds: 1000));
+    return SignUpResponse(
+        trackingId: DateTime.now().millisecondsSinceEpoch.toString());
+  }
+  // =>
+  //     apiCaller.callApi(
+  //       converter: (body) => SignUpResponseModel.fromJson(body),
+  //       request: () => client.post(
+  //         EnvManager.getUri(path: 'scf-registration/info-registration'),
+  //         body: json.encode(body.toJson),
+  //         encoding: Encoding.getByName('utf-8'),
+  //         headers: {
+  //           'Content-Type': 'application/json; charset=utf-8',
+  //           'Authorization': 'Bearer $token',
+  //         },
+  //       ),
+  //     );
+
   @override
   Future<String> sendOtp(String phoneNumber) async {
     final body = {
@@ -109,6 +151,70 @@ class RegistrationDataSourceImpl implements RegistrationDataSource {
       request: () => client.post(
         EnvManager.getUri(
           path: 'scf-registration/public/mobile-registration/resend',
+        ),
+        body: json.encode(body),
+        encoding: Encoding.getByName('utf-8'),
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
+        },
+      ),
+    );
+  }
+
+  @override
+  Future<SignUpRequestBody> getSavedRegistrationInfo(String token) =>
+      apiCaller.callApi(
+        converter: (body) => SignUpRequestBodyModel.fromJson(body),
+        request: () => client.get(
+          EnvManager.getUri(
+            path: 'scf-registration/retrieve-registration',
+          ),
+          headers: {
+            'Content-Type': 'application/json; charset=utf-8',
+            'Authorization': 'Bearer $token',
+          },
+        ),
+      );
+
+  @override
+  Future<String> sendFollowUpOtp({
+    required String phoneNumber,
+    required String refrenceCode,
+  }) async {
+    final body = {
+      'mobileNumber': phoneNumber,
+      'referenceCode': refrenceCode,
+      'targetPlatformType': Utils.targetPlatformType.toValue,
+    };
+    return apiCaller.callApi(
+      converter: (body) => body['otpToken'],
+      request: () => client.post(
+        EnvManager.getUri(
+          path: 'scf-registration/public/follow-up/send-otp',
+        ),
+        body: json.encode(body),
+        encoding: Encoding.getByName('utf-8'),
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
+        },
+      ),
+    );
+  }
+
+  @override
+  Future<String> validateFollowUpOtp({
+    required String otpToken,
+    required String code,
+  }) async {
+    final body = {
+      'otpToken': otpToken,
+      'code': code,
+    };
+    return apiCaller.callApi(
+      converter: (body) => body['accessToken'],
+      request: () => client.post(
+        EnvManager.getUri(
+          path: 'scf-registration/public/follow-up/verify-otp',
         ),
         body: json.encode(body),
         encoding: Encoding.getByName('utf-8'),

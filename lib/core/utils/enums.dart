@@ -29,7 +29,7 @@ enum RegistrationSteps {
 
 enum CDNRequestType {
   scfRegistrationActivityArea, //  SCF-REGISTRATION-ACTIVITY-AREA
-  scfRegistrationActivityType, //  SCF-REGISTRATION-ACTIVITY-TYPE
+  // scfRegistrationActivityType, //  SCF-REGISTRATION-ACTIVITY-TYPE
 }
 
 enum ButtonType {
@@ -55,4 +55,9 @@ enum TargetPlatformType {
   iosNative, // IOS_NATIVE
   iosPwa, // IOS_PWA
   other, // OTHER
+}
+
+enum ActivityType {
+  product,
+  service,
 }

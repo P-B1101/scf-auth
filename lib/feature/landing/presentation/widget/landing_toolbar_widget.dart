@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:scf_auth/core/components/custom/custom_scroll_view.dart';
-import 'package:scf_auth/core/utils/ui_utils.dart';
 
+import '../../../../core/components/custom/custom_scroll_view.dart';
 import '../../../../core/utils/assets.dart';
+import '../../../../core/utils/ui_utils.dart';
 import '../../../language/manager/localizatios.dart';
 
 class LandingToolbarWidget extends StatelessWidget {
   final Function() onTrackingClick;
-  final Function() onEditRegistrationClick;
+  // final Function() onEditRegistrationClick;
   final Function() onRequestRegistrationClick;
   const LandingToolbarWidget({
     super.key,
-    required this.onEditRegistrationClick,
+    // required this.onEditRegistrationClick,
     required this.onRequestRegistrationClick,
     required this.onTrackingClick,
   });

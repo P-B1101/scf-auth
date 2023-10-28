@@ -46,23 +46,23 @@ class ActivityAreaBloc extends Bloc<KeyValueItemEvent, KeyValueItemState>
       onGetKeyValueItemEvent(_getKeyValueItem, event, emit);
 }
 
-@injectable
-class ActivityTypeBloc extends Bloc<KeyValueItemEvent, KeyValueItemState>
-    with KeyValueItemMixin {
-  final GetKeyValueItem _getKeyValueItem;
-  ActivityTypeBloc(this._getKeyValueItem) : super(KeyValueItemInitial()) {
-    on<GetKeyValueItemEvent>(
-      _onGetKeyValueItemEvent,
-      transformer: restartable(),
-    );
-  }
+// @injectable
+// class ActivityTypeBloc extends Bloc<KeyValueItemEvent, KeyValueItemState>
+//     with KeyValueItemMixin {
+//   final GetKeyValueItem _getKeyValueItem;
+//   ActivityTypeBloc(this._getKeyValueItem) : super(KeyValueItemInitial()) {
+//     on<GetKeyValueItemEvent>(
+//       _onGetKeyValueItemEvent,
+//       transformer: restartable(),
+//     );
+//   }
 
-  Future<void> _onGetKeyValueItemEvent(
-    GetKeyValueItemEvent event,
-    Emitter<KeyValueItemState> emit,
-  ) =>
-      onGetKeyValueItemEvent(_getKeyValueItem, event, emit);
-}
+//   Future<void> _onGetKeyValueItemEvent(
+//     GetKeyValueItemEvent event,
+//     Emitter<KeyValueItemState> emit,
+//   ) =>
+//       onGetKeyValueItemEvent(_getKeyValueItem, event, emit);
+// }
 
 extension FailureToState on Failure {
   KeyValueItemState toState(List<KeyValue> items) {

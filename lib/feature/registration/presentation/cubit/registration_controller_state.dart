@@ -5,7 +5,7 @@ class RegistrationControllerState extends Equatable {
   final RegistrationSteps? errorStep;
   final String companyTitle;
   final String economicId;
-  final KeyValue? activityType;
+  final ActivityType? activityType;
   final List<KeyValue?> activityArea;
   final Director ceoInfo;
   final List<Director> boardMemberInfo;
@@ -20,6 +20,7 @@ class RegistrationControllerState extends Equatable {
   final String phoneNumber;
   final String email;
   final String website;
+  final String iban;
   // final ProvinceCity? province;
   // final ProvinceCity? city;
   final List<AddressInfo> address;
@@ -49,6 +50,7 @@ class RegistrationControllerState extends Equatable {
     // required this.province,
     required this.website,
     required this.errorStep,
+    required this.iban,
   });
 
   @override
@@ -70,6 +72,7 @@ class RegistrationControllerState extends Equatable {
         selectedBranch,
         address,
         // city,
+        iban,
         email,
         mobileNumber,
         phoneNumber,
@@ -82,7 +85,7 @@ class RegistrationControllerState extends Equatable {
     RegistrationSteps? step,
     String? companyTitle,
     String? economicId,
-    KeyValue? activityType,
+    ActivityType? activityType,
     bool? showError,
     List<KeyValue?>? activityArea,
     List<Director>? boardMemberInfo,
@@ -98,6 +101,7 @@ class RegistrationControllerState extends Equatable {
     String? phoneNumber,
     String? email,
     String? website,
+    String? iban,
     // ProvinceCity? province,
     List<AddressInfo>? address,
   }) =>
@@ -125,6 +129,7 @@ class RegistrationControllerState extends Equatable {
         phoneNumber: phoneNumber ?? this.phoneNumber,
         // province: province ?? this.province,
         website: website ?? this.website,
+        iban: iban ?? this.iban,
         // city: city,
       );
 
@@ -160,6 +165,7 @@ class RegistrationControllerState extends Equatable {
         step: step,
         errorStep: errorStep,
         activityType: activityType,
+        iban: iban,
         activityArea: activityArea,
         companyTitle: companyTitle,
         economicId: economicId,
@@ -239,6 +245,7 @@ class RegistrationControllerState extends Equatable {
   bool get _isCompanyIntroductionValid {
     if (invalidCompanyTitle) return false;
     if (invalidEconomicId) return false;
+    if (invalidIban) return false;
     if (invalidActivityType) return false;
     if (invalidActivityArea) return false;
     return true;
@@ -247,8 +254,10 @@ class RegistrationControllerState extends Equatable {
   bool get _isManagementIntroductionValid {
     if (invalidCeoName) return false;
     if (invalidCeoNationalCode) return false;
-    if (invalidBoardMemeberName) return false;
-    if (invalidBoardMemeberNationalCode) return false;
+    if (invalidCeoBirthDate) return false;
+    if (invalidBoardMemberName) return false;
+    if (invalidBoardMemberNationalCode) return false;
+    if (invalidBoardMemberBirthDate) return false;
     return true;
   }
 
@@ -273,8 +282,8 @@ class RegistrationControllerState extends Equatable {
     if (invalidPhone) return false;
     if (invalidEmail) return false;
     if (invalidWebsite) return false;
-    // if (invalidProvince) return false;
-    // if (invalidCity) return false;
+    if (invalidProvince) return false;
+    if (invalidCity) return false;
     if (invalidAddress) return false;
     return true;
   }
@@ -304,18 +313,23 @@ class RegistrationControllerState extends Equatable {
 
   bool get invalidCeoNationalCode => ceoInfo.invalidNationalCode;
 
+  bool get invalidCeoBirthDate => ceoInfo.invalidBirthDate;
+
   bool get emptyCeoNationalCode => ceoInfo.emptyNationalCode;
 
-  bool get invalidBoardMemeberName =>
+  bool get invalidBoardMemberName =>
       boardMemberInfo.any((element) => element.invalidName);
 
-  bool get invalidBoardMemeberNationalCode =>
+  bool get invalidBoardMemberNationalCode =>
       boardMemberInfo.any((element) => element.invalidNationalCode);
 
-  bool get emptyBoardMemeberNationalCode =>
+  bool get emptyBoardMemberNationalCode =>
       boardMemberInfo.any((element) => element.emptyNationalCode);
 
-  bool emptyBoardMemeberNationalCodeAt(int index) =>
+  bool get invalidBoardMemberBirthDate =>
+      boardMemberInfo.any((element) => element.invalidBirthDate);
+
+  bool emptyBoardMemberNationalCodeAt(int index) =>
       boardMemberInfo[index].emptyNationalCode;
 
   bool get canAddMoreBoardMember => boardMemberInfo.length < 20;
@@ -364,9 +378,15 @@ class RegistrationControllerState extends Equatable {
 
   bool get invalidWebsite => !website.isValidWebsite;
 
-  // bool get invalidProvince => province == null;
+  bool get invalidIban {
+    if (iban.isEmpty) return false;
+    return !iban.isValidIban;
+  }
 
-  // bool get invalidCity => city == null;
+  bool get invalidProvince =>
+      address.any((element) => !element.isValidProvince);
+
+  bool get invalidCity => address.any((element) => !element.isValidCity);
 
   bool get invalidAddress => address.any((element) => !element.isValidAddress);
 

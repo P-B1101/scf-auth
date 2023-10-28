@@ -8,9 +8,11 @@ import '../../../dialog/presentation/base_dialog_widget.dart';
 
 class SuccessSubmitDialogWidget extends StatelessWidget {
   final String trackingId;
+  final bool hasIban;
   const SuccessSubmitDialogWidget({
     super.key,
     required this.trackingId,
+    required this.hasIban,
   });
   @override
   Widget build(BuildContext context) {
@@ -58,7 +60,7 @@ class SuccessSubmitDialogWidget extends StatelessWidget {
                   const SizedBox(height: 48),
                   _secondTitleWidget,
                   const SizedBox(height: 42),
-                  _thirdTitleWidget,
+                  hasIban ? const SizedBox(height: 32) : _thirdTitleWidget,
                   const SizedBox(height: 56),
                   _trackingIdWidget,
                   const SizedBox(height: 56),

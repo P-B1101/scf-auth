@@ -2,6 +2,8 @@ import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
+import '../../../../core/utils/enums.dart';
+import '../../domain/use_case/edit.dart';
 import '../../domain/entity/address_info.dart';
 import '../../../../core/error/failures.dart';
 import '../../../cdn/domain/entity/branch_info.dart';
@@ -11,15 +13,19 @@ import '../../domain/entity/director.dart';
 import '../../domain/entity/sign_up_request_body.dart';
 import '../../domain/entity/sign_up_response.dart';
 import '../../domain/entity/suggested_company.dart';
-import '../../domain/use_case/sign_up.dart';
+import '../../domain/use_case/sign_up.dart' as s;
 
 part 'sign_up_event.dart';
 part 'sign_up_state.dart';
 
 @injectable
 class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
-  final SignUp _signUp;
-  SignUpBloc(this._signUp) : super(SignUpInitial()) {
+  final s.SignUp _signUp;
+  final Edit _edit;
+  SignUpBloc(
+    this._signUp,
+    this._edit,
+  ) : super(SignUpInitial()) {
     on<SubmitSignUpEvent>(_onSubmitSignUpEvent, transformer: droppable());
   }
 
@@ -51,11 +57,17 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
       suggestedBranch: event.selectedBranch,
       telephone: event.phoneNumber,
       webSite: event.website,
+      iban: event.iban,
     );
-    final result = await _signUp(Params(body: body));
+    final result = event.isEdit
+        ? await _edit(Params(body: body))
+        : await _signUp(s.Params(body: body));
     final newState = await result.fold(
       (failure) async => failure.toState,
-      (response) async => SignUpSuccessState(response),
+      (response) async => SignUpSuccessState(
+        response: response,
+        hasIban: event.iban.isNotEmpty,
+      ),
     );
     emit(newState);
   }

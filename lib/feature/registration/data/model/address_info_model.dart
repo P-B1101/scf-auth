@@ -18,6 +18,23 @@ class AddressInfoModel extends AddressInfo {
         province: entity.province,
       );
 
+  factory AddressInfoModel.fromJson(Map<String, dynamic> json) =>
+      AddressInfoModel(
+        address: json['fullAddress'],
+        lat: json['latitude'],
+        lng: json['longitude'],
+        province: () {
+          final value = json['province'];
+          if (value == null) return null;
+          return ProvinceCityModel.fromJson(value);
+        }(),
+        city: () {
+          final value = json['city'];
+          if (value == null) return null;
+          return ProvinceCityModel.fromJson(value);
+        }(),
+      );
+
   Map<String, dynamic> get toJson => {
         'province': province == null
             ? null

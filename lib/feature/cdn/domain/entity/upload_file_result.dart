@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:scf_auth/core/utils/ui_utils.dart';
 
 class UploadFileResult extends Equatable {
   final String urn;
@@ -31,4 +32,19 @@ class UploadFileResult extends Equatable {
   bool get invalidFile => fileName.isEmpty;
 
   bool get invalidTitle => title.isEmpty;
+
+  bool get isBalanceSheetTitle => title == Utils.balanceSheetTitle;
+
+  bool get isStatuteTitle => title == Utils.statuteTitle;
+
+  bool get isNewspaperTitle => title == Utils.newspaperTitle;
+
+  bool get isProfitAndLossStatementTitle =>
+      title == Utils.profitAndLossStatementTitle;
+
+  bool get isNotSpecific =>
+      !isStatuteTitle &&
+      !isNewspaperTitle &&
+      !isProfitAndLossStatementTitle &&
+      !isBalanceSheetTitle;
 }

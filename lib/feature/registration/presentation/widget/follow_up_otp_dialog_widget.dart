@@ -1,26 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pinput/pinput.dart';
-import 'package:scf_auth/core/components/button/m_button.dart';
-import 'package:scf_auth/core/components/input/m_input_widget.dart';
-import 'package:scf_auth/core/components/text/input_label_widget.dart';
-import 'package:scf_auth/core/utils/enums.dart';
-import 'package:scf_auth/core/utils/extensions.dart';
-import 'package:scf_auth/feature/language/manager/localizatios.dart';
-import 'package:scf_auth/feature/registration/presentation/bloc/otp_bloc.dart';
-import 'package:scf_auth/feature/timer/presentation/cubit/timer_controller_cubit.dart';
 
 import '../../../../core/components/button/close_button_widget.dart';
+import '../../../../core/components/button/m_button.dart';
+import '../../../../core/components/input/m_input_widget.dart';
+import '../../../../core/components/text/input_label_widget.dart';
 import '../../../../core/utils/assets.dart';
+import '../../../../core/utils/enums.dart';
+import '../../../../core/utils/extensions.dart';
 import '../../../../core/utils/ui_utils.dart';
 import '../../../../injectable_container.dart';
 import '../../../dialog/presentation/base_dialog_widget.dart';
+import '../../../language/manager/localizatios.dart';
+import '../../../timer/presentation/cubit/timer_controller_cubit.dart';
 import '../../../timer/presentation/widget/timer_widget.dart';
 import '../../../toast/manager/toast_manager.dart';
-import '../cubit/registration_dialog_controller_cubit.dart';
+import '../bloc/otp_bloc.dart';
+import '../cubit/follow_up_dialog_controller_cubit.dart';
 
-class RegistrationOTPDialogWidget extends StatelessWidget {
-  const RegistrationOTPDialogWidget({
+class FollowUpOTPDialogWidget extends StatelessWidget {
+  const FollowUpOTPDialogWidget({
     super.key,
   });
 
@@ -28,8 +28,8 @@ class RegistrationOTPDialogWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<RegistrationDialogControllerCubit>(
-          create: (context) => getIt<RegistrationDialogControllerCubit>(),
+        BlocProvider<FollowUpDialogControllerCubit>(
+          create: (context) => getIt<FollowUpDialogControllerCubit>(),
         ),
         BlocProvider<OtpBloc>(
           create: (context) => getIt<OtpBloc>(),
@@ -54,8 +54,10 @@ class __RegistrationOTPDialogWidgetState
     extends State<_RegistrationOTPDialogWidget> {
   final _formatter = MNumberFormatter();
   final _phoneNumberController = TextEditingController();
+  final _refrenceCodeController = TextEditingController();
   final _otpController = TextEditingController();
   final _phoneNode = FocusNode();
+  final _refrenceCodeNode = FocusNode();
   final _otpNode = FocusNode();
 
   @override
@@ -70,6 +72,8 @@ class __RegistrationOTPDialogWidgetState
     _otpController.dispose();
     _phoneNode.dispose();
     _otpNode.dispose();
+    _refrenceCodeController.dispose();
+    _refrenceCodeNode.dispose();
     super.dispose();
   }
 
@@ -132,8 +136,8 @@ class __RegistrationOTPDialogWidgetState
         ),
       );
 
-  Widget get _titleWidget => BlocBuilder<RegistrationDialogControllerCubit,
-          RegistrationDialogControllerState>(
+  Widget get _titleWidget =>
+      BlocBuilder<FollowUpDialogControllerCubit, FollowUpDialogControllerState>(
         buildWhen: (previous, current) => previous.step != current.step,
         builder: (context, state) => SizedBox(
           width: double.infinity,
@@ -210,8 +214,8 @@ class __RegistrationOTPDialogWidgetState
         ),
       );
 
-  Widget get _mainBodyWidget => BlocBuilder<RegistrationDialogControllerCubit,
-          RegistrationDialogControllerState>(
+  Widget get _mainBodyWidget =>
+      BlocBuilder<FollowUpDialogControllerCubit, FollowUpDialogControllerState>(
         buildWhen: (previous, current) => previous.step != current.step,
         builder: (context, state) => SizedBox(
           width: double.infinity,
@@ -232,55 +236,85 @@ class __RegistrationOTPDialogWidgetState
         ),
       );
 
-  Widget get _phoneNumberWidget => BlocBuilder<
-          RegistrationDialogControllerCubit, RegistrationDialogControllerState>(
+  Widget get _phoneNumberWidget =>
+      BlocBuilder<FollowUpDialogControllerCubit, FollowUpDialogControllerState>(
         buildWhen: (previous, current) =>
             (previous.showError != current.showError) ||
+            (previous.refrenceCode != current.refrenceCode) ||
             (previous.phoneNumber != current.phoneNumber),
         builder: (context, state) => ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: UiUtils.maxInputSize),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              InputLabelWidget(
-                Strings.of(context).company_mobile_label,
-                hasError: state.showError && state.invalidPhoneNumber,
-                color: MColors.whiteColor,
-              ),
-              const SizedBox(height: 18),
-              MInputWidget(
-                controller: _phoneNumberController,
-                focusNode: _phoneNode,
-                textColor: MColors.whiteColor,
-                onSubmit: (value) => _onNextClick(),
-                borderColor: MColors.inputBorderColorOf(context),
-                keyboardType: TextInputType.phone,
-                cursorColor: MColors.inputBorderColorOf(context),
-                autofillHints: const [AutofillHints.telephoneNumber],
-                hint: Strings.of(context).company_mobile_label,
-                onTextChange: context
-                    .read<RegistrationDialogControllerCubit>()
-                    .updatePhoneNumber,
-                error: () {
-                  if (!state.showError || !state.invalidPhoneNumber) {
-                    return null;
-                  }
-                  if (state.phoneNumber.isEmpty) {
-                    return Strings.of(context).empty_mobile_error;
-                  }
-                  return Strings.of(context).invalid_mobile_error;
-                }(),
-                maxLength: 13,
-                closeKeyboardOnFinish: false,
-              ),
-            ],
+          child: FocusTraversalGroup(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                InputLabelWidget(
+                  Strings.of(context).refrence_code_label,
+                  hasError: state.showError && state.invalidRefrenceCode,
+                  color: MColors.whiteColor,
+                ),
+                const SizedBox(height: 18),
+                MInputWidget(
+                  controller: _refrenceCodeController,
+                  focusNode: _refrenceCodeNode,
+                  nextFocusNode: _phoneNode,
+                  textColor: MColors.whiteColor,
+                  borderColor: MColors.inputBorderColorOf(context),
+                  keyboardType: TextInputType.text,
+                  cursorColor: MColors.inputBorderColorOf(context),
+                  autofillHints: const ['REFRENCE_CODE'],
+                  hint: Strings.of(context).refrence_code_label,
+                  onTextChange: context
+                      .read<FollowUpDialogControllerCubit>()
+                      .updateRefrenceCode,
+                  error: () {
+                    if (!state.showError || !state.invalidRefrenceCode) {
+                      return null;
+                    }
+                    return Strings.of(context).invalid_refrence_error;
+                  }(),
+                ),
+                const SizedBox(height: 32),
+                InputLabelWidget(
+                  Strings.of(context).company_mobile_label,
+                  hasError: state.showError && state.invalidPhoneNumber,
+                  color: MColors.whiteColor,
+                ),
+                const SizedBox(height: 18),
+                MInputWidget(
+                  controller: _phoneNumberController,
+                  focusNode: _phoneNode,
+                  textColor: MColors.whiteColor,
+                  onSubmit: (value) => _onNextClick(),
+                  borderColor: MColors.inputBorderColorOf(context),
+                  keyboardType: TextInputType.phone,
+                  cursorColor: MColors.inputBorderColorOf(context),
+                  autofillHints: const [AutofillHints.telephoneNumber],
+                  hint: Strings.of(context).company_mobile_label,
+                  onTextChange: context
+                      .read<FollowUpDialogControllerCubit>()
+                      .updatePhoneNumber,
+                  error: () {
+                    if (!state.showError || !state.invalidPhoneNumber) {
+                      return null;
+                    }
+                    if (state.phoneNumber.isEmpty) {
+                      return Strings.of(context).empty_mobile_error;
+                    }
+                    return Strings.of(context).invalid_mobile_error;
+                  }(),
+                  maxLength: 13,
+                  closeKeyboardOnFinish: false,
+                ),
+              ],
+            ),
           ),
         ),
       );
 
-  Widget get _validateOtpWidget => BlocBuilder<
-          RegistrationDialogControllerCubit, RegistrationDialogControllerState>(
+  Widget get _validateOtpWidget =>
+      BlocBuilder<FollowUpDialogControllerCubit, FollowUpDialogControllerState>(
         builder: (context, state) => Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -323,7 +357,7 @@ class __RegistrationOTPDialogWidgetState
                 forceErrorState: state.showError && state.invalidOtp,
                 onChanged: (value) {
                   context
-                      .read<RegistrationDialogControllerCubit>()
+                      .read<FollowUpDialogControllerCubit>()
                       .updateOTP(value.clearFormat);
                   if (value.isValidOtp) _onNextClick();
                 },
@@ -401,9 +435,8 @@ class __RegistrationOTPDialogWidgetState
       );
 
   Widget get _timerWidget => BlocBuilder<OtpBloc, OtpState>(
-        builder: (context, state) => BlocBuilder<
-            RegistrationDialogControllerCubit,
-            RegistrationDialogControllerState>(
+        builder: (context, state) => BlocBuilder<FollowUpDialogControllerCubit,
+            FollowUpDialogControllerState>(
           builder: (context, rState) => TimerWidget(
             id: rState.otpToken,
             action: MButtonWidget.text(
@@ -431,9 +464,8 @@ class __RegistrationOTPDialogWidgetState
       );
 
   Widget get _buttonWidget => BlocBuilder<OtpBloc, OtpState>(
-        builder: (context, state) => BlocBuilder<
-            RegistrationDialogControllerCubit,
-            RegistrationDialogControllerState>(
+        builder: (context, state) => BlocBuilder<FollowUpDialogControllerCubit,
+            FollowUpDialogControllerState>(
           builder: (context, rState) => MButtonWidget(
             width: UiUtils.maxInputSize,
             onClick: _onNextClick,
@@ -445,16 +477,17 @@ class __RegistrationOTPDialogWidgetState
       );
 
   void _onNextClick() {
-    final state = context.read<RegistrationDialogControllerCubit>().nextClick();
+    final state = context.read<FollowUpDialogControllerCubit>().nextClick();
     if (state == null) return;
     switch (state.step) {
       case OTPStep.phoneNumber:
-        context.read<OtpBloc>().add(SendOtpEvent.registration(
-              _phoneNumberController.text.clearFormat,
+        context.read<OtpBloc>().add(SendOtpEvent(
+              phoneNumber: _phoneNumberController.text.clearFormat,
+              refrenceCode: _refrenceCodeController.text.clearFormat,
             ));
         break;
       case OTPStep.otp:
-        context.read<OtpBloc>().add(ValidateOtpEvent.registration(
+        context.read<OtpBloc>().add(ValidateOtpEvent.followUp(
               code: _otpController.text.clearFormat,
               otpToken: state.otpToken,
             ));
@@ -463,17 +496,17 @@ class __RegistrationOTPDialogWidgetState
   }
 
   void _onBackClick() {
-    context.read<RegistrationDialogControllerCubit>().onBackClick();
+    context.read<FollowUpDialogControllerCubit>().onBackClick();
   }
 
   void _onResendClick() {
-    final state = context.read<RegistrationDialogControllerCubit>().state;
+    final state = context.read<FollowUpDialogControllerCubit>().state;
     context.read<OtpBloc>().add(ResendOtpEvent(otpToken: state.otpToken));
   }
 
   void _handleOtpState(OtpState state) async {
     if (state is ValidateOtpUnAuthorizeState) {
-      context.read<RegistrationDialogControllerCubit>().clearOTPToken();
+      context.read<FollowUpDialogControllerCubit>().clearOTPToken();
       getIt<ToastManager>().showFailureToast(
         context: context,
         message: Strings.of(context).send_phone_number_again_error_message,
@@ -484,12 +517,12 @@ class __RegistrationOTPDialogWidgetState
           .showFailureToast(context: context, message: state.message);
     } else if (state is SendOtpSuccessState) {
       context
-          .read<RegistrationDialogControllerCubit>()
+          .read<FollowUpDialogControllerCubit>()
           .updateOTPToken(state.otpToken);
       _otpNode.requestFocus();
       context.read<TimerControllerCubit>().startTimer(state.otpToken);
     } else if (state is ValidateOtpSuccessState) {
-      Navigator.of(context).pop(_phoneNumberController.text);
+      Navigator.of(context).pop(true);
     }
   }
 }

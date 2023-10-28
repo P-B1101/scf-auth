@@ -34,7 +34,7 @@ class __LandingPageState extends State<_LandingPage> {
       body: Column(
         children: [
           LandingToolbarWidget(
-            onEditRegistrationClick: _onEditRegistrationClick,
+            // onEditRegistrationClick: _onEditRegistrationClick,
             onRequestRegistrationClick: _onRequestRegistrationClick,
             onTrackingClick: _onTrackingClick,
           ),
@@ -43,19 +43,25 @@ class __LandingPageState extends State<_LandingPage> {
     );
   }
 
-  void _onEditRegistrationClick() {
-    // TODO: implement _onEditRegistrationClick
-  }
+  // void _onEditRegistrationClick() {
+  // }
 
   void _onRequestRegistrationClick() async {
     final phoneNumber =
         await DialogManager.instance.showRegistrationDialog(context);
     if (!mounted) return;
     if (!phoneNumber.isValidMobileNumber) return;
-    context.pushRoute(RegistrationRoute(phoneNumber: phoneNumber));
+    context.pushRoute(RegistrationRoute(
+      phoneNumber: phoneNumber,
+      isTracking: false,
+    ));
   }
+  
 
-  void _onTrackingClick() {
-    // TODO: implement _onTrackingClick
+  void _onTrackingClick() async {
+    final result = await DialogManager.instance.showFollowUpDialog(context);
+    if (!mounted) return;
+    if (!result) return;
+    context.pushRoute(RegistrationRoute(isTracking: true));
   }
 }

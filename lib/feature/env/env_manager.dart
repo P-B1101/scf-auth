@@ -8,10 +8,11 @@ class EnvManager {
   static Uri getUri({
     required String path,
     Map<String, String>? query,
+    String? baseUrl,
   }) {
     switch (env) {
       case Environment.dev:
-        return Uri.http('api.holding.local', path, query);
+        return Uri.http(baseUrl ?? 'api.holding.local', path, query);
       case Environment.stage:
         return Uri.https('stage.negah.ir', path, query);
       case Environment.prelive:

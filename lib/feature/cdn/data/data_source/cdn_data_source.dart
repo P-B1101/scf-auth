@@ -50,13 +50,14 @@ class CDNDataSourceImpl implements CDNDataSource {
         const KeyValue(id: '2', title: 'صنعت'),
         const KeyValue(id: '3', title: 'خودروسازی'),
       ];
-    } else if (urn == CDNRequestType.scfRegistrationActivityType.toValue) {
-      await Future.delayed(const Duration(milliseconds: 1000));
-      return [
-        const KeyValue(id: 'PRODUCT', title: 'تولیدی'),
-        const KeyValue(id: 'SERVICE', title: 'خدماتی'),
-      ];
-    }
+    } 
+    // else if (urn == CDNRequestType.scfRegistrationActivityType.toValue) {
+    //   await Future.delayed(const Duration(milliseconds: 1000));
+    //   return [
+    //     const KeyValue(id: 'PRODUCT', title: 'تولیدی'),
+    //     const KeyValue(id: 'SERVICE', title: 'خدماتی'),
+    //   ];
+    // }
     return [];
   }
 

@@ -104,6 +104,10 @@ class __MDropDwonWidgetState<T> extends State<_MDropDwonWidget<T>> {
   void initState() {
     super.initState();
     _cubit = context.read<DropDownControllerCubit<T>>();
+    _controller.text = widget.titleBuilder(widget.selectedItem) ?? '';
+    context
+        .read<DropDownControllerCubit<T>>()
+        .onSelectedItemChange(widget.selectedItem);
   }
 
   @override

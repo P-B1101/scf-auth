@@ -1,4 +1,4 @@
-import 'package:scf_auth/feature/cdn/domain/entity/upload_file_result.dart';
+import '../../domain/entity/upload_file_result.dart';
 
 class UploadFileResultModel extends UploadFileResult {
   const UploadFileResultModel({
@@ -12,6 +12,14 @@ class UploadFileResultModel extends UploadFileResult {
         fileName: entity.fileName,
         title: entity.title,
         urn: entity.urn,
+      );
+
+  factory UploadFileResultModel.fromJson(Map<String, dynamic> json) =>
+      UploadFileResultModel(
+        fileName: json['fileName'] ??
+            DateTime.now().millisecondsSinceEpoch.toString(),
+        title: json['documentTitle'],
+        urn: json['urn'],
       );
 
   Map<String, dynamic> get toJson => {

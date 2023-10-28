@@ -13,10 +13,17 @@ final class SignUpLoadingState extends SignUpState {}
 
 final class SignUpSuccessState extends SignUpState {
   final SignUpResponse response;
-  const SignUpSuccessState(this.response);
+  final bool hasIban;
+  const SignUpSuccessState({
+    required this.response,
+    required this.hasIban,
+  });
 
   @override
-  List<Object?> get props => [response];
+  List<Object?> get props => [
+        response,
+        hasIban,
+      ];
 }
 
 final class SignUpFailureState extends SignUpState {

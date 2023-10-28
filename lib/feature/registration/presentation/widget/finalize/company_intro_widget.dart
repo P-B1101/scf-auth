@@ -46,11 +46,18 @@ class CompanyIntroWidget extends StatelessWidget {
                     hintTxt: Strings.of(context).economic_id_label,
                     value: state.economicId,
                   ),
+                  ReadOnlyWidgets(
+                    label: Strings.of(context).iban_label,
+                    hintTxt: Strings.of(context).iban_label,
+                    value: state.iban.isEmpty
+                        ? Strings.of(context).not_entered
+                        : state.iban,
+                  ),
                   //نوع فعالیت
                   ReadOnlyWidgets(
                     label: Strings.of(context).activity_type_label,
                     hintTxt: Strings.of(context).activity_type_label,
-                    value: state.activityType?.title,
+                    value: state.activityType?.toStringValue(context),
                   ),
                   //حوزه فعالیت
                   ...List.generate(

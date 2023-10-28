@@ -25,26 +25,27 @@ import 'suggested_branch_widget.dart';
 import 'suggested_comapnies_widget.dart';
 
 @RoutePage()
-class FinalizeInfoWidget extends StatefulWidget {
+class FinalizeInfoWidget extends StatelessWidget {
   static const path = 'finalize-info';
+  final bool? isTracking;
   const FinalizeInfoWidget({
     super.key,
     @PathParam.inherit() String? phoneNumber,
+    @PathParam.inherit() this.isTracking,
   });
 
   @override
-  State<FinalizeInfoWidget> createState() => _FinalizeInfoWidgetState();
-}
-
-class _FinalizeInfoWidgetState extends State<FinalizeInfoWidget> {
-  @override
   Widget build(BuildContext context) {
-    return const _BodyWidget();
+    return _BodyWidget(isFollowUp: isTracking ?? false);
   }
 }
 
 class _BodyWidget extends StatefulWidget {
-  const _BodyWidget({Key? key}) : super(key: key);
+  final bool isFollowUp;
+  const _BodyWidget({
+    Key? key,
+    required this.isFollowUp,
+  }) : super(key: key);
 
   @override
   State<_BodyWidget> createState() => __BodyWidgetState();
@@ -105,11 +106,11 @@ class __BodyWidgetState extends State<_BodyWidget> {
           padding: const EdgeInsetsDirectional.symmetric(vertical: 16),
           child: BlocBuilder<SignUpBloc, SignUpState>(
             builder: (context, state) => MButtonWidget(
-                isLoading: state is SignUpLoadingState,
-                width: UiUtils.maxInputSize,
-                onClick: _onFinalSubmitClick,
-                title: Strings.of(context).submit_info,
-              ),
+              isLoading: state is SignUpLoadingState,
+              width: UiUtils.maxInputSize,
+              onClick: _onFinalSubmitClick,
+              title: Strings.of(context).submit_info,
+            ),
           ),
         ),
         //Todo: button
@@ -213,10 +214,37 @@ class __BodyWidgetState extends State<_BodyWidget> {
     //Todo: Complete it later
     //Todo: This function should be able to download the uploaded file
   }
+
   void _onFinalSubmitClick() {
     final state = context.read<RegistrationControllerCubit>().onNextClick();
     if (state == null) return;
-    context.read<SignUpBloc>().add(SubmitSignUpEvent(
+    if (widget.isFollowUp) {
+      context.read<SignUpBloc>().add(SubmitSignUpEvent.edit(
+            activityArea: state.getActivityArea,
+            activityType: state.activityType!,
+            address: state.address,
+            balanceSheet: state.balanceSheet!,
+            boardMemberInfo: state.boardMemberInfo,
+            ceoInfo: state.ceoInfo,
+            // city: state.city!,
+            companyTitle: state.companyTitle,
+            economicId: state.getEconomicId!.toString(),
+            email: state.email,
+            mobileNumber: state.mobileNumber,
+            newspaper: state.newspaper!,
+            otherDocuments: state.getOtherDocuments,
+            phoneNumber: state.phoneNumber,
+            profitAndLossStatement: state.profitAndLossStatement!,
+            // province: state.province!,
+            selectedBranch: state.selectedBranch!,
+            statute: state.statute!,
+            suggestedComapnies: state.suggestedCompanies,
+            website: state.website,
+            iban: state.iban,
+          ));
+      return;
+    }
+    context.read<SignUpBloc>().add(SubmitSignUpEvent.signUp(
           activityArea: state.getActivityArea,
           activityType: state.activityType!,
           address: state.address,
@@ -225,7 +253,7 @@ class __BodyWidgetState extends State<_BodyWidget> {
           ceoInfo: state.ceoInfo,
           // city: state.city!,
           companyTitle: state.companyTitle,
-          economicId: state.getEconomicId!,
+          economicId: state.getEconomicId!.toString(),
           email: state.email,
           mobileNumber: state.mobileNumber,
           newspaper: state.newspaper!,
@@ -237,6 +265,7 @@ class __BodyWidgetState extends State<_BodyWidget> {
           statute: state.statute!,
           suggestedComapnies: state.suggestedCompanies,
           website: state.website,
+          iban: state.iban,
         ));
   }
 }

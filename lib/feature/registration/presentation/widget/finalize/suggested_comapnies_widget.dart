@@ -39,9 +39,7 @@ class SuggestedCompaniesWidget extends StatelessWidget {
                     top: 45,
                     bottom: 24,
                   ),
-                  child: Divider(
-                    color: MColors.primaryColor,
-                  ),
+                  child: Divider(color: MColors.primaryColor),
                 ),
                 itemCount: state.suggestedCompanies.length,
                 itemBuilder: (context, index) {
@@ -66,7 +64,8 @@ class SuggestedCompaniesWidget extends StatelessWidget {
                             .suggested_company_financial_interaction_label,
                         hintTxt: Strings.of(context)
                             .suggested_company_financial_interaction_label,
-                        value: company.annualFinancialInteractionAmount?.toCurrency,
+                        value: company
+                            .annualFinancialInteractionAmount?.toCurrency,
                         isCurrency: true,
                       ),
                     ],

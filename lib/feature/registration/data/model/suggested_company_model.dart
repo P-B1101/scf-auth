@@ -15,10 +15,17 @@ class SuggestedCompanyModel extends SuggestedCompany {
         name: entity.name,
       );
 
+  factory SuggestedCompanyModel.fromJson(Map<String, dynamic> json) =>
+      SuggestedCompanyModel(
+        annualFinancialInteractionAmount:
+            json['annualFinancialInteractionAmount'],
+        name: json['businessUnitFullName'],
+        nationalId: json['nationalId'],
+      );
+
   Map<String, dynamic> get toJson => {
         'businessUnitFullName': name,
         'nationalId': nationalId,
-        'annualFinancialInteractionAmount':
-            annualFinancialInteractionAmount?.toString(),
+        'annualFinancialInteractionAmount': annualFinancialInteractionAmount,
       };
 }

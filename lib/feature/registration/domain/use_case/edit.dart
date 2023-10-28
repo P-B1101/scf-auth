@@ -3,28 +3,28 @@ import 'package:injectable/injectable.dart';
 
 import '../../../../core/error/failures.dart';
 import '../../../../core/use_case/use_case.dart';
+import '../entity/sign_up_request_body.dart';
+import '../entity/sign_up_response.dart';
 import '../repository/registration_repository.dart';
 
 @lazySingleton
-class SendOtp extends UseCase<String, Params> {
+class Edit extends UseCase<SignUpResponse, Params> {
   final RegistrationRepository repository;
-  const SendOtp({
+  const Edit({
     required this.repository,
   });
 
   @override
-  Future<Either<Failure, String>> call(Params param) =>
-      repository.sendOtp(param.phoneNumber, param.refrenceCode);
+  Future<Either<Failure, SignUpResponse>> call(Params param) =>
+      repository.edit(param.body);
 }
 
 class Params extends NoParams {
-  final String phoneNumber;
-  final String? refrenceCode;
+  final SignUpRequestBody body;
   const Params({
-    required this.phoneNumber,
-    required this.refrenceCode,
+    required this.body,
   });
 
   @override
-  List<Object?> get props => [phoneNumber, refrenceCode];
+  List<Object?> get props => [body];
 }

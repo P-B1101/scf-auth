@@ -79,6 +79,7 @@ abstract class $AppRouter extends _i10.RootStackRouter {
         child: _i4.FinalizeInfoWidget(
           key: args.key,
           phoneNumber: pathParams.optString('phoneNumber'),
+          isTracking: pathParams.optBool('isTracking'),
         ),
       );
     },
@@ -104,12 +105,15 @@ abstract class $AppRouter extends _i10.RootStackRouter {
       final pathParams = routeData.inheritedPathParams;
       final args = routeData.argsAs<RegistrationRouteArgs>(
           orElse: () => RegistrationRouteArgs(
-              phoneNumber: pathParams.optString('phoneNumber')));
+                phoneNumber: pathParams.optString('phoneNumber'),
+                isTracking: pathParams.optBool('isTracking'),
+              ));
       return _i10.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: _i7.RegistrationPage(
           key: args.key,
           phoneNumber: args.phoneNumber,
+          isTracking: args.isTracking,
         ),
       );
     },
@@ -308,14 +312,19 @@ class RegistrationRoute extends _i10.PageRouteInfo<RegistrationRouteArgs> {
   RegistrationRoute({
     _i11.Key? key,
     String? phoneNumber,
+    bool? isTracking,
     List<_i10.PageRouteInfo>? children,
   }) : super(
           RegistrationRoute.name,
           args: RegistrationRouteArgs(
             key: key,
             phoneNumber: phoneNumber,
+            isTracking: isTracking,
           ),
-          rawPathParams: {'phoneNumber': phoneNumber},
+          rawPathParams: {
+            'phoneNumber': phoneNumber,
+            'isTracking': isTracking,
+          },
           initialChildren: children,
         );
 
@@ -329,15 +338,18 @@ class RegistrationRouteArgs {
   const RegistrationRouteArgs({
     this.key,
     this.phoneNumber,
+    this.isTracking,
   });
 
   final _i11.Key? key;
 
   final String? phoneNumber;
 
+  final bool? isTracking;
+
   @override
   String toString() {
-    return 'RegistrationRouteArgs{key: $key, phoneNumber: $phoneNumber}';
+    return 'RegistrationRouteArgs{key: $key, phoneNumber: $phoneNumber, isTracking: $isTracking}';
   }
 }
 

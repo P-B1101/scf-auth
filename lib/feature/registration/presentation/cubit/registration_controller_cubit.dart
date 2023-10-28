@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 
 import '../../../../core/utils/enums.dart';
 import '../../../../core/utils/extensions.dart';
@@ -9,6 +10,7 @@ import '../../../cdn/domain/entity/province_city.dart';
 import '../../../cdn/domain/entity/upload_file_result.dart';
 import '../../domain/entity/address_info.dart';
 import '../../domain/entity/director.dart';
+import '../../domain/entity/sign_up_request_body.dart';
 import '../../domain/entity/suggested_company.dart';
 
 part 'registration_controller_state.dart';
@@ -39,15 +41,73 @@ class RegistrationControllerCubit extends Cubit<RegistrationControllerState> {
           // province: null,
           website: '',
           errorStep: null,
+          iban: '',
         ));
 
   void onPageClick(RegistrationSteps step) => emit(state.copyWith(step: step));
+
+  void initialize(SignUpRequestBody body) => emit(RegistrationControllerState(
+        step: state.step,
+        activityType: body.serviceType,
+        activityArea: body.activityAreas,
+        companyTitle: body.businessUnitFullName,
+        economicId: body.nationalId,
+        showError: false,
+        boardMemberInfo:
+            body.directors.where((element) => !element.isCeo).toList(),
+        ceoInfo: body.directors.any((element) => element.isCeo)
+            ? body.directors.where((element) => element.isCeo).first
+            : Director.ceo(),
+        balanceSheet:
+            body.uploadedDocuments.any((element) => element.isBalanceSheetTitle)
+                ? body.uploadedDocuments
+                    .where((element) => element.isBalanceSheetTitle)
+                    .first
+                : null,
+        newspaper:
+            body.uploadedDocuments.any((element) => element.isNewspaperTitle)
+                ? body.uploadedDocuments
+                    .where((element) => element.isNewspaperTitle)
+                    .first
+                : null,
+        profitAndLossStatement: body.uploadedDocuments
+                .any((element) => element.isProfitAndLossStatementTitle)
+            ? body.uploadedDocuments
+                .where((element) => element.isProfitAndLossStatementTitle)
+                .first
+            : null,
+        statute: body.uploadedDocuments.any((element) => element.isStatuteTitle)
+            ? body.uploadedDocuments
+                .where((element) => element.isStatuteTitle)
+                .first
+            : null,
+        otherDocuments: body.uploadedDocuments
+                .where((element) => element.isNotSpecific)
+                .isEmpty
+            ? [UploadFileResult.init()]
+            : body.uploadedDocuments
+                .where((element) => element.isNotSpecific)
+                .toList(),
+        suggestedCompanies: body.associatedBusinessUnits,
+        selectedBranch: body.suggestedBranch,
+        address: body.address,
+        // city: null,
+        email: body.email,
+        mobileNumber: body.mobile,
+        phoneNumber: body.telephone,
+        // province: null,
+        website: body.webSite,
+        errorStep: null,
+        iban: body.iban,
+      ));
 
   void updateCompanyTitle(String companyTitle) =>
       emit(state.copyWith(companyTitle: companyTitle));
 
   void updateEconomicId(String economicId) =>
       emit(state.copyWith(economicId: economicId));
+
+  void updateIban(String iban) => emit(state.copyWith(iban: iban));
 
   RegistrationControllerState? onNextClick() {
     if (!state.isEnable) {
@@ -156,7 +216,7 @@ class RegistrationControllerCubit extends Cubit<RegistrationControllerState> {
     emit(state.copyWith(activityArea: newItems));
   }
 
-  void updateActivityType(KeyValue item) =>
+  void updateActivityType(ActivityType item) =>
       emit(state.copyWith(activityType: item));
 
   void addActivityArea() {
@@ -185,9 +245,16 @@ class RegistrationControllerCubit extends Cubit<RegistrationControllerState> {
   void updateCeoNationalCode(String nationalCode) => emit(state.copyWith(
         ceoInfo: state.ceoInfo.copyWith(nationalCode: nationalCode),
       ));
+  void updateCeoBirthDate(Jalali birthDate) => emit(
+      state.copyWith(ceoInfo: state.ceoInfo.copyWith(birthDate: birthDate)));
 
   void updateBoardMemberNameAt(int index, String name) {
     final newItems = state.boardMemberInfo.updateNameAt(index, name);
+    emit(state.copyWith(boardMemberInfo: newItems));
+  }
+
+  void updateBoardMemberBirthDateAt(int index, Jalali birthDate) {
+    final newItems = state.boardMemberInfo.updateBirthDateAt(index, birthDate);
     emit(state.copyWith(boardMemberInfo: newItems));
   }
 

@@ -7,8 +7,8 @@ class KeyValueModel extends KeyValue {
   });
 
   factory KeyValueModel.fromJson(Map<String, dynamic> json) => KeyValueModel(
-        id: json['id'],
-        title: json['title'],
+        id: json['key'],
+        title: json['value'],
       );
 
   factory KeyValueModel.fromEntity(KeyValue entity) => KeyValueModel(
@@ -17,7 +17,7 @@ class KeyValueModel extends KeyValue {
       );
 
   Map<String, dynamic> get toJson => {
-        'id': id,
-        'title': title,
+        'key': id,
+        'value': title,
       };
 }

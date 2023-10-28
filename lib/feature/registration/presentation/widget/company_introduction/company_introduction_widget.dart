@@ -1,6 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:scf_auth/core/utils/enums.dart';
+import 'package:scf_auth/feature/registration/presentation/bloc/saved_registration_info_bloc.dart';
 
 import '../../../../../core/components/button/m_button.dart';
 import '../../../../../core/components/input/m_input_widget.dart';
@@ -32,8 +34,10 @@ class CompanyIntroductionWidget extends StatefulWidget {
 class _CompanyIntroductionWidgetState extends State<CompanyIntroductionWidget> {
   final _titleController = TextEditingController();
   final _economicIdController = TextEditingController();
+  final _ibanController = TextEditingController();
   final _titleFocusNode = FocusNode();
   final _economicFocusNode = FocusNode();
+  final _ibanFocusNode = FocusNode();
 
   @override
   void dispose() {
@@ -41,12 +45,19 @@ class _CompanyIntroductionWidgetState extends State<CompanyIntroductionWidget> {
     _economicIdController.dispose();
     _economicFocusNode.dispose();
     _titleFocusNode.dispose();
+    _ibanController.dispose();
+    _ibanFocusNode.dispose();
     super.dispose();
   }
 
   @override
   void initState() {
     super.initState();
+
+    final state = context.read<RegistrationControllerCubit>().state;
+    _titleController.text = state.companyTitle;
+    _economicIdController.text = state.economicId;
+    _ibanController.text = state.iban;
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       _titleFocusNode.requestFocus();
     });
@@ -54,43 +65,51 @@ class _CompanyIntroductionWidgetState extends State<CompanyIntroductionWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Flexible(
-          child: SizedBox(
-            width: double.infinity,
-            child: SingleChildScrollView(
-              child: Center(
-                child: ConstrainedBox(
-                  constraints: const BoxConstraints(
-                    maxWidth: UiUtils.maxWidth + 48,
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const SizedBox(height: 56),
-                        _titleWidget,
-                        const SizedBox(height: 64),
-                        _inputListWidget,
-                        Align(
-                          alignment: AlignmentDirectional.centerStart,
-                          child: _addActivityAreaButtonWidget,
-                        ),
-                      ],
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<SavedRegistrationInfoBloc, SavedRegistrationInfoState>(
+          listener: (context, state) =>
+              _handleSavedRegistrationInfoState(state),
+        ),
+      ],
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Flexible(
+            child: SizedBox(
+              width: double.infinity,
+              child: SingleChildScrollView(
+                child: Center(
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(
+                      maxWidth: UiUtils.maxWidth + 48,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const SizedBox(height: 56),
+                          _titleWidget,
+                          const SizedBox(height: 64),
+                          _inputListWidget,
+                          Align(
+                            alignment: AlignmentDirectional.centerStart,
+                            child: _addActivityAreaButtonWidget,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
           ),
-        ),
-        _actionButtonsWidget,
-      ],
+          _actionButtonsWidget,
+        ],
+      ),
     );
   }
 
@@ -117,6 +136,7 @@ class _CompanyIntroductionWidgetState extends State<CompanyIntroductionWidget> {
             children: [
               _companyTitleInput,
               _economicIdInput,
+              _ibanWidget,
               _activityAreaListWidget,
             ],
           ),
@@ -180,6 +200,7 @@ class _CompanyIntroductionWidgetState extends State<CompanyIntroductionWidget> {
               MInputWidget(
                 controller: _economicIdController,
                 focusNode: _economicFocusNode,
+                nextFocusNode: _ibanFocusNode,
                 hint: Strings.of(context).economic_id_hint,
                 onTextChange: context
                     .read<RegistrationControllerCubit>()
@@ -192,6 +213,44 @@ class _CompanyIntroductionWidgetState extends State<CompanyIntroductionWidget> {
                     return Strings.of(context).empty_economic_id_error;
                   }
                   return Strings.of(context).wrong_economic_id_error;
+                }(),
+              ),
+            ],
+          ),
+        ),
+      );
+
+  Widget get _ibanWidget =>
+      BlocBuilder<RegistrationControllerCubit, RegistrationControllerState>(
+        buildWhen: (previous, current) =>
+            (previous.showError != current.showError) ||
+            (previous.iban != current.iban),
+        builder: (context, state) => ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: UiUtils.maxInputSize),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              InputLabelWidget(
+                Strings.of(context).iban_label,
+                hasError: state.showError && state.invalidIban,
+              ),
+              const SizedBox(height: 18),
+              MInputWidget(
+                controller: _ibanController,
+                focusNode: _ibanFocusNode,
+                hint: Strings.of(context).iban_hint,
+                suffixWidget: const Padding(
+                  padding: EdgeInsetsDirectional.only(end: 10),
+                  child: Text('IR'),
+                ),
+                onTextChange:
+                    context.read<RegistrationControllerCubit>().updateIban,
+                error: () {
+                  if (!state.showError || !state.invalidIban) {
+                    return null;
+                  }
+                  return Strings.of(context).wrong_iban_error;
                 }(),
               ),
             ],
@@ -217,24 +276,21 @@ class _CompanyIntroductionWidgetState extends State<CompanyIntroductionWidget> {
               children: List.generate(length, (index) {
                 final i = index > 1 ? index - 1 : index;
                 if (index == 1) {
-                  return BlocBuilder<ActivityTypeBloc, KeyValueItemState>(
-                    builder: (context, aState) => MDropDownWidget<KeyValue>(
-                      items: aState.items,
-                      titleBuilder: (item) => item?.title,
-                      selectedItem: state.activityType,
-                      hint: Strings.of(context).activity_type_hint,
-                      label: Strings.of(context).activity_type_label,
-                      isLoading: aState is KeyValueItemLoadingState,
-                      onItemSelected: context
-                          .read<RegistrationControllerCubit>()
-                          .updateActivityType,
-                      error: () {
-                        if (!state.showError || !state.invalidActivityType) {
-                          return null;
-                        }
-                        return Strings.of(context).empty_activity_type_error;
-                      }(),
-                    ),
+                  return MDropDownWidget<ActivityType>(
+                    items: ActivityType.values,
+                    titleBuilder: (item) => item?.toStringValue(context),
+                    selectedItem: state.activityType,
+                    hint: Strings.of(context).activity_type_hint,
+                    label: Strings.of(context).activity_type_label,
+                    onItemSelected: context
+                        .read<RegistrationControllerCubit>()
+                        .updateActivityType,
+                    error: () {
+                      if (!state.showError || !state.invalidActivityType) {
+                        return null;
+                      }
+                      return Strings.of(context).empty_activity_type_error;
+                    }(),
                   );
                 }
                 return MDropDownWidget<KeyValue>(
@@ -370,6 +426,15 @@ class _CompanyIntroductionWidgetState extends State<CompanyIntroductionWidget> {
           width: UiUtils.maxInputSize,
         ),
       );
+
+  void _handleSavedRegistrationInfoState(
+    SavedRegistrationInfoState state,
+  ) async {
+    if (state is SavedRegistrationInfoSuccessState) {
+      _titleController.text = state.item.businessUnitFullName;
+      _economicIdController.text = state.item.nationalId;
+    }
+  }
 
   void _onBackClick() {
     context.replaceRoute(const LandingRoute());

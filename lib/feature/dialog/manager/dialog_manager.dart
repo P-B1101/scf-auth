@@ -3,6 +3,7 @@ import 'package:scf_auth/feature/map/domain/entity/selected_location.dart';
 import 'package:scf_auth/feature/registration/presentation/widget/registration_otp_dialog_widget.dart';
 
 import '../../map/presentation/widget/select_location_dialog_widget.dart';
+import '../../registration/presentation/widget/follow_up_otp_dialog_widget.dart';
 import '../../registration/presentation/widget/success_submit_dialog_widget.dart';
 
 class DialogManager {
@@ -15,10 +16,12 @@ class DialogManager {
   static bool _showSuccessSubmitDialog = false;
   static bool _showSelectLocationDialog = false;
   static bool _showRegistrationDialog = false;
+  static bool _showFollowUpDialog = false;
 
   Future<void> showSuccessSubmitDialog({
     required BuildContext context,
     required String trackingId,
+    required bool hasIban,
   }) async {
     if (_showSuccessSubmitDialog) return;
     _showSuccessSubmitDialog = true;
@@ -27,7 +30,10 @@ class DialogManager {
       builder: (context) => Dialog(
         insetPadding: EdgeInsets.zero,
         backgroundColor: Colors.transparent,
-        child: SuccessSubmitDialogWidget(trackingId: trackingId),
+        child: SuccessSubmitDialogWidget(
+          trackingId: trackingId,
+          hasIban: hasIban,
+        ),
       ),
       barrierColor: Colors.transparent,
     );
@@ -73,5 +79,21 @@ class DialogManager {
     );
     _showRegistrationDialog = false;
     return result ?? '';
+  }
+
+  Future<bool> showFollowUpDialog(BuildContext context) async {
+    if (_showFollowUpDialog) return false;
+    _showFollowUpDialog = true;
+    final result = await showDialog<bool>(
+      context: context,
+      builder: (context) => const Dialog(
+        insetPadding: EdgeInsets.zero,
+        backgroundColor: Colors.transparent,
+        child: FollowUpOTPDialogWidget(),
+      ),
+      barrierColor: Colors.transparent,
+    );
+    _showFollowUpDialog = false;
+    return result ?? false;
   }
 }

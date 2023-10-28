@@ -28,7 +28,10 @@ class OtpBloc extends Bloc<OtpEvent, OtpState> {
     Emitter<OtpState> emit,
   ) async {
     emit(SendOtpLaodingState());
-    final result = await _sendOtp(s.Params(phoneNumber: event.phoneNumber));
+    final result = await _sendOtp(s.Params(
+      phoneNumber: event.phoneNumber,
+      refrenceCode: event.refrenceCode,
+    ));
     final newState = await result.fold(
       (failure) async => failure.toState,
       (otpToken) async => SendOtpSuccessState(otpToken: otpToken),
@@ -57,6 +60,7 @@ class OtpBloc extends Bloc<OtpEvent, OtpState> {
     final result = await _validateOtp(Params(
       code: event.code,
       otpToken: event.otpToken,
+      isFollowUp: event.isFollowUp,
     ));
     final newState = await result.fold(
       (failure) async => failure.toState,
