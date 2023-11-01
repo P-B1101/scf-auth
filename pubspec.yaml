@@ -41,8 +41,7 @@ dependencies:
   jwt_decoder: ^2.0.1
   universal_html: ^2.2.4
   iban: ^1.0.1
-  otp_timer:
-    git: http://10.154.65.32/front-flutter/otp-timer.git
+  otp_timer: ^0.0.4
 
 dev_dependencies:
   flutter_test:

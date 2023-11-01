@@ -648,12 +648,11 @@ packages:
   otp_timer:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: c572d18f2560016abb54b203f0202d6ee1e9012a
-      url: "http://10.154.65.32/front-flutter/otp-timer.git"
-    source: git
-    version: "0.0.3"
+      name: otp_timer
+      sha256: baea0aecbb239965871059567e8ba04720bb6538db003996198bdd21320cce66
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.4"
   package_config:
     dependency: transitive
     description:
