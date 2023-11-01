@@ -3,7 +3,7 @@ import '../../core/utils/enums.dart';
 class EnvManager {
   const EnvManager._();
 
-  static Environment get env => Environment.uat;
+  static Environment get env => Environment.dev;
 
   static Uri getUri({
     required String path,
