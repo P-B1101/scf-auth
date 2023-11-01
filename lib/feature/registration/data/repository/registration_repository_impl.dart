@@ -1,9 +1,9 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
+import 'package:otp_timer/otp_timer.dart';
 
 import '../../../../core/error/failures.dart';
-import '../../../../core/utils/ui_utils.dart';
 import '../../../cdn/data/data_source/cdn_data_source.dart';
 import '../../../cdn/domain/entity/branch_info.dart';
 import '../../../database/data/data_source/database_data_source.dart';
@@ -39,7 +39,7 @@ class RegistrationRepositoryImpl implements RegistrationRepository {
       token: token,
       converter: (body) => TokenModel.fromJson(body, token),
     );
-    Utils.timerDuration = decodedJson.getDuration ?? Utils.timerDuration;
+    OtpUtils.timerDuration = decodedJson.getDuration ?? OtpUtils.timerDuration;
   }
 
   Future<BranchInfo?> _tryToGetBranch(String? id) async {

@@ -421,14 +421,14 @@ extension TargetPlatformTypeExt on TargetPlatformType {
       };
 }
 
-extension DurationExt on Duration {
-  String get toMinuteAndSecond {
-    final data = inSeconds;
-    final minute = data ~/ 60;
-    final seconds = data % 60;
-    return '${minute.toTwoDigit}:${seconds.toTwoDigit}';
-  }
-}
+// extension DurationExt on Duration {
+//   String get toMinuteAndSecond {
+//     final data = inSeconds;
+//     final minute = data ~/ 60;
+//     final seconds = data % 60;
+//     return '${minute.toTwoDigit}:${seconds.toTwoDigit}';
+//   }
+// }
 
 extension ActivityTypeExt on ActivityType {
   String toStringValue(BuildContext context) => switch (this) {

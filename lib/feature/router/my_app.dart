@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
+import 'package:otp_timer/otp_timer.dart';
 import 'package:scf_auth/feature/language/manager/localizatios.dart';
-import 'package:scf_auth/feature/timer/presentation/widget/timer_widget_wrapper.dart';
 
 import '../../core/components/container/keyboard_dismissable_widget.dart';
 import '../../core/utils/assets.dart';
@@ -48,7 +48,7 @@ class MyApp extends StatelessWidget {
                   statusBarColor: Colors.transparent,
                 ),
           child: KeyboardDismissableWidget(
-            child: TimerWidgetWrapper(
+            child: OtpTimerWrapper(
               child: MediaQuery(
                 data: data.copyWith(
                   textScaleFactor: scaleFactor,

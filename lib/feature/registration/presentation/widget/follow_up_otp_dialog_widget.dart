@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:otp_timer/otp_timer.dart';
 import 'package:pinput/pinput.dart';
 
 import '../../../../core/components/button/close_button_widget.dart';
@@ -13,8 +14,6 @@ import '../../../../core/utils/ui_utils.dart';
 import '../../../../injectable_container.dart';
 import '../../../dialog/presentation/base_dialog_widget.dart';
 import '../../../language/manager/localizatios.dart';
-import '../../../timer/presentation/cubit/timer_controller_cubit.dart';
-import '../../../timer/presentation/widget/timer_widget.dart';
 import '../../../toast/manager/toast_manager.dart';
 import '../bloc/otp_bloc.dart';
 import '../cubit/follow_up_dialog_controller_cubit.dart';
@@ -437,7 +436,7 @@ class __RegistrationOTPDialogWidgetState
   Widget get _timerWidget => BlocBuilder<OtpBloc, OtpState>(
         builder: (context, state) => BlocBuilder<FollowUpDialogControllerCubit,
             FollowUpDialogControllerState>(
-          builder: (context, rState) => TimerWidget(
+          builder: (context, rState) => OtpTimer(
             id: rState.otpToken,
             action: MButtonWidget.text(
               padding: const EdgeInsets.symmetric(vertical: 8),

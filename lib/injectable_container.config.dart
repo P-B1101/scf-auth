@@ -4,8 +4,7 @@
 // InjectableConfigGenerator
 // **************************************************************************
 
-// ignore_for_file: unnecessary_lambdas
-// ignore_for_file: lines_longer_than_80_chars
+// ignore_for_file: type=lint
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
@@ -19,82 +18,80 @@ import 'package:scf_auth/core/network/network_info.dart' as _i11;
 import 'package:scf_auth/feature/api/manager/api_caller.dart' as _i3;
 import 'package:scf_auth/feature/api/manager/my_client.dart' as _i10;
 import 'package:scf_auth/feature/cdn/data/data_source/cdn_data_source.dart'
-    as _i19;
+    as _i18;
 import 'package:scf_auth/feature/cdn/data/repository/cdn_repository_impl.dart'
-    as _i28;
-import 'package:scf_auth/feature/cdn/domain/repository/cdn_repository.dart'
     as _i27;
+import 'package:scf_auth/feature/cdn/domain/repository/cdn_repository.dart'
+    as _i26;
 import 'package:scf_auth/feature/cdn/domain/use_case/get_branch_list.dart'
-    as _i29;
+    as _i28;
 import 'package:scf_auth/feature/cdn/domain/use_case/get_key_value_item.dart'
-    as _i30;
+    as _i29;
 import 'package:scf_auth/feature/cdn/domain/use_case/get_list_of_provinces.dart'
-    as _i31;
+    as _i30;
 import 'package:scf_auth/feature/cdn/domain/use_case/select_and_upload_file.dart'
-    as _i36;
+    as _i35;
 import 'package:scf_auth/feature/cdn/presentation/bloc/branch_info_bloc.dart'
-    as _i41;
-import 'package:scf_auth/feature/cdn/presentation/bloc/key_value_item_bloc.dart'
     as _i40;
+import 'package:scf_auth/feature/cdn/presentation/bloc/key_value_item_bloc.dart'
+    as _i39;
 import 'package:scf_auth/feature/cdn/presentation/bloc/province_city_bloc.dart'
-    as _i32;
+    as _i31;
 import 'package:scf_auth/feature/cdn/presentation/bloc/select_and_upload_bloc.dart'
-    as _i46;
+    as _i45;
 import 'package:scf_auth/feature/database/data/data_source/database_data_source.dart'
-    as _i20;
+    as _i19;
 import 'package:scf_auth/feature/database/data/repository/database_repository_impl.dart'
-    as _i22;
-import 'package:scf_auth/feature/database/domain/repository/database_repository.dart'
     as _i21;
+import 'package:scf_auth/feature/database/domain/repository/database_repository.dart'
+    as _i20;
 import 'package:scf_auth/feature/file_manageer/data/data_source/file_manager_data_source.dart'
-    as _i23;
+    as _i22;
 import 'package:scf_auth/feature/jwt/manager/jwt_decoder.dart' as _i9;
 import 'package:scf_auth/feature/registration/data/data_source/registration_data_source.dart'
     as _i13;
 import 'package:scf_auth/feature/registration/data/repository/registration_repository_impl.dart'
-    as _i34;
-import 'package:scf_auth/feature/registration/domain/repository/registration_repository.dart'
     as _i33;
+import 'package:scf_auth/feature/registration/domain/repository/registration_repository.dart'
+    as _i32;
 import 'package:scf_auth/feature/registration/domain/use_case/edit.dart'
-    as _i42;
+    as _i41;
 import 'package:scf_auth/feature/registration/domain/use_case/get_saved_registration_info.dart'
-    as _i43;
+    as _i42;
 import 'package:scf_auth/feature/registration/domain/use_case/resend_otp.dart'
-    as _i35;
+    as _i34;
 import 'package:scf_auth/feature/registration/domain/use_case/send_otp.dart'
-    as _i37;
+    as _i36;
 import 'package:scf_auth/feature/registration/domain/use_case/sign_up.dart'
-    as _i38;
+    as _i37;
 import 'package:scf_auth/feature/registration/domain/use_case/validate_otp.dart'
-    as _i39;
+    as _i38;
 import 'package:scf_auth/feature/registration/presentation/bloc/otp_bloc.dart'
-    as _i44;
+    as _i43;
 import 'package:scf_auth/feature/registration/presentation/bloc/saved_registration_info_bloc.dart'
-    as _i45;
+    as _i44;
 import 'package:scf_auth/feature/registration/presentation/bloc/sign_up_bloc.dart'
-    as _i47;
+    as _i46;
 import 'package:scf_auth/feature/registration/presentation/cubit/follow_up_dialog_controller_cubit.dart'
     as _i7;
 import 'package:scf_auth/feature/registration/presentation/cubit/registration_dialog_controller_cubit.dart'
     as _i14;
 import 'package:scf_auth/feature/repository_manager/repository_manager.dart'
-    as _i26;
+    as _i25;
 import 'package:scf_auth/feature/security/manager/security_manager.dart'
     as _i15;
-import 'package:scf_auth/feature/timer/presentation/cubit/timer_controller_cubit.dart'
-    as _i17;
-import 'package:scf_auth/feature/toast/manager/toast_manager.dart' as _i18;
+import 'package:scf_auth/feature/toast/manager/toast_manager.dart' as _i17;
 import 'package:scf_auth/feature/token/ata/data_source/refresh_token_data_source.dart'
     as _i12;
 import 'package:scf_auth/feature/token/ata/repository/token_repository_impl.dart'
-    as _i25;
-import 'package:scf_auth/feature/token/domain/repository/token_repository.dart'
     as _i24;
-import 'package:scf_auth/injectable_container.dart' as _i48;
+import 'package:scf_auth/feature/token/domain/repository/token_repository.dart'
+    as _i23;
+import 'package:scf_auth/injectable_container.dart' as _i47;
 import 'package:shared_preferences/shared_preferences.dart' as _i16;
 
 extension GetItInjectableX on _i1.GetIt {
-  // initializes the registration of main-scope dependencies inside of GetIt
+// initializes the registration of main-scope dependencies inside of GetIt
   Future<_i1.GetIt> init({
     String? environment,
     _i2.EnvironmentFilter? environmentFilter,
@@ -137,96 +134,95 @@ extension GetItInjectableX on _i1.GetIt {
       () => registerSharedPref.prefs,
       preResolve: true,
     );
-    gh.factory<_i17.TimerControllerCubit>(() => _i17.TimerControllerCubit());
-    gh.lazySingleton<_i18.ToastManager>(
-        () => _i18.ToastManagerImpl(fToast: gh<_i5.FToast>()));
-    gh.lazySingleton<_i19.CDNDataSource>(() => _i19.CDNDataSourceImpl(
+    gh.lazySingleton<_i17.ToastManager>(
+        () => _i17.ToastManagerImpl(fToast: gh<_i5.FToast>()));
+    gh.lazySingleton<_i18.CDNDataSource>(() => _i18.CDNDataSourceImpl(
           apiCaller: gh<_i3.ApiCaller>(),
           client: gh<_i10.MyClient>(),
         ));
-    gh.lazySingleton<_i20.DataBaseDataSource>(() => _i20.DatabaseDataSourceImpl(
+    gh.lazySingleton<_i19.DataBaseDataSource>(() => _i19.DatabaseDataSourceImpl(
         sharedPreferences: gh<_i16.SharedPreferences>()));
-    gh.lazySingleton<_i21.DatabaseRepository>(() => _i22.DatabaseRepositoryImpl(
-          dataSource: gh<_i20.DataBaseDataSource>(),
+    gh.lazySingleton<_i20.DatabaseRepository>(() => _i21.DatabaseRepositoryImpl(
+          dataSource: gh<_i19.DataBaseDataSource>(),
           securityManager: gh<_i15.SecurityManager>(),
         ));
-    gh.lazySingleton<_i23.FileManagerDataSource>(
-        () => _i23.FileManagerDataSourceImpl(filePicker: gh<_i6.FilePicker>()));
-    gh.lazySingleton<_i24.TokenRepository>(() => _i25.TokenRepositoryImpl(
+    gh.lazySingleton<_i22.FileManagerDataSource>(
+        () => _i22.FileManagerDataSourceImpl(filePicker: gh<_i6.FilePicker>()));
+    gh.lazySingleton<_i23.TokenRepository>(() => _i24.TokenRepositoryImpl(
           dataSource: gh<_i12.RefreshTokenDataSource>(),
-          database: gh<_i20.DataBaseDataSource>(),
+          database: gh<_i19.DataBaseDataSource>(),
           securityManager: gh<_i15.SecurityManager>(),
         ));
-    gh.lazySingleton<_i26.RepositoryHelper>(() => _i26.RepositoryHelperImpl(
+    gh.lazySingleton<_i25.RepositoryHelper>(() => _i25.RepositoryHelperImpl(
           networkInfo: gh<_i11.NetworkInfo>(),
-          tokenRepository: gh<_i24.TokenRepository>(),
-          databaseDataSource: gh<_i20.DataBaseDataSource>(),
+          tokenRepository: gh<_i23.TokenRepository>(),
+          databaseDataSource: gh<_i19.DataBaseDataSource>(),
           securityManager: gh<_i15.SecurityManager>(),
         ));
-    gh.lazySingleton<_i27.CDNRepository>(() => _i28.CDNRepositoryImpl(
-          dataSource: gh<_i19.CDNDataSource>(),
-          repositoryHelper: gh<_i26.RepositoryHelper>(),
-          fileManagerDataSource: gh<_i23.FileManagerDataSource>(),
+    gh.lazySingleton<_i26.CDNRepository>(() => _i27.CDNRepositoryImpl(
+          dataSource: gh<_i18.CDNDataSource>(),
+          repositoryHelper: gh<_i25.RepositoryHelper>(),
+          fileManagerDataSource: gh<_i22.FileManagerDataSource>(),
         ));
-    gh.lazySingleton<_i29.GetBranchList>(
-        () => _i29.GetBranchList(repository: gh<_i27.CDNRepository>()));
-    gh.lazySingleton<_i30.GetKeyValueItem>(
-        () => _i30.GetKeyValueItem(repository: gh<_i27.CDNRepository>()));
-    gh.lazySingleton<_i31.GetListOfProvinces>(
-        () => _i31.GetListOfProvinces(repository: gh<_i27.CDNRepository>()));
-    gh.factory<_i32.ProvinceCityBloc>(
-        () => _i32.ProvinceCityBloc(gh<_i31.GetListOfProvinces>()));
-    gh.lazySingleton<_i33.RegistrationRepository>(
-        () => _i34.RegistrationRepositoryImpl(
+    gh.lazySingleton<_i28.GetBranchList>(
+        () => _i28.GetBranchList(repository: gh<_i26.CDNRepository>()));
+    gh.lazySingleton<_i29.GetKeyValueItem>(
+        () => _i29.GetKeyValueItem(repository: gh<_i26.CDNRepository>()));
+    gh.lazySingleton<_i30.GetListOfProvinces>(
+        () => _i30.GetListOfProvinces(repository: gh<_i26.CDNRepository>()));
+    gh.factory<_i31.ProvinceCityBloc>(
+        () => _i31.ProvinceCityBloc(gh<_i30.GetListOfProvinces>()));
+    gh.lazySingleton<_i32.RegistrationRepository>(
+        () => _i33.RegistrationRepositoryImpl(
               dataSource: gh<_i13.RegistrationDataSource>(),
-              repositoryHelper: gh<_i26.RepositoryHelper>(),
-              database: gh<_i20.DataBaseDataSource>(),
+              repositoryHelper: gh<_i25.RepositoryHelper>(),
+              database: gh<_i19.DataBaseDataSource>(),
               securityManager: gh<_i15.SecurityManager>(),
               jwtDecoder: gh<_i9.MJwtDecoder>(),
-              cdnDataSource: gh<_i19.CDNDataSource>(),
+              cdnDataSource: gh<_i18.CDNDataSource>(),
             ));
-    gh.lazySingleton<_i35.ResendOtp>(
-        () => _i35.ResendOtp(repository: gh<_i33.RegistrationRepository>()));
-    gh.lazySingleton<_i36.SelectAndUploadFile>(
-        () => _i36.SelectAndUploadFile(repository: gh<_i27.CDNRepository>()));
-    gh.lazySingleton<_i37.SendOtp>(
-        () => _i37.SendOtp(repository: gh<_i33.RegistrationRepository>()));
-    gh.lazySingleton<_i38.SignUp>(
-        () => _i38.SignUp(repository: gh<_i33.RegistrationRepository>()));
-    gh.lazySingleton<_i39.ValidateOtp>(
-        () => _i39.ValidateOtp(repository: gh<_i33.RegistrationRepository>()));
-    gh.factory<_i40.ActivityAreaBloc>(
-        () => _i40.ActivityAreaBloc(gh<_i30.GetKeyValueItem>()));
-    gh.factory<_i41.BranchInfoBloc>(
-        () => _i41.BranchInfoBloc(gh<_i29.GetBranchList>()));
-    gh.lazySingleton<_i42.Edit>(
-        () => _i42.Edit(repository: gh<_i33.RegistrationRepository>()));
-    gh.lazySingleton<_i43.GetSavedRegistrationInfo>(() =>
-        _i43.GetSavedRegistrationInfo(
-            repository: gh<_i33.RegistrationRepository>()));
-    gh.factory<_i44.OtpBloc>(() => _i44.OtpBloc(
-          gh<_i37.SendOtp>(),
-          gh<_i39.ValidateOtp>(),
-          gh<_i35.ResendOtp>(),
+    gh.lazySingleton<_i34.ResendOtp>(
+        () => _i34.ResendOtp(repository: gh<_i32.RegistrationRepository>()));
+    gh.lazySingleton<_i35.SelectAndUploadFile>(
+        () => _i35.SelectAndUploadFile(repository: gh<_i26.CDNRepository>()));
+    gh.lazySingleton<_i36.SendOtp>(
+        () => _i36.SendOtp(repository: gh<_i32.RegistrationRepository>()));
+    gh.lazySingleton<_i37.SignUp>(
+        () => _i37.SignUp(repository: gh<_i32.RegistrationRepository>()));
+    gh.lazySingleton<_i38.ValidateOtp>(
+        () => _i38.ValidateOtp(repository: gh<_i32.RegistrationRepository>()));
+    gh.factory<_i39.ActivityAreaBloc>(
+        () => _i39.ActivityAreaBloc(gh<_i29.GetKeyValueItem>()));
+    gh.factory<_i40.BranchInfoBloc>(
+        () => _i40.BranchInfoBloc(gh<_i28.GetBranchList>()));
+    gh.lazySingleton<_i41.Edit>(
+        () => _i41.Edit(repository: gh<_i32.RegistrationRepository>()));
+    gh.lazySingleton<_i42.GetSavedRegistrationInfo>(() =>
+        _i42.GetSavedRegistrationInfo(
+            repository: gh<_i32.RegistrationRepository>()));
+    gh.factory<_i43.OtpBloc>(() => _i43.OtpBloc(
+          gh<_i36.SendOtp>(),
+          gh<_i38.ValidateOtp>(),
+          gh<_i34.ResendOtp>(),
         ));
-    gh.factory<_i45.SavedRegistrationInfoBloc>(() =>
-        _i45.SavedRegistrationInfoBloc(gh<_i43.GetSavedRegistrationInfo>()));
-    gh.factory<_i46.SelectAndUploadBloc>(
-        () => _i46.SelectAndUploadBloc(gh<_i36.SelectAndUploadFile>()));
-    gh.factory<_i47.SignUpBloc>(() => _i47.SignUpBloc(
-          gh<_i38.SignUp>(),
-          gh<_i42.Edit>(),
+    gh.factory<_i44.SavedRegistrationInfoBloc>(() =>
+        _i44.SavedRegistrationInfoBloc(gh<_i42.GetSavedRegistrationInfo>()));
+    gh.factory<_i45.SelectAndUploadBloc>(
+        () => _i45.SelectAndUploadBloc(gh<_i35.SelectAndUploadFile>()));
+    gh.factory<_i46.SignUpBloc>(() => _i46.SignUpBloc(
+          gh<_i37.SignUp>(),
+          gh<_i41.Edit>(),
         ));
     return this;
   }
 }
 
-class _$RegisterHttpClient extends _i48.RegisterHttpClient {}
+class _$RegisterHttpClient extends _i47.RegisterHttpClient {}
 
-class _$RegisterSharedPref extends _i48.RegisterSharedPref {}
+class _$RegisterFToast extends _i47.RegisterFToast {}
 
-class _$RegisterFToast extends _i48.RegisterFToast {}
+class _$RegisterFilePicker extends _i47.RegisterFilePicker {}
 
-class _$RegisterFilePicker extends _i48.RegisterFilePicker {}
+class _$RegisterJwtDecoder extends _i47.RegisterJwtDecoder {}
 
-class _$RegisterJwtDecoder extends _i48.RegisterJwtDecoder {}
+class _$RegisterSharedPref extends _i47.RegisterSharedPref {}

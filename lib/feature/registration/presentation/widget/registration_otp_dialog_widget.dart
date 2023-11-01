@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:otp_timer/otp_timer.dart';
 import 'package:pinput/pinput.dart';
 import 'package:scf_auth/core/components/button/m_button.dart';
 import 'package:scf_auth/core/components/input/m_input_widget.dart';
@@ -8,14 +9,12 @@ import 'package:scf_auth/core/utils/enums.dart';
 import 'package:scf_auth/core/utils/extensions.dart';
 import 'package:scf_auth/feature/language/manager/localizatios.dart';
 import 'package:scf_auth/feature/registration/presentation/bloc/otp_bloc.dart';
-import 'package:scf_auth/feature/timer/presentation/cubit/timer_controller_cubit.dart';
 
 import '../../../../core/components/button/close_button_widget.dart';
 import '../../../../core/utils/assets.dart';
 import '../../../../core/utils/ui_utils.dart';
 import '../../../../injectable_container.dart';
 import '../../../dialog/presentation/base_dialog_widget.dart';
-import '../../../timer/presentation/widget/timer_widget.dart';
 import '../../../toast/manager/toast_manager.dart';
 import '../cubit/registration_dialog_controller_cubit.dart';
 
@@ -404,7 +403,7 @@ class __RegistrationOTPDialogWidgetState
         builder: (context, state) => BlocBuilder<
             RegistrationDialogControllerCubit,
             RegistrationDialogControllerState>(
-          builder: (context, rState) => TimerWidget(
+          builder: (context, rState) => OtpTimer(
             id: rState.otpToken,
             action: MButtonWidget.text(
               padding: const EdgeInsets.symmetric(vertical: 8),
