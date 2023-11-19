@@ -62,8 +62,9 @@ class _SuggestedCompanyInfoWidgetState
     super.initState();
     _nameController.text = widget.name;
     _economicIdController.text = widget.economicId;
-    _financialInteractionController.text =
-        widget.financialInteraction?.toString() ?? '';
+    final amount =
+        widget.financialInteraction?.toCurrency.toEnglishNumber ?? '';
+    _financialInteractionController.text = amount;
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       if (widget.requestFocus) _nameNode.requestFocus();
     });

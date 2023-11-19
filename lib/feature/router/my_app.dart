@@ -3,11 +3,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:otp_timer/otp_timer.dart';
-import 'package:scf_auth/feature/language/manager/localizatios.dart';
 
 import '../../core/components/container/keyboard_dismissable_widget.dart';
 import '../../core/utils/assets.dart';
 import '../../core/utils/extensions.dart';
+import '../language/manager/localizatios.dart';
 import 'app_router.dart';
 
 class MyApp extends StatelessWidget {
@@ -51,8 +51,8 @@ class MyApp extends StatelessWidget {
             child: OtpTimerWrapper(
               child: MediaQuery(
                 data: data.copyWith(
-                  textScaleFactor: scaleFactor,
                   boldText: false,
+                  textScaler: TextScaler.linear(scaleFactor)
                 ),
                 child: child!,
               ),

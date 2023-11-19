@@ -7,7 +7,6 @@ import 'injectable_container.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   setPathUrlStrategy();
-  Paint.enableDithering = true;
   await configureDependencies();
   runApp(const MyApp());
 }
