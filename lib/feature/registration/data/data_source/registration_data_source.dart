@@ -234,7 +234,7 @@ class RegistrationDataSourceImpl implements RegistrationDataSource {
       converter: (body) => body['otpToken'],
       request: () => client.post(
         EnvManager.getUri(
-          path: 'scf-registration/public/mobile-registration/resend',
+          path: 'scf-registration/public/follow-up/resend',
         ),
         body: json.encode(body),
         encoding: Encoding.getByName('utf-8'),
