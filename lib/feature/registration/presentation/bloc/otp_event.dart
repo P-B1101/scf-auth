@@ -37,7 +37,7 @@ final class ResendOtpEvent extends OtpEvent {
 
   factory ResendOtpEvent.followUp(String otpToken) => ResendOtpEvent(
         otpToken: otpToken,
-        isFollowUp: false,
+        isFollowUp: true,
       );
 
   @override
