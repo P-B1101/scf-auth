@@ -261,7 +261,7 @@ extension JalaliExt on Jalali {
   String get toTimeString =>
       '${hour.toTwoDigit}:${minute.toTwoDigit}:${second.toTwoDigit}';
 
-  String get toDateString => '$year.${month.toTwoDigit}.${day.toTwoDigit}';
+  String get toDateString => '$year/${month.toTwoDigit}/${day.toTwoDigit}';
 
   String get toValue => toDateTime().toValue;
 }
