@@ -18,6 +18,7 @@ final class SubmitSignUpEvent extends SignUpEvent {
   final UploadFileResult newspaper;
   final UploadFileResult balanceSheet;
   final UploadFileResult profitAndLossStatement;
+  final UploadFileResult cash;
   final List<UploadFileResult> otherDocuments;
   final List<SuggestedCompany> suggestedComapnies;
   final BranchInfo selectedBranch;
@@ -54,6 +55,7 @@ final class SubmitSignUpEvent extends SignUpEvent {
     required this.website,
     required this.iban,
     required this.isEdit,
+    required this.cash,
   });
 
   @override
@@ -80,6 +82,7 @@ final class SubmitSignUpEvent extends SignUpEvent {
         website,
         iban,
         isEdit,
+    cash,
       ];
 
   factory SubmitSignUpEvent.signUp({
@@ -93,6 +96,7 @@ final class SubmitSignUpEvent extends SignUpEvent {
     required UploadFileResult newspaper,
     required UploadFileResult balanceSheet,
     required UploadFileResult profitAndLossStatement,
+    required UploadFileResult cash,
     required List<UploadFileResult> otherDocuments,
     required List<SuggestedCompany> suggestedComapnies,
     required BranchInfo selectedBranch,
@@ -124,6 +128,7 @@ final class SubmitSignUpEvent extends SignUpEvent {
         website: website,
         iban: iban,
         isEdit: false,
+        cash:cash,
       );
 
   factory SubmitSignUpEvent.edit({
@@ -146,6 +151,7 @@ final class SubmitSignUpEvent extends SignUpEvent {
     required String website,
     required List<AddressInfo> address,
     required String iban,
+    required UploadFileResult cash,
   }) =>
       SubmitSignUpEvent(
         activityArea: activityArea,
@@ -168,5 +174,6 @@ final class SubmitSignUpEvent extends SignUpEvent {
         website: website,
         iban: iban,
         isEdit: true,
+        cash: cash,
       );
 }

@@ -42,9 +42,12 @@ class UploadFileResult extends Equatable {
   bool get isProfitAndLossStatementTitle =>
       title == Utils.profitAndLossStatementTitle;
 
+  bool get isCashFlowTitle => title == Utils.cashFlow;
+
   bool get isNotSpecific =>
       !isStatuteTitle &&
       !isNewspaperTitle &&
       !isProfitAndLossStatementTitle &&
+          !isCashFlowTitle &&
       !isBalanceSheetTitle;
 }

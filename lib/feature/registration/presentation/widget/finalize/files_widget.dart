@@ -68,6 +68,15 @@ class FilesWidget extends StatelessWidget {
                     seeDocIcon: Icons.remove_red_eye,
                     onSeeDocumentClick: onSeeDocumentClick,
                   ),
+                  //جریان وجوه نقد
+                  ReadOnlyWidgets(
+                    label: Strings.of(context).cash_flow_label,
+                    hintTxt:
+                    Strings.of(context).cash_flow_label,
+                    value: state.cash?.fileName,
+                    seeDocIcon: Icons.remove_red_eye,
+                    onSeeDocumentClick: onSeeDocumentClick,
+                  ),
                   //سایر
                   ...List.generate(
                     state.otherDocuments.length,

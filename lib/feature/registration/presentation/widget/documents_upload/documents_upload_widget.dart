@@ -18,6 +18,7 @@ import '../suggested_company/suggested_company_widget.dart';
 @RoutePage()
 class DocumentsUploadWidget extends StatefulWidget {
   static const path = 'documents-upload';
+
   const DocumentsUploadWidget({
     super.key,
     @PathParam.inherit() String? phoneNumber,
@@ -100,6 +101,7 @@ class _DocumentsUploadWidgetState extends State<DocumentsUploadWidget> {
             _newspaperWidget,
             _balanceSheetWidget,
             _profitAndLossStatementWidget,
+            _cashFlowWidget,
           ],
         ),
       );
@@ -199,6 +201,30 @@ class _DocumentsUploadWidgetState extends State<DocumentsUploadWidget> {
             return Strings.of(context).empty_profit_and_loss_statement_error;
           }(),
           name: state.profitAndLossStatement?.fileName,
+        ),
+      );
+
+  Widget get _cashFlowWidget =>
+      BlocBuilder<RegistrationControllerCubit, RegistrationControllerState>(
+        buildWhen: (previous, current) =>
+            (previous.showError != current.showError) ||
+            (previous.cash != current.cash),
+        builder: (context, state) => SelectAndUploadWidget(
+          onFileUploaded:
+              context.read<RegistrationControllerCubit>().updateCashFlow,
+          onFileExtensionFailure: _onFileExtensionFailure,
+          onFileSizeFailure: _onFileSizeFailure,
+          onFileFailure: _onFileFailure,
+          hint: Strings.of(context).cash_flow_hint,
+          label: Strings.of(context).cash_flow_label,
+          title: state.cash?.title ?? Utils.cashFlow,
+          error: () {
+            if (!state.showError || !state.invalidCashFlow) {
+              return null;
+            }
+            return Strings.of(context).empty_cash_flow_error;
+          }(),
+          name: state.cash?.fileName,
         ),
       );
 

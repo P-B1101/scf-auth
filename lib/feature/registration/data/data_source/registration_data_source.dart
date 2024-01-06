@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:injectable/injectable.dart';
+import 'package:scf_auth/core/utils/extensions.dart';
 import 'package:scf_auth/feature/registration/domain/entity/sign_up_request_body.dart';
 
 import '../../../../core/utils/extensions.dart';

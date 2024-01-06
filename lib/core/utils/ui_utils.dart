@@ -41,7 +41,7 @@ class Utils {
         return TargetPlatformType.other;
     }
   }
-  
+
   // static Duration timerDuration = const Duration(seconds: 180);
   // static Duration timerDuration = const Duration(seconds: 5);
 
@@ -49,4 +49,5 @@ class Utils {
   static const newspaperTitle = 'روزنامه';
   static const balanceSheetTitle = 'ترازنامه';
   static const profitAndLossStatementTitle = 'صورت سود و زیان';
+  static const cashFlow = 'جریان وجوه نقد';
 }

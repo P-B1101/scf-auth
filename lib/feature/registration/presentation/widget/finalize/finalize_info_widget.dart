@@ -129,7 +129,7 @@ class __BodyWidgetState extends State<_BodyWidget> {
             children: [
               TextSpan(text: Strings.of(context).register_your_info),
               TextSpan(
-                text: ' ${Strings.of(context).complete}',
+                text: ' ${Strings.of(context).submit_title}',
                 style: const TextStyle(color: MColors.primaryColor),
               ),
               TextSpan(
@@ -241,6 +241,8 @@ class __BodyWidgetState extends State<_BodyWidget> {
             suggestedComapnies: state.suggestedCompanies,
             website: state.website,
             iban: state.iban,
+        cash: state.cash!,
+
           ));
       return;
     }
@@ -266,6 +268,7 @@ class __BodyWidgetState extends State<_BodyWidget> {
           suggestedComapnies: state.suggestedCompanies,
           website: state.website,
           iban: state.iban,
+      cash: state.cash!,
         ));
   }
 }

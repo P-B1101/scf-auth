@@ -104,33 +104,10 @@ class AddressContactInfoWidget extends StatelessWidget {
                               isLong: true,
                             ),
                             const SizedBox(height: 15),
-                            MouseRegion(
-                              cursor: SystemMouseCursors.click,
-                              child: GestureDetector(
-                                onTap: () {
-                                  onWatchingLocationClick(state.address[index]);
-                                },
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    const Icon(
-                                      Fonts.location,
-                                      color: MColors.primaryColor,
-                                      size: 20,
-                                    ),
-                                    const SizedBox(width: 5),
-                                    Text(
-                                      Strings.of(context).watching_location,
-                                      style: const TextStyle(
-                                        color: MColors.primaryColor,
-                                        fontSize: 16,
-                                        fontWeight: Fonts.regular400,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
+
+
+
+
                           ],
                         )),
                   ),
