@@ -41,7 +41,8 @@ class RegistrationControllerCubit extends Cubit<RegistrationControllerState> {
           // province: null,
           website: '',
           errorStep: null,
-          iban: '', cash: null,
+          iban: '',
+          cash: null,
         ));
 
   void onPageClick(RegistrationSteps step) => emit(state.copyWith(step: step));
@@ -99,11 +100,11 @@ class RegistrationControllerCubit extends Cubit<RegistrationControllerState> {
         website: body.webSite,
         errorStep: null,
         iban: body.iban,
-    cash:             body.uploadedDocuments.any((element) => element.isCashFlowTitle)
-        ? body.uploadedDocuments
-        .where((element) => element.isCashFlowTitle)
-        .first
-        : null,
+        cash: body.uploadedDocuments.any((element) => element.isCashFlowTitle)
+            ? body.uploadedDocuments
+                .where((element) => element.isCashFlowTitle)
+                .first
+            : null,
       ));
 
   void updateCompanyTitle(String companyTitle) =>
@@ -250,6 +251,7 @@ class RegistrationControllerCubit extends Cubit<RegistrationControllerState> {
   void updateCeoNationalCode(String nationalCode) => emit(state.copyWith(
         ceoInfo: state.ceoInfo.copyWith(nationalCode: nationalCode),
       ));
+
   void updateCeoBirthDate(Jalali birthDate) => emit(
       state.copyWith(ceoInfo: state.ceoInfo.copyWith(birthDate: birthDate)));
 

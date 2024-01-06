@@ -48,5 +48,6 @@ class UploadFileResult extends Equatable {
       !isStatuteTitle &&
       !isNewspaperTitle &&
       !isProfitAndLossStatementTitle &&
+          !isCashFlowTitle &&
       !isBalanceSheetTitle;
 }

@@ -41,6 +41,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
         event.newspaper,
         event.balanceSheet,
         event.profitAndLossStatement,
+        event.cash,
         ...event.otherDocuments,
       ],
       nationalId: event.economicId,
