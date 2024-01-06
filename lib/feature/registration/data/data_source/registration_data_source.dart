@@ -1,14 +1,13 @@
 import 'dart:convert';
 
 import 'package:injectable/injectable.dart';
-import 'package:scf_auth/core/utils/extensions.dart';
-import 'package:scf_auth/feature/registration/domain/entity/sign_up_request_body.dart';
 
 import '../../../../core/utils/extensions.dart';
 import '../../../../core/utils/ui_utils.dart';
 import '../../../api/manager/api_caller.dart';
 import '../../../api/manager/my_client.dart';
 import '../../../env/env_manager.dart';
+import '../../domain/entity/sign_up_request_body.dart';
 import '../../domain/entity/sign_up_response.dart';
 import '../model/sign_up_request_body_model.dart';
 import '../model/sign_up_response_model.dart';
