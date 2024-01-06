@@ -179,5 +179,8 @@
     "iban_label": "شماره شبا",
     "iban_hint": "شماره شبا را وارد کنید",
     "wrong_iban_error": "شماره شبا وارد شده اشتباه می باشد",
-    "not_entered": "وارد نشده"
+    "not_entered": "وارد نشده",
+    "cash_flow_hint": "جریان وجوه نقد را بارگذاری کنید",
+    "cash_flow_label": "جریان وجوه نقد",
+    "empty_cash_flow_error": "بارگذاری جریان وجوه نقد اجباری است"
 }

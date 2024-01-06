@@ -13,6 +13,7 @@ class RegistrationControllerState extends Equatable {
   final UploadFileResult? newspaper;
   final UploadFileResult? balanceSheet;
   final UploadFileResult? profitAndLossStatement;
+  final UploadFileResult? cash;
   final List<UploadFileResult?> otherDocuments;
   final List<SuggestedCompany> suggestedCompanies;
   final BranchInfo? selectedBranch;
@@ -21,6 +22,7 @@ class RegistrationControllerState extends Equatable {
   final String email;
   final String website;
   final String iban;
+
   // final ProvinceCity? province;
   // final ProvinceCity? city;
   final List<AddressInfo> address;
@@ -51,6 +53,7 @@ class RegistrationControllerState extends Equatable {
     required this.website,
     required this.errorStep,
     required this.iban,
+    required this.cash,
   });
 
   @override
@@ -79,6 +82,7 @@ class RegistrationControllerState extends Equatable {
         // province,
         website,
         errorStep,
+        cash,
       ];
 
   RegistrationControllerState copyWith({
@@ -94,6 +98,7 @@ class RegistrationControllerState extends Equatable {
     UploadFileResult? newspaper,
     UploadFileResult? balanceSheet,
     UploadFileResult? profitAndLossStatement,
+    UploadFileResult? cash,
     List<UploadFileResult?>? otherDocuments,
     List<SuggestedCompany>? suggestedCompanies,
     BranchInfo? selectedBranch,
@@ -130,6 +135,7 @@ class RegistrationControllerState extends Equatable {
         // province: province ?? this.province,
         website: website ?? this.website,
         iban: iban ?? this.iban,
+        cash: cash ?? this.cash,
         // city: city,
       );
 
@@ -186,6 +192,7 @@ class RegistrationControllerState extends Equatable {
         phoneNumber: phoneNumber,
         // province: province,
         website: website,
+        cash: cash,
       );
 
   bool get isEnable {
@@ -267,6 +274,7 @@ class RegistrationControllerState extends Equatable {
     if (invalidBalanceSheet) return false;
     if (invalidProfitAndLossStatement) return false;
     if (invalidOtherDocuments) return false;
+    if (invalidCashFlow) return false;
     return true;
   }
 
@@ -341,6 +349,8 @@ class RegistrationControllerState extends Equatable {
   bool get invalidBalanceSheet => balanceSheet == null;
 
   bool get invalidProfitAndLossStatement => profitAndLossStatement == null;
+
+  bool get invalidCashFlow => cash == null;
 
   bool get invalidOtherDocuments =>
       otherDocuments.length > 1 &&
