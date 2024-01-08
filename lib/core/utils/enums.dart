@@ -61,3 +61,7 @@ enum ActivityType {
   product,
   service,
 }
+
+enum UploadFileType {
+  registration,
+}

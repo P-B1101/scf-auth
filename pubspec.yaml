@@ -42,6 +42,8 @@ dependencies:
   universal_html: ^2.2.4
   iban: ^1.0.1
   otp_timer: ^0.0.4
+  mime: ^1.0.4
+  http_parser: ^4.0.2
 
 dev_dependencies:
   flutter_test:

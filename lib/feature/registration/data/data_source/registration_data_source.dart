@@ -65,7 +65,7 @@ class RegistrationDataSourceImpl implements RegistrationDataSource {
     required String token,
   }) =>
       apiCaller.callApi(
-        converter: (body) => SignUpResponseModel.fromJson(body),
+        converter: (body, headers) => SignUpResponseModel.fromJson(body),
         request: () => client.post(
           EnvManager.getUri(path: 'scf-registration/info-registration'),
           body: json.encode(body.toJson),
@@ -88,7 +88,7 @@ class RegistrationDataSourceImpl implements RegistrationDataSource {
   }
   // =>
   //     apiCaller.callApi(
-  //       converter: (body) => SignUpResponseModel.fromJson(body),
+  //       converter: (body, headers) => SignUpResponseModel.fromJson(body),
   //       request: () => client.post(
   //         EnvManager.getUri(path: 'scf-registration/info-registration'),
   //         body: json.encode(body.toJson),
@@ -107,7 +107,7 @@ class RegistrationDataSourceImpl implements RegistrationDataSource {
       'targetPlatformType': Utils.targetPlatformType.toValue,
     };
     return apiCaller.callApi(
-      converter: (body) => body['otpToken'],
+      converter: (body, headers) => body['otpToken'],
       request: () => client.post(
         EnvManager.getUri(
           path: 'scf-registration/public/mobile-registration',
@@ -131,7 +131,7 @@ class RegistrationDataSourceImpl implements RegistrationDataSource {
       'code': code,
     };
     return apiCaller.callApi(
-      converter: (body) => body['accessToken'],
+      converter: (body, headers) => body['accessToken'],
       request: () => client.post(
         EnvManager.getUri(
           path: 'scf-registration/public/mobile-registration/verify',
@@ -149,7 +149,7 @@ class RegistrationDataSourceImpl implements RegistrationDataSource {
   Future<String> resendOtp(String otpToken) async {
     final body = {'otpToken': otpToken};
     return apiCaller.callApi(
-      converter: (body) => body['otpToken'],
+      converter: (body, headers) => body['otpToken'],
       request: () => client.post(
         EnvManager.getUri(
           path: 'scf-registration/public/mobile-registration/resend',
@@ -166,7 +166,7 @@ class RegistrationDataSourceImpl implements RegistrationDataSource {
   @override
   Future<SignUpRequestBody> getSavedRegistrationInfo(String token) =>
       apiCaller.callApi(
-        converter: (body) => SignUpRequestBodyModel.fromJson(body),
+        converter: (body, headers) => SignUpRequestBodyModel.fromJson(body),
         request: () => client.get(
           EnvManager.getUri(
             path: 'scf-registration/retrieve-registration',
@@ -189,7 +189,7 @@ class RegistrationDataSourceImpl implements RegistrationDataSource {
       'targetPlatformType': Utils.targetPlatformType.toValue,
     };
     return apiCaller.callApi(
-      converter: (body) => body['otpToken'],
+      converter: (body, headers) => body['otpToken'],
       request: () => client.post(
         EnvManager.getUri(
           path: 'scf-registration/public/follow-up/send-otp',
@@ -213,7 +213,7 @@ class RegistrationDataSourceImpl implements RegistrationDataSource {
       'code': code,
     };
     return apiCaller.callApi(
-      converter: (body) => body['accessToken'],
+      converter: (body, headers) => body['accessToken'],
       request: () => client.post(
         EnvManager.getUri(
           path: 'scf-registration/public/follow-up/verify-otp',
@@ -231,7 +231,7 @@ class RegistrationDataSourceImpl implements RegistrationDataSource {
   Future<String> resendFollowUpOtp(String otpToken) async {
     final body = {'otpToken': otpToken};
     return apiCaller.callApi(
-      converter: (body) => body['otpToken'],
+      converter: (body, headers) => body['otpToken'],
       request: () => client.post(
         EnvManager.getUri(
           path: 'scf-registration/public/follow-up/resend',

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:scf_auth/core/utils/enums.dart';
 
 import '../../../../core/components/input/m_input_widget.dart';
 import '../../../../core/components/loading/adaptive_loading_widget.dart';
@@ -114,10 +115,10 @@ class __SelectAndUploadWidgetState extends State<_SelectAndUploadWidget> {
         BlocListener<SelectAndUploadBloc, SelectAndUploadState>(
           listener: (context, state) {
             if (state is SelectAndUploadSuccessState) {
-              final result = state.result.copyWith(
+              final result = state.result.first.copyWith(
                 title: widget.title,
               );
-              _controller.text = result.fileName;
+              _controller.text = result.fileName ?? '';
               widget.onFileUploaded(result);
             } else if (state is SelectAndUploadFileSizeFailureState) {
               widget.onFileSizeFailure(state.size);
@@ -199,9 +200,11 @@ class __SelectAndUploadWidgetState extends State<_SelectAndUploadWidget> {
       );
 
   void _onStartSelectFileAndUpload() {
-    context
-        .read<SelectAndUploadBloc>()
-        .add(StartSelectAndUploadEvent(title: widget.title));
+    context.read<SelectAndUploadBloc>().add(StartSelectAndUploadEvent(
+          title: widget.title,
+          type: UploadFileType.registration,
+          isMultiSelect: false,
+        ));
   }
 
   bool get _hasError => widget.error != null && widget.error!.isNotEmpty;

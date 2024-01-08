@@ -37,7 +37,7 @@ class RegistrationRepositoryImpl implements RegistrationRepository {
   void _saveTimerDuration(String token) {
     final decodedJson = jwtDecoder.decode(
       token: token,
-      converter: (body) => TokenModel.fromJson(body, token),
+      converter: (body, headers) => TokenModel.fromJson(body, token),
     );
     OtpUtils.timerDuration = decodedJson.getDuration ?? OtpUtils.timerDuration;
   }

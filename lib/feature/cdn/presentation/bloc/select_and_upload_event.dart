@@ -9,11 +9,15 @@ sealed class SelectAndUploadEvent extends Equatable {
 
 class StartSelectAndUploadEvent extends SelectAndUploadEvent {
   final String title;
+  final bool isMultiSelect;
+  final UploadFileType type;
 
   const StartSelectAndUploadEvent({
     required this.title,
+    required this.type,
+    this.isMultiSelect = false,
   });
 
   @override
-  List<Object> get props => [title];
+  List<Object> get props => [title, isMultiSelect, type];
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:scf_auth/core/utils/enums.dart';
 
 import '../../../../core/components/input/m_input_widget.dart';
 import '../../../../core/components/loading/adaptive_loading_widget.dart';
@@ -147,10 +148,10 @@ class __SelectAndUploadWidgetState extends State<_SelectAndUploadWidget> {
           listener: (context, state) {
             if (state is SelectAndUploadSuccessState) {
               _result = _result.copyWith(
-                fileName: state.result.fileName,
-                urn: state.result.urn,
+                fileName: state.result.first.fileName,
+                urn: state.result.first.urn,
               );
-              _controller.text = _result.fileName;
+              _controller.text = _result.fileName ?? '';
               widget.onFileUploaded(_result);
             } else if (state is SelectAndUploadFileSizeFailureState) {
               widget.onFileSizeFailure(state.size);
@@ -284,9 +285,11 @@ class __SelectAndUploadWidgetState extends State<_SelectAndUploadWidget> {
   }
 
   void _onStartSelectFileAndUpload() {
-    context
-        .read<SelectAndUploadBloc>()
-        .add(StartSelectAndUploadEvent(title: _titleController.text));
+    context.read<SelectAndUploadBloc>().add(StartSelectAndUploadEvent(
+          title: _titleController.text,
+          type: UploadFileType.registration,
+          isMultiSelect: false,
+        ));
   }
 
   void _onTitleChange(String title) {

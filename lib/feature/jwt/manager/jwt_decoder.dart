@@ -22,6 +22,6 @@ class MJwtDecoderImpl implements MJwtDecoder {
     required ConvertToModel<T> converter,
   }) {
     final decodedToken = JwtDecoder.decode(token);
-    return converter(decodedToken);
+    return converter(decodedToken, {});
   }
 }

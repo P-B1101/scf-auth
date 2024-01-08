@@ -1,3 +1,4 @@
+import '../../../../core/utils/extensions.dart';
 import '../../domain/entity/upload_file_result.dart';
 
 class UploadFileResultModel extends UploadFileResult {
@@ -5,6 +6,7 @@ class UploadFileResultModel extends UploadFileResult {
     required super.fileName,
     required super.title,
     required super.urn,
+    required super.uploadDate,
   });
 
   factory UploadFileResultModel.fromEntity(UploadFileResult entity) =>
@@ -12,19 +14,21 @@ class UploadFileResultModel extends UploadFileResult {
         fileName: entity.fileName,
         title: entity.title,
         urn: entity.urn,
+        uploadDate: entity.uploadDate,
       );
 
   factory UploadFileResultModel.fromJson(Map<String, dynamic> json) =>
       UploadFileResultModel(
-        fileName: json['fileName'] ??
-            DateTime.now().millisecondsSinceEpoch.toString(),
-        title: json['documentTitle'],
-        urn: json['urn'],
+        fileName: json['description'] ?? json['fileName'],
+        title: json['title'] ?? json['documentTitle'],
+        urn: json['urn'] ?? '',
+        uploadDate: json.toLocalJalali('uploadedDate'),
       );
 
   Map<String, dynamic> get toJson => {
-        'documentTitle': title,
         'urn': urn,
-        'fileName': fileName,
+        'documentTitle': title,
+        'description': fileName,
+        'uploadDate': uploadDate?.toDateTime().toIso8601String(),
       };
 }

@@ -14,7 +14,7 @@ abstract class FileManagerDataSource {
   ///
   /// allowed file extensions are [Utils.allowedExtensions]
   ///
-  Future<SelectFileResponse> selectFile();
+  Future<List<SelectFileResponse>> selectFile(bool isMultiSelect);
 }
 
 @LazySingleton(as: FileManagerDataSource)
@@ -26,21 +26,25 @@ class FileManagerDataSourceImpl implements FileManagerDataSource {
   });
 
   @override
-  Future<SelectFileResponse> selectFile() async {
+  Future<List<SelectFileResponse>> selectFile(bool isMultiSelect) async {
     final result = await filePicker.pickFiles(
       withData: true,
       allowedExtensions: Utils.allowedExtensions,
       type: FileType.custom,
-      allowMultiple: false,
+      allowMultiple: isMultiSelect,
     );
     if (result == null || result.files.isEmpty) {
       throw const CancelSelectFileException();
     }
-    final file = result.files.first;
-    if (!file.size.isValidFileSize) throw FileSizeException(file.size);
-    if (!Utils.allowedExtensions.contains(file.extension)) {
-      throw FileExtensionException(file.extension ?? '-');
+    final response = <SelectFileResponse>[];
+    for (int i = 0; i < result.files.length; i++) {
+      final file = result.files[i];
+      if (!file.size.isValidFileSize) throw FileSizeException(file.size);
+      if (!Utils.allowedExtensions.contains(file.extension)) {
+        throw FileExtensionException(file.extension ?? '-');
+      }
+      response.add(SelectFileResponseModel.fromFile(file));
     }
-    return SelectFileResponseModel.fromFile(file);
+    return response;
   }
 }

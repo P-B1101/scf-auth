@@ -13,6 +13,6 @@ class MBaseResponseModel<T> extends MBaseResponse<T> {
   }) =>
       MBaseResponseModel<T>(
         message: json['errorMessage'] ?? '',
-        data: fromJson(json['data']),
+        data: fromJson(json['data'], {}),
       );
 }

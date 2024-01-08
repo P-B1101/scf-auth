@@ -1,14 +1,23 @@
-import 'dart:typed_data';
+import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
+import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
 import 'package:injectable/injectable.dart';
-import 'package:scf_auth/feature/cdn/domain/entity/branch_info.dart';
-import 'package:scf_auth/feature/cdn/domain/entity/province_city.dart';
+import 'package:mime/mime.dart';
+import 'package:universal_html/html.dart' as universal_html;
 
+import '../../../../core/error/exceptions.dart';
 import '../../../../core/utils/enums.dart';
 import '../../../../core/utils/extensions.dart';
 import '../../../api/manager/api_caller.dart';
 import '../../../api/manager/my_client.dart';
+import '../../../env/env_manager.dart';
+import '../../domain/entity/branch_info.dart';
 import '../../domain/entity/key_value.dart';
+import '../../domain/entity/province_city.dart';
+import '../../domain/entity/upload_raw_result.dart';
+import '../model/upload_raw_result_model.dart';
 
 abstract class CDNDataSource {
   /// Request to get key value type of data from cdn using [urn].
@@ -16,10 +25,15 @@ abstract class CDNDataSource {
   ///
   Future<List<KeyValue>> getKeyValueItems(String urn);
 
-  /// Upload file to cdn and return [urn].
+  /// Upload file to cdn and return [UploadRawResult].
   /// Call a [POST] request to the http://.... endpoint.
   ///
-  Future<String> uploadFile(Uint8List file);
+  Future<UploadRawResult> uploadFile({
+    required String token,
+    required Uint8List file,
+    required String name,
+    required UploadFileType type,
+  });
 
   /// Request to get list of branch from cdn.
   /// Call a [GET] request to the http://.... endpoint.
@@ -30,6 +44,14 @@ abstract class CDNDataSource {
   /// Call a [GET] request to the http://.... endpoint.
   ///
   Future<List<ProvinceCity>> getListOfProvinces();
+
+  /// Request to get file from cdn.
+  /// Call a [GET] request to the http://.... endpoint.
+  ///
+  Future<void> downloadFile({
+    required String token,
+    required String urn,
+  });
 }
 
 @LazySingleton(as: CDNDataSource)
@@ -44,32 +66,53 @@ class CDNDataSourceImpl implements CDNDataSource {
   @override
   Future<List<KeyValue>> getKeyValueItems(String urn) async {
     if (urn == CDNRequestType.scfRegistrationActivityArea.toValue) {
-      await Future.delayed(const Duration(milliseconds: 1500));
-      return [
-        const KeyValue(id: '1', title: 'دارویی'),
-        const KeyValue(id: '2', title: 'صنعت'),
-        const KeyValue(id: '3', title: 'خودروسازی'),
+      await Future.delayed(const Duration(milliseconds: 100));
+      return const [
+        KeyValue(id: '1', title: 'دارویی'),
+        KeyValue(id: '2', title: 'صنعت'),
+        KeyValue(id: '3', title: 'خودروسازی'),
       ];
-    } 
-    // else if (urn == CDNRequestType.scfRegistrationActivityType.toValue) {
-    //   await Future.delayed(const Duration(milliseconds: 1000));
-    //   return [
-    //     const KeyValue(id: 'PRODUCT', title: 'تولیدی'),
-    //     const KeyValue(id: 'SERVICE', title: 'خدماتی'),
-    //   ];
-    // }
-    return [];
+    }
+    throw const ServerException(
+      message: 'Mock info has not Implemented yet!!!!',
+    );
   }
 
   @override
-  Future<String> uploadFile(Uint8List file) async {
-    await Future.delayed(const Duration(milliseconds: 2500));
-    return 'urn-${DateTime.now().millisecondsSinceEpoch}';
+  Future<UploadRawResult> uploadFile({
+    required String token,
+    required Uint8List file,
+    required String name,
+    required UploadFileType type,
+  }) async {
+    return apiCaller.uploadFile(
+      converter: (body, headers) => UploadRawResultModel.fromJson(body),
+      request: () {
+        final request = http.MultipartRequest(
+          'POST',
+          EnvManager.getUri(path: type.toValue),
+        );
+        final bytes = file;
+        final mimeType = MediaType.parse(lookupMimeType(name) ?? 'image/png');
+        request.files.add(
+          http.MultipartFile.fromBytes(
+            'file',
+            bytes,
+            filename: name,
+            contentType: mimeType,
+          ),
+        );
+        request.headers.addAll({
+          'Authorization': 'Bearer $token',
+        });
+        return request;
+      },
+    );
   }
 
   @override
   Future<List<BranchInfo>> getBranchList() async {
-    await Future.delayed(const Duration(milliseconds: 2000));
+    await Future.delayed(const Duration(milliseconds: 100));
     return const [
       BranchInfo(
         id: '1',
@@ -94,7 +137,7 @@ class CDNDataSourceImpl implements CDNDataSource {
 
   @override
   Future<List<ProvinceCity>> getListOfProvinces() async {
-    await Future.delayed(const Duration(milliseconds: 1500));
+    await Future.delayed(const Duration(milliseconds: 100));
     return const [
       ProvinceCity(
         id: '1',
@@ -121,5 +164,45 @@ class CDNDataSourceImpl implements CDNDataSource {
         ],
       ),
     ];
+  }
+
+  @override
+  Future<void> downloadFile({
+    required String token,
+    required String urn,
+  }) async {
+    final result = await apiCaller.callApi(
+      isFile: true,
+      converter: (body, headers) {
+        debugPrint(body?.toString());
+        final disposition = headers['content-disposition'] ?? '';
+        final fileName =
+            disposition.substring(disposition.lastIndexOf('filename=') + 9);
+        return (file: body, fileName: fileName);
+      },
+      request: () => client.get(
+        EnvManager.getUri(
+          path: 'scf-backoffice/download/document/$urn',
+          query: {
+            'asAttachment': 'true',
+          },
+        ),
+        headers: {
+          'Authorization': 'Bearer $token',
+        },
+      ),
+    );
+    if (!kIsWeb) return;
+    final mimeType = lookupMimeType(result.fileName);
+    final base64data = base64Encode(result.file);
+    final a = universal_html.AnchorElement(
+      href: mimeType == null
+          ? 'base64,$base64data'
+          : 'data:$mimeType;base64,$base64data',
+    );
+    debugPrint('name: ${result.fileName}');
+    a.download = result.fileName;
+    a.click();
+    a.remove();
   }
 }

@@ -21,7 +21,7 @@ class UiUtils {
 class Utils {
   const Utils._();
 
-  static const maxFileSizeAllowed = 10 * 1024 * 1024;
+  static const maxFileSizeAllowed = 64 * 1024 * 1024;
   static const allowedExtensions = ['zip', 'pdf', 'jpeg', 'png'];
 
   static TargetPlatformType get targetPlatformType {

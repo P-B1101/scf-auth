@@ -42,6 +42,12 @@ class AuthenticationFailure extends Failure {}
 ///
 class MultiDeviceFailure extends Failure {}
 
+/// Return [AccessDeniedFailure] from Repository to the UseCase
+///
+/// if status code is 403 happend.
+///
+class AccessDeniedFailure extends Failure {}
+
 /// Return [FileSizeFailure] from Repository to the UseCase
 ///
 /// if selected file size exceed from [Utils.maxFileSizeAllowed] byte

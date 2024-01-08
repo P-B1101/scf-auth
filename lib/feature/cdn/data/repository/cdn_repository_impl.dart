@@ -1,14 +1,14 @@
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
-import 'package:scf_auth/feature/cdn/domain/entity/province_city.dart';
+import 'package:scf_auth/feature/file_manageer/data/data_source/file_manager_data_source.dart';
 
 import '../../../../core/error/failures.dart';
 import '../../../../core/utils/enums.dart';
 import '../../../../core/utils/extensions.dart';
-import '../../../file_manageer/data/data_source/file_manager_data_source.dart';
 import '../../../repository_manager/repository_manager.dart';
 import '../../domain/entity/branch_info.dart';
 import '../../domain/entity/key_value.dart';
+import '../../domain/entity/province_city.dart';
 import '../../domain/entity/upload_file_result.dart';
 import '../../domain/repository/cdn_repository.dart';
 import '../data_source/cdn_data_source.dart';
@@ -32,11 +32,29 @@ class CDNRepositoryImpl implements CDNRepository {
           .tryToLoad(() => dataSource.getKeyValueItems(requestType.toValue));
 
   @override
-  Future<Either<Failure, UploadFileResult>> selectAndUploadFile(String title) =>
-      repositoryHelper.tryToLoad(() async {
-        final file = await fileManagerDataSource.selectFile();
-        final result = await dataSource.uploadFile(file.file);
-        return UploadFileResult(fileName: file.name, urn: result, title: title);
+  Future<Either<Failure, List<UploadFileResult>>> selectAndUploadFile(
+    String title,
+    bool isMultiSelect,
+    UploadFileType type,
+  ) =>
+      repositoryHelper.tryToAuthLoad((token) async {
+        final files = await fileManagerDataSource.selectFile(isMultiSelect);
+        final result = await Future.wait(files.map((e) => dataSource.uploadFile(
+              token: token,
+              file: e.file,
+              name: e.name,
+              type: type,
+            )));
+        final response = <UploadFileResult>[];
+        for (int i = 0; i < files.length; i++) {
+          response.add(UploadFileResult(
+            fileName: files[i].name,
+            urn: result[i].urn,
+            title: title,
+            uploadDate: result[i].uploadDate,
+          ));
+        }
+        return response;
       });
 
   @override
@@ -46,4 +64,11 @@ class CDNRepositoryImpl implements CDNRepository {
   @override
   Future<Either<Failure, List<ProvinceCity>>> getListOfProvinces() =>
       repositoryHelper.tryToLoad(() => dataSource.getListOfProvinces());
+
+  @override
+  Future<Either<Failure, void>> startDownloadFile({
+    required String urn,
+  }) =>
+      repositoryHelper.tryToAuthLoad(
+          (token) => dataSource.downloadFile(token: token, urn: urn));
 }

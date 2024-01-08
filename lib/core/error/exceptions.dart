@@ -17,6 +17,12 @@ class UnAuthorizeException extends Equatable implements Exception {
   List<Object?> get props => [];
 }
 
+class AccessDeniedException extends Equatable implements Exception {
+  const AccessDeniedException();
+  @override
+  List<Object?> get props => [];
+}
+
 class MultiDeviceException extends Equatable implements Exception {
   const MultiDeviceException();
   @override

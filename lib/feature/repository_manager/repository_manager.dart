@@ -85,6 +85,9 @@ class RepositoryHelperImpl implements RepositoryHelper {
     on MultiDeviceException {
       log('MultiDeviceException');
       return Left(MultiDeviceFailure());
+    } on AccessDeniedException {
+      log('AccessDeniedException');
+      return Left(AccessDeniedFailure());
     } on CancelSelectFileException {
       log('CancelSelectFileException');
       return Left(CancelSelectFileFailure());

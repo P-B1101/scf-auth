@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:persian_datetime_picker/persian_datetime_picker.dart';
@@ -88,6 +89,27 @@ extension IntExt on int {
 }
 
 extension StringExt on String {
+  Jalali? get toLocalJalali {
+    final date = DateTime.tryParse(this)?.toLocal();
+    if (date == null) return null;
+    final jalali = Jalali.fromDateTime(date).copy(
+      hour: date.hour,
+      minute: date.minute,
+      second: date.second,
+    );
+    return jalali;
+  }
+
+  Jalali? get toJalali {
+    final dateTime = DateTime.tryParse(this)?.toLocal();
+    if (dateTime == null) return null;
+    return Jalali.fromDateTime(dateTime).copy(
+      hour: dateTime.hour,
+      minute: dateTime.minute,
+      second: dateTime.second,
+    );
+  }
+
   bool get isValidIban {
     final temp = clearFormat.startsWith('IR') ? clearFormat : 'IR$clearFormat';
     return i_validation.isValid(temp);
@@ -445,4 +467,49 @@ extension ActivityTypeExt on ActivityType {
 extension DateTimeExt on DateTime {
   String get toValue =>
       '$year-${month.toTwoDigit}-${day.toTwoDigit}T${hour.toTwoDigit}:${minute.toTwoDigit}:${second.toTwoDigit}';
+}
+
+extension MapStringDynamicExt on Map<String, dynamic> {
+  Jalali? toJalali(String key) {
+    final value = this[key];
+    if (value is! String) return null;
+    return value.toJalali;
+  }
+
+  Jalali? toLocalJalali(String key) {
+    final value = this[key];
+    if (value is! String) return null;
+    return value.toLocalJalali;
+  }
+
+  T? toEnum<T extends Enum>(String key, T? Function(String value) converter) {
+    final value = this[key];
+    if (value is! String) return null;
+    return converter(value);
+  }
+
+  T? toModel<T extends Equatable>(
+    String key,
+    T? Function(dynamic value) converter,
+  ) {
+    final value = this[key];
+    if (value == null) return null;
+    return converter(value);
+  }
+
+  List<T> toListModel<T extends Equatable>(
+    String key,
+    T Function(dynamic value) converter,
+  ) {
+    final value = this[key];
+    if (value is! List) return <T>[];
+    return value.map((e) => converter(e)).toList();
+  }
+}
+
+extension UploadFileTypeExt on UploadFileType {
+  String get toValue => switch (this) {
+        UploadFileType.registration =>
+          'scf-registration/upload/registration-document',
+      };
 }

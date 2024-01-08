@@ -12,7 +12,7 @@ final class SelectAndUploadInitial extends SelectAndUploadState {}
 final class SelectAndUploadLoadingState extends SelectAndUploadState {}
 
 final class SelectAndUploadSuccessState extends SelectAndUploadState {
-  final UploadFileResult result;
+  final List<UploadFileResult> result;
   const SelectAndUploadSuccessState({
     required this.result,
   });
