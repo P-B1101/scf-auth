@@ -82,7 +82,7 @@ class SignUpRequestBodyModel extends SignUpRequestBody {
           return value.toActivityType;
         }(),
         suggestedBranch: () {
-          final value = json['selectedBranchId'];
+          final value = json['selectedBranchCode'];
           if (value == null) return null;
           return BranchInfo(
             id: value,
@@ -116,7 +116,7 @@ class SignUpRequestBodyModel extends SignUpRequestBody {
         'associatedBusinessUnits': associatedBusinessUnits
             .map((e) => SuggestedCompanyModel.fromEntity(e).toJson)
             .toList(),
-        'selectedBranchId': suggestedBranch?.id,
+        'selectedBranchCode': suggestedBranch?.id,
         'contact': {
           'telephone': telephone,
           'mobile': mobile,
